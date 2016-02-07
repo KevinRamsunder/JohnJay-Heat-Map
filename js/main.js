@@ -13,13 +13,20 @@ function init() {
   L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
 //[south,west], [north,east]
-var redBounds = [[233,230], [279,275]];
-var hotRectangle = L.rectangle(redBounds,{color:'#f00',fillOpacity: 0.5}).addTo(map);
+var redBounds = [[405,149], [430,213]];
+var redRectangle = L.rectangle(redBounds,{color:'#f00',fillOpacity: 0.5}).addTo(map);
 
 //[south,west], [north,east]
-var blueBounds = [[233,275], [279,320]];
-var coldRectangle = L.rectangle(blueBounds,{color:'#00f',fillOpacity: 0.5}).addTo(map);
-  
+var blueBounds = [[405,214], [430,277]];
+var blueRectangle = L.rectangle(blueBounds,{color:'#00f',fillOpacity: 0.5}).addTo(map);
+
+//[south,west], [north,east]
+var yellowBounds = [[405,278], [430,340]];
+var yellowRectangle = L.rectangle(yellowBounds,{color:'#ff0',fillOpacity: 0.5}).addTo(map);
+
+//[south,west], [north,east]
+var greenBounds = [[405,341], [430,405]];
+var greentRectangle = L.rectangle(greenBounds,{color:'#0f0',fillOpacity: 0.5}).addTo(map);  
 }
 
 init();
