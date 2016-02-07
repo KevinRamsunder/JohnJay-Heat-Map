@@ -3,6 +3,12 @@ html, body {
     height: 100%;
 }
 
+#logo {
+    display: block;
+    padding: 15px 0;
+    margin: 0 auto;
+}
+
 #map {
     top: 0; 
     bottom: 0; 
