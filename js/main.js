@@ -1,9 +1,11 @@
-//function init() {
+var layers = new Array();
+
+function init() {
   var map = L.map('map', {
     maxZoom: 3.6,
     minZoom: 1,
-    center:[0,0],
-    zoom:1,
+    center:[0,0],//DONT FORGET TO CHANGE THIS TO 0,0
+    zoom:1,//DONT FORGET TO CHANGE THIS TO 1
     crs: L.CRS.Simple
   });
 
@@ -16,7 +18,6 @@
 
   L.imageOverlay(imageUrl, bounds).addTo(map);
   map.setMaxBounds(bounds);
-  
 
   var layers = new Array();
 
@@ -28,6 +29,35 @@
   layers.push(L.rectangle([[-80.5,282], [-52.5,315]],{color:'#f0f',fillOpacity: 0.5}).addTo(map))
   layers.push(L.rectangle([[-135,75.5], [-96,94]],{color:'#f0f',fillOpacity: 0.5}).addTo(map));
   layers.push(L.rectangle([[-165,75.5], [-136,94]],{color:'#3f8',fillOpacity: 0.5}).addTo(map));
-//}
+  layers.push(L.polygon([[-80.5,105],[-94.5,105],[-94.5,133],[-118,133],[-118,144.5],[-109,145],[-109,166],[-80.5,166]],{color:'#1af',fillOpacity: 0.5}).addTo(map));
+  layers.push(L.rectangle([[-150,104.5], [-119,144.5]],{color:'#f91',fillOpacity: 0.5}).addTo(map));
 
-//init();
+  onEachFeature(layers);
+}
+
+init();
+
+
+function changeColor(e) {
+    var layer = e.target;
+    var colors = ['#0f0','#f00','#00f','#ff0','#f0f','#3f8','#f91'];
+    var i=0;
+
+    setInterval(
+      layer.setStyle({
+        color: colors[(Math.random()*100)%6],
+        fillOpacity: 0.7
+      }),1000);
+}
+
+function onEachFeature(layers) {
+
+  for(var i=0;i<layers.length;i++)
+  {
+    layers[i].on({
+        mouseover: changeColor,
+    });
+  }
+}
+
+
