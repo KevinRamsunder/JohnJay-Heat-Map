@@ -12,6 +12,7 @@ html, body {
 #map {
     top: 0; 
     bottom: 0; 
-    width: 100%;
+    width: 75%;
     height: 75%;
+    margin: 0 auto;
 }
