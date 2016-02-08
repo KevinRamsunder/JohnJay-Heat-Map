@@ -1,32 +1,39 @@
 function init() {
   var map = L.map('map', {
-    maxZoom: 3,
+    maxZoom: 3.6,
     minZoom: 1,
+    center:[0,0],
+    zoom:1,
     crs: L.CRS.Simple
-  }).setView([0,0], 1);
+  });
 
-  map.setMaxBounds(new L.LatLngBounds([0,510], [550,0]));
+  
+  var imageUrl = '../images/10th floor.jpg';
+  var width=2109,height=2271;
 
-  var imageUrl = '../images/10th floor.jpg'
-  var imageBounds = [[500,0], [0,500]];
+  var southWest = map.unproject([0, height], map.getMaxZoom()-1);
+  var northEast = map.unproject([width, 0], map.getMaxZoom()-1);
+  var bounds = new L.LatLngBounds(southWest, northEast);
 
-  L.imageOverlay(imageUrl, imageBounds).addTo(map);
+  L.imageOverlay(imageUrl, bounds).addTo(map);
+  map.setMaxBounds(bounds);
 
-//[south,west], [north,east]
-var redBounds = [[405,149], [430,213]];
-var redRectangle = L.rectangle(redBounds,{color:'#f00',fillOpacity: 0.5}).addTo(map);
+  console.log(southWest+" "+northEast);
+  
+  var redBounds = [[-71,104], [-52.5,148]];
+  var redRectangle = L.rectangle(redBounds,{color:'#f00',fillOpacity: 0.5}).addTo(map);
 
-//[south,west], [north,east]
-var blueBounds = [[405,214], [430,277]];
-var blueRectangle = L.rectangle(blueBounds,{color:'#00f',fillOpacity: 0.5}).addTo(map);
+  var blueBounds = [[-71,148.5], [-52.5,192.5]];
+  var blueRectangle = L.rectangle(blueBounds,{color:'#00f',fillOpacity: 0.5}).addTo(map);
 
-//[south,west], [north,east]
-var yellowBounds = [[405,278], [430,340]];
-var yellowRectangle = L.rectangle(yellowBounds,{color:'#ff0',fillOpacity: 0.5}).addTo(map);
+  var yellowBounds = [[-71,193], [-52.5,237]];
+  var yellowRectangle = L.rectangle(yellowBounds,{color:'#ff0',fillOpacity: 0.5}).addTo(map);
 
-//[south,west], [north,east]
-var greenBounds = [[405,341], [430,405]];
-var greentRectangle = L.rectangle(greenBounds,{color:'#0f0',fillOpacity: 0.5}).addTo(map);  
+  var greenBounds = [[-71,238], [-52.5,281]];
+  var greentRectangle = L.rectangle(greenBounds,{color:'#0f0',fillOpacity: 0.5}).addTo(map);
+
+  var polygon = L.polygon([[-52.5,75.5],[-95.5,75.5],[-95.5,94],[-71,94],[-71,103],[-52.5,103]],{color:'#0f0',fillOpacity: 0.5}).addTo(map);
+
 }
 
 init();
