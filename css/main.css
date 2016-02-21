@@ -5,15 +5,16 @@ html, body {
 
 #logo {
     display: block;
-    padding: 15px 0;
-    margin: 0 auto;
+    padding: 25px 30px;
+    /*margin: 0 auto;*/
+    float: left;
 }
 
 #map {
-    top: 0; 
-    bottom: 0; 
-    width: 75%;
-    height: 75%;
+    top: 30px;
+    bottom: 0;
+    width: 80%;
+    height: 90%;
     margin: 0 auto;
 }
 
