@@ -33,10 +33,10 @@ var process = function(csvObject) {
         date = date.substring(0, date.indexOf(' '));
 
         if(map.hasOwnProperty(date)) {
-            map[date]['avg'] += parseInt(temp);
-            map[date]['count']++;
+            map[date]["avg"] += parseInt(temp);
+            map[date]["count"]++;
         } else {
-            var obj = {'avg': parseInt(temp), 'count': 1};
+            var obj = {"avg": parseInt(temp), "count": 1};
             map[date] = obj; 
         }
     }
@@ -45,5 +45,5 @@ var process = function(csvObject) {
         map[date]['avg'] = map[date]['avg'] / map[date]['count'];
     }
 
-    console.log(map);
+    fs.writeFile('data.json', JSON.stringify(map, null, 4), 'utf-8');
 }
