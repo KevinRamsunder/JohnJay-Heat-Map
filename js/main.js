@@ -9,7 +9,7 @@ function init() {
     crs: L.CRS.Simple
   });
 
-  var imageUrl = '../images/10th floor.jpg';
+  var imageUrl = 'images/10th floor.jpg';
   var width=2109,height=2271;
 
   var southWest = map.unproject([0, height], map.getMaxZoom()-1);
@@ -21,8 +21,11 @@ function init() {
 
   var layers = new Array();
 
-  layers.push(L.polygon([[-52.5,75.5],[-95.5,75.5],[-95.5,94],[-71,94],[-71,103],[-52.5,103]],{color:'red',fillOpacity: 0.5}).addTo(map));
-  layers.push(L.rectangle([[-71,104], [-52.5,148]],{color:'green',fillOpacity: 0.5}).addTo(map));
+  // #B6D079
+
+  layers.push(L.polygon(data["10.65.06"],{color:'red',fillOpacity: 0.5}).addTo(map));
+  layers.push(L.rectangle(data["10.65.07"],{color:'blue',fillOpacity: 0.5}).addTo(map));
+  layers.push(L.rectangle(data["10.65.08"],{color:'red',fillOpacity: 0.5}).addTo(map));
   layers.push(L.rectangle([[-71,148.5], [-52.5,192.5]],{color:'blue',fillOpacity: 0.5}).addTo(map));
   layers.push(L.rectangle([[-71,193], [-52.5,237]],{color:'yellow',fillOpacity: 0.5}).addTo(map));
   layers.push(L.rectangle([[-71,238], [-52.5,281]],{color:'black',fillOpacity: 0.5}).addTo(map));
@@ -73,4 +76,3 @@ function init() {
 }
 
 init();
-
