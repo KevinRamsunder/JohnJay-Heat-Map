@@ -37,8 +37,8 @@ function init() {
 
 
   var layers = new Array();
-  var shape = L.polygon([[-52.5,75.5],[-95.5,75.5],[-95.5,94],[-71,94],[-71,103],[-52.5,103]],{color:'red',fillOpacity: 0.5};
-  layers.push(shape).addTo(map));
+  var shape = L.polygon([[-52.5,75.5],[-95.5,75.5],[-95.5,94],[-71,94],[-71,103],[-52.5,103]],{color:'red',fillOpacity: 0.5});
+  layers.push(shape).addTo(map);
 }
 
 init();
