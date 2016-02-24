@@ -3,19 +3,25 @@ html, body {
     height: 100%;
 }
 
+.container {
+  float: left;
+  margin-top: 30px;
+  width: 30%;
+  padding-right: 20px;
+}
+
 #logo {
     display: block;
     padding: 25px 30px;
-    /*margin: 0 auto;*/
     float: left;
 }
 
 #map {
     top: 30px;
-    bottom: 0;
-    width: 80%;
+    /*right: 20px;*/
+    bottom: 30px;
+    width: 69%;
     height: 90%;
-    margin: 0 auto;
 }
 
 
