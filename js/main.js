@@ -95,17 +95,17 @@ function init() {
   var vavBox = vav['47112'];
 
   // animation scaffolding
-  function animation() {
-    $.each(roomObj, function(i, element) {
-        setTimeout(function() {
-          // remove room layers from map
+  // function animation() {
+  //   $.each(roomObj, function(i, element) {
+  //       setTimeout(function() {
+  //         // remove room layers from map
 
-          // change data: color and opacity
+  //         // change data: color and opacity
 
-          // re-add
-        }, 1000*i);
-    });
-  };
+  //         // re-add
+  //       }, 1000*i);
+  //   });
+  // };
 
   animation();
 }
