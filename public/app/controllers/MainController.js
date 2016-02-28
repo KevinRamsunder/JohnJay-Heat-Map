@@ -58,10 +58,10 @@ var initMap = function(self) {
 var addShapes = function(leafletData, $http, $scope) {
     // function to make http call to get content of JSON
     var getRoomDataFromJson = new Promise(function(resolve, reject) {
-        $http.get('/json/floor_10/room_num.json').then(function(response) {
+        $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
             var roomNumbers = response;
 
-            $http.get('/json/floor_10/vav.json').then(function(response) {
+            $http.get('app/assets/json/floor_10/vav.json').then(function(response) {
                 resolve({'roomNumbers': roomNumbers, 'vavBoxes': response});
             })
         });
