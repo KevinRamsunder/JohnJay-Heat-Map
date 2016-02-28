@@ -9,6 +9,9 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers) {
     // save context
     var self = this;
 
+    // container for layers
+    $scope.vectorLayers = {};
+
     // add map properties to scope
     initMap($scope);
 
@@ -64,30 +67,48 @@ var addShapes = function(leafletData, $http, $scope) {
         });
     });
 
-    // go through object and add vector shapes to map
-    var addShapesToMap = function(map, roomNumbers, vavBoxes) {
-        for(var vav in vavBoxes) {
-            for(var i = 0; i < vavBoxes[vav].length; i++) {
-                var coordinates = roomNumbers[vavBoxes[vav][i]];
-
-                var rand_color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
-                var object = {color: rand_color, fillOpacity: .5};
-                
-                if(coordinates.length === 2) {
-                    map.addLayer(new L.rectangle(coordinates, object));
-                } else {
-                    map.addLayer(new L.polygon(coordinates, object));
-                }
-            }
-        }
-    };
-
     // execute
     leafletData.getMap('map').then(function(map) {
         var data = getRoomDataFromJson.then(function(response) {
             var roomNumbers = response.roomNumbers.data;
             var vavBoxes = response.vavBoxes.data;
-            addShapesToMap(map, roomNumbers, vavBoxes);
+            addAllVavsToMap($scope, map, roomNumbers, vavBoxes);
+
+            // test removal function
+            removeVavBoxFromMap($scope, map, '47112');
         });
     });
 };
+
+// go through object and add vector shapes to map
+var addAllVavsToMap = function($scope, map, roomNumbers, vavBoxes) {
+    for(var vav in vavBoxes) {
+        for(var i = 0; i < vavBoxes[vav].length; i++) {
+            var coordinates = roomNumbers[vavBoxes[vav][i]];
+
+            var rand_color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
+            var object = {color: rand_color, fillOpacity: .5};
+            
+            if(coordinates.length === 2) {
+                var layer = new L.rectangle(coordinates, object);
+            } else {
+                var layer = new L.polygon(coordinates, object);
+            }
+
+            if(!$scope.vectorLayers.hasOwnProperty(vav)) {
+                $scope.vectorLayers[vav] = [];
+            }
+            
+            map.addLayer(layer);
+            $scope.vectorLayers[vav].push(layer);
+        }
+    }
+};
+
+var removeVavBoxFromMap = function($scope, map, vavBox) {
+    for(var i = 0; i < $scope.vectorLayers[vavBox].length; i++) {
+        map.removeLayer($scope.vectorLayers[vavBox][i]);
+    }
+
+    delete $scope.vectorLayers[vavBox];
+}
