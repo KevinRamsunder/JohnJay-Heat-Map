@@ -2,49 +2,59 @@
 app.controller('MainController', mainController);
 
 // inject dependencies into 'MainController' controller
-mainController.$inject = ['$scope', '$http', 'leafletBoundsHelpers'];
+mainController.$inject = ['$scope', '$http', 'leafletData', 'leafletBoundsHelpers'];
 
 // controller function
-function mainController($scope, $http, leafletBoundsHelpers) {
+function mainController($scope, $http, leafletData, leafletBoundsHelpers) {
     // save context
     var self = this;
 
-    // initialize and display map on webpage
-    self.initMap = function() {
-        var maxBounds = leafletBoundsHelpers.createBoundsFromArray([[0, 227], [210, 0]]);
-        
-        // leaflet map settings
-        angular.extend($scope, {
-            // default map properties
-            defaults: {
-                minZoom: 1,
-                maxZoom: 3.6,
-                crs: 'Simple'
-            },
+    // add map properties to scope
+    initMap($scope);
 
-            // center map properties
-            center: {
-                lat: 0,
-                lng: 0,
-                zoom: 0
-            },
+    // add shapes to map
+    addShapes(leafletData, $http, $scope);
+}
 
-            // set bounds
-            maxBounds: maxBounds,
+// initialize and display map on webpage
+var initMap = function(self) {
+    // leaflet map settings
+    angular.extend(self, {
+        // default map properties
+        defaults: {
+            minZoom: 1,
+            maxZoom: 3.6,
+            crs: 'Simple'
+        },
 
-            // layers
-            layers: {
-                baselayers: {
-                    tenthFloor: {
-                        name: 'Tenth Floor',
-                        type: 'imageOverlay',
-                        url: 'app/assets/images/10thFloor.jpg',
-                        bounds: [[0, 500], [550, 0]]
-                    }
+        // center map properties
+        center: {
+            lat: -190,
+            lng: 150,
+            zoom: 1
+        },
+
+        // set bounds
+        // maxBounds: bounds,
+
+        // layers
+        layers: {
+            baselayers: {
+                tenthFloor: {
+                    name: 'Tenth Floor',
+                    type: 'imageOverlay',
+                    url: 'app/assets/images/10thFloor.jpg',
+                    // will fix this later
+                    bounds: [[0, 347.8552729775042], [-374.5753081706553, 0]]
                 }
             }
-        });
-    };
+        }
+    });
+};
 
-    self.initMap();
-}
+var addShapes = function(leafletData, $http, shapes) {
+    leafletData.getMap('map').then(function(map) {
+        // make json call
+        // add layer for every json
+    });
+};
