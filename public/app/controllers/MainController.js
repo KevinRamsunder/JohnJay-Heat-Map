@@ -24,9 +24,9 @@ function mainController($scope, $http, leafletBoundsHelpers) {
 
             // center map properties
             center: {
-                lat: -390,
-                lng: 150,
-                zoom: 1
+                lat: 0,
+                lng: 0,
+                zoom: 0
             },
 
             // set bounds
@@ -39,7 +39,7 @@ function mainController($scope, $http, leafletBoundsHelpers) {
                         name: 'Tenth Floor',
                         type: 'imageOverlay',
                         url: 'app/assets/images/10thFloor.jpg',
-                        bounds: [[0, 2271], [2109, 0]]
+                        bounds: [[0, 500], [550, 0]]
                     }
                 }
             }
