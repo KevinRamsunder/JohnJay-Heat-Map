@@ -54,6 +54,9 @@ var initMap = function(self) {
 
 var addShapes = function(leafletData, $http, shapes) {
     leafletData.getMap('map').then(function(map) {
+        $http.get('api/v1/rooms/47112').then(function(response) {
+            console.log(response);
+        });
         // make json call
         // add layer for every json
     });
