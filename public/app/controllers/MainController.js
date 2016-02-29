@@ -2,7 +2,7 @@
 app.controller('MainController', mainController);
 
 // inject dependencies into 'MainController' controller
-mainController.$inject = ['$scope', '$http', 'leafletData', 'leafletBoundsHelpers'];
+mainController.$inject = ['$scope', '$http', 'leafletData', 'leafletBoundsHelpers', 'tableToMapService'];
 
 // controller function
 function mainController($scope, $http, leafletData, leafletBoundsHelpers) {
@@ -113,17 +113,13 @@ var removeVavBoxFromMap = function($scope, map, vavBox) {
     delete $scope.vectorLayers[vavBox];
 };
 
-// execute
-// will re-write this!
+// execute - will re-write this!
 var postProcess = function($scope, $http, leafletData) {
     leafletData.getMap('map').then(function(map) {
         var data = getJSON($scope, $http).then(function(response) {
             var roomNumbers = response.roomNumbers.data;
             var vavBoxes = response.vavBoxes.data;
             addAllVavsToMap($scope, map, roomNumbers, vavBoxes);
-
-            // test removal function
-            removeVavBoxFromMap($scope, map, '47112');
 
             var info = L.control();
 
