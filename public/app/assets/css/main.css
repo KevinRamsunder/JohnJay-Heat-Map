@@ -1,0 +1,41 @@
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+  float: left;
+  margin-top: 30px;
+  width: 30%;
+  padding-right: 20px;
+}
+
+#logo {
+    display: block;
+    padding: 25px 30px;
+    float: left;
+}
+
+#map {
+    top: 13px;
+    /*right: 20px;*/
+    /*bottom: 30px;*/
+    width: 69%;
+    height: 90%;
+    /*margin: 5px;*/
+}
+
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
