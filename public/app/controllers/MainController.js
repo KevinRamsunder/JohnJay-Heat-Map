@@ -5,7 +5,7 @@ app.controller('MainController', mainController);
 mainController.$inject = ['$scope', '$http', 'leafletData', 'leafletBoundsHelpers', 'tableToMapService'];
 
 // controller function
-function mainController($scope, $http, leafletData, leafletBoundsHelpers) {
+function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableToMapService) {
     // save context
     var self = this;
 
@@ -17,6 +17,15 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers) {
 
     // post-processing
     postProcess($scope, $http, leafletData);
+
+    $http.get('/api/v1/rooms').then(function(response) {
+        leafletData.getMap('map').then(function(map) {
+            var data = getJSON($scope, $http).then(function(response) {
+                removeVavBoxFromMap($scope, map, '47102');
+                addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, '47102', tableToMapService.getColorFromRanges(73.13).color); 
+            });
+        });
+    });
 }
 
 // initialize and display map on webpage
@@ -79,13 +88,16 @@ var addAllVavsToMap = function($scope, map, roomNumbers, vavBoxes) {
 };
 
 // add specific VAV box to map
-var addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav) {
+var addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {
     for (var i = 0; i < vavBoxes[vav].length; i++) {
         var coordinates = roomNumbers[vavBoxes[vav][i]];
 
-        var rand_color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
+        if(color === undefined) {
+            color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+        }
+
         var object = {
-            color: rand_color,
+            color: color,
             fillOpacity: .5
         };
 
