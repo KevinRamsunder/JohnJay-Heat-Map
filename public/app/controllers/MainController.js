@@ -9,6 +9,8 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableT
     // save context
     var self = this;
 
+    $scope.currentDate = "";
+
     // container for layers
     $scope.vectorLayers = {};
 
@@ -19,10 +21,25 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableT
     postProcess($scope, $http, leafletData);
 
     $http.get('/api/v1/rooms').then(function(response) {
+        var masterData = response.data;
+
         leafletData.getMap('map').then(function(map) {
             var data = getJSON($scope, $http).then(function(response) {
-                removeVavBoxFromMap($scope, map, '47102');
-                addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, '47102', tableToMapService.getColorFromRanges(73.13).color); 
+
+                for(var key in masterData) {
+                    var results = masterData[key].split(',');
+                    
+                    var firstDate = results[0];
+                    var firstTemp = results[1];
+
+                    if(firstDate !== '2013-06-06 00:00:00') {
+                        continue;
+                    } else {
+                        removeVavBoxFromMap($scope, map, key);
+                        addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                    }
+                }
+                
             });
         });
     });
@@ -89,6 +106,10 @@ var addAllVavsToMap = function($scope, map, roomNumbers, vavBoxes) {
 
 // add specific VAV box to map
 var addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {
+    if(vavBoxes[vav] === undefined) {
+        return;
+    }
+
     for (var i = 0; i < vavBoxes[vav].length; i++) {
         var coordinates = roomNumbers[vavBoxes[vav][i]];
 
@@ -118,6 +139,10 @@ var addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {
 
 // remove specific VAV Box from map
 var removeVavBoxFromMap = function($scope, map, vavBox) {
+    if($scope.vectorLayers[vavBox] === undefined) {
+        return;
+    }
+
     for (var i = 0; i < $scope.vectorLayers[vavBox].length; i++) {
         map.removeLayer($scope.vectorLayers[vavBox][i]);
     }
