@@ -32,11 +32,13 @@ app.service('tableToMapService', function() {
 
     // find which range a given color belongs in
     self.getColorFromRanges = function(temperature) {
+        temperature = parseInt(temperature);
+
         var colors = self.getColors();
         var limits = self.calculateRanges();
 
         for(var i = 0; i < limits.length; i++) {
-            if(temperature >= limits[i][0] && temperature <= limits[i][1]) {
+            if(temperature >= parseInt(limits[i][0]) && temperature <= parseInt(limits[i][1])) {
                 return {color: colors[i], lower: limits[i][0], upper: limits[i][1]};
             }
         }
@@ -47,6 +49,5 @@ app.service('tableToMapService', function() {
     // attach event listeners to color-picker elements
     $('.color-picker').colorpicker().on('changeColor.colorpicker', function(event) {
         console.log(event.color.toHex());
-        console.log(self.limits);
     });
 });

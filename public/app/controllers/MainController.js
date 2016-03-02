@@ -5,9 +5,11 @@ app.controller('MainController', mainController);
 mainController.$inject = ['$scope', '$http', 'leafletData', 'leafletBoundsHelpers', 'tableToMapService'];
 
 // controller function
-function mainController($scope, $http, leafletData, leafletBoundsHelpers) {
+function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableToMapService) {
     // save context
     var self = this;
+
+    $scope.currentDate = "";
 
     // container for layers
     $scope.vectorLayers = {};
@@ -17,6 +19,60 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers) {
 
     // post-processing
     postProcess($scope, $http, leafletData);
+
+    $http.get('/api/v1/rooms').then(function(response) {
+        var masterData = response.data;
+
+        leafletData.getMap('map').then(function(map) {
+            var data = getJSON($scope, $http).then(function(response) {
+                var mappedCSV = {};
+                
+                for(var key in masterData) {
+                    mappedCSV[key] = masterData[key].split(',');
+                }
+
+                for(var key in masterData) {
+                    var results = mappedCSV[key];
+
+                    var firstDate = results[0];
+                    var firstTemp = results[1];
+
+                    if(firstDate !== '2013-06-06 00:00:00') {
+                        continue;
+                    } else {
+                        removeVavBoxFromMap($scope, map, key);
+                        addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                    }
+                }
+
+                var current = 0;
+                var length = mappedCSV['47102'].length;
+
+                var animation = setInterval(function() {
+                    var i = current;
+                    var j = current + 1;
+                    current += 2;
+
+                    for(var key in masterData) {
+                        var results = mappedCSV[key];
+
+                        var firstDate = results[i];
+                        var firstTemp = results[j];
+
+                        if(results[0] !== '2013-06-06 00:00:00') {
+                            continue;
+                        } else {
+                            $scope.currentDate = results[i];
+                            removeVavBoxFromMap($scope, map, key);
+                            addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                        }
+                    }
+
+                    if(current >= length) clearInterval(animation);
+                }, 50);
+            });
+        });
+    });
 }
 
 // initialize and display map on webpage
@@ -79,13 +135,20 @@ var addAllVavsToMap = function($scope, map, roomNumbers, vavBoxes) {
 };
 
 // add specific VAV box to map
-var addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav) {
+var addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {
+    if(vavBoxes[vav] === undefined) {
+        return;
+    }
+
     for (var i = 0; i < vavBoxes[vav].length; i++) {
         var coordinates = roomNumbers[vavBoxes[vav][i]];
 
-        var rand_color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
+        if(color === undefined) {
+            color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+        }
+
         var object = {
-            color: rand_color,
+            color: color,
             fillOpacity: .5
         };
 
@@ -106,6 +169,10 @@ var addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav) {
 
 // remove specific VAV Box from map
 var removeVavBoxFromMap = function($scope, map, vavBox) {
+    if($scope.vectorLayers[vavBox] === undefined) {
+        return;
+    }
+
     for (var i = 0; i < $scope.vectorLayers[vavBox].length; i++) {
         map.removeLayer($scope.vectorLayers[vavBox][i]);
     }
