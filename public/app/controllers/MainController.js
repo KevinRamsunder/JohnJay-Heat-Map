@@ -25,10 +25,15 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableT
 
         leafletData.getMap('map').then(function(map) {
             var data = getJSON($scope, $http).then(function(response) {
+                var mappedCSV = {};
+                
+                for(var key in masterData) {
+                    mappedCSV[key] = masterData[key].split(',');
+                }
 
                 for(var key in masterData) {
-                    var results = masterData[key].split(',');
-                    
+                    var results = mappedCSV[key];
+
                     var firstDate = results[0];
                     var firstTemp = results[1];
 
@@ -39,7 +44,33 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableT
                         addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
                     }
                 }
-                
+
+                var current = 0;
+                var length = mappedCSV['47102'].length;
+
+                var animation = setInterval(function() {
+                    var i = current;
+                    var j = current + 1;
+                    current += 2;
+                    console.log('animating',i,j)
+
+                    for(var key in masterData) {
+                    var results = mappedCSV[key];
+
+                    var firstDate = results[i];
+                    var firstTemp = results[j];
+
+                    if(results[0] !== '2013-06-06 00:00:00') {
+                        continue;
+                    } else {
+                        $scope.currentDate = results[i];
+                        removeVavBoxFromMap($scope, map, key);
+                        addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                    }
+                }
+
+                    if(current >= length) clearInterval(animation);
+                }, 50);
             });
         });
     });
