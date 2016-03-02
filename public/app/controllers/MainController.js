@@ -52,7 +52,6 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableT
                     var i = current;
                     var j = current + 1;
                     current += 2;
-                    console.log('animating',i,j)
 
                     for(var key in masterData) {
                         var results = mappedCSV[key];
