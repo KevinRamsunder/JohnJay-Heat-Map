@@ -55,19 +55,19 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableT
                     console.log('animating',i,j)
 
                     for(var key in masterData) {
-                    var results = mappedCSV[key];
+                        var results = mappedCSV[key];
 
-                    var firstDate = results[i];
-                    var firstTemp = results[j];
+                        var firstDate = results[i];
+                        var firstTemp = results[j];
 
-                    if(results[0] !== '2013-06-06 00:00:00') {
-                        continue;
-                    } else {
-                        $scope.currentDate = results[i];
-                        removeVavBoxFromMap($scope, map, key);
-                        addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                        if(results[0] !== '2013-06-06 00:00:00') {
+                            continue;
+                        } else {
+                            $scope.currentDate = results[i];
+                            removeVavBoxFromMap($scope, map, key);
+                            addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                        }
                     }
-                }
 
                     if(current >= length) clearInterval(animation);
                 }, 50);
