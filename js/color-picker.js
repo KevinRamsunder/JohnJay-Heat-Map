@@ -1,3 +1,0 @@
-$(function() {
-    $('.color-picker').colorpicker();
-});
