@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "csv": "^0.4.6"
+    "async": "^1.5.2",
+    "body-parser": "^1.15.0",
+    "csv": "^0.4.6",
+    "express": "^4.13.4"
   },
   "devDependencies": {},
   "scripts": {
