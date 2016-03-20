@@ -110,8 +110,9 @@
      <div ng-controller="MainController as main">
        <div ng-controller="MovieController as movie">
          <h3>{{currentDate}}</h3>
-         <button class="btn btn-primary" ng-click='startAnimation()' ng-disabled='!isStopped'>Start Animation</button>
-         <button class="btn btn-primary" ng-click='stopAnimation()' ng-disabled='isStopped'>Stop Animation</button>
+         <button class="btn btn-secondary" ng-click='startAnimation()' ng-disabled='!isStopped'>Start Animation</button>
+         <button class="btn btn-secondary" ng-click='restartAnimation()' ng-disabled='isStopped && firstRun'>Restart Animation</button>
+         <button class="btn btn-secondary" ng-click='stopAnimation()' ng-disabled='isStopped'>Stop Animation</button>
        </div>
        <leaflet id="map" lf-center="center" defaults="defaults" layers="layers" height="950px">
        </leaflet>
