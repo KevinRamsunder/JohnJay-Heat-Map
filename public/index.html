@@ -108,7 +108,11 @@
      </div>
 
      <div ng-controller="MainController as main">
-       <h3>{{currentDate}}</h3>
+       <div ng-controller="MovieController as movie">
+         <h3>{{currentDate}}</h3>
+         <button class="btn btn-primary" ng-click='startAnimation()' ng-disabled='!isStopped'>Start Animation</button>
+         <button class="btn btn-primary" ng-click='stopAnimation()' ng-disabled='isStopped'>Stop Animation</button>
+       </div>
        <leaflet id="map" lf-center="center" defaults="defaults" layers="layers" height="950px">
        </leaflet>
      </div>
@@ -125,5 +129,6 @@
     <script src="app/app.js"></script>
     <script src="app/controllers/MainController.js"></script>
     <script src="app/controllers/TableController.js"></script>
+    <script src="app/controllers/MovieController.js"></script>
   </body>
 </html>
