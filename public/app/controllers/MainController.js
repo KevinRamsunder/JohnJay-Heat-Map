@@ -19,60 +19,6 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableT
 
     // post-processing
     postProcess($scope, $http, leafletData);
-
-    $http.get('/api/v1/rooms').then(function(response) {
-        var masterData = response.data;
-
-        leafletData.getMap('map').then(function(map) {
-            var data = getJSON($scope, $http).then(function(response) {
-                var mappedCSV = {};
-                
-                for(var key in masterData) {
-                    mappedCSV[key] = masterData[key].split(',');
-                }
-
-                for(var key in masterData) {
-                    var results = mappedCSV[key];
-
-                    var firstDate = results[0];
-                    var firstTemp = results[1];
-
-                    if(firstDate !== '2013-06-06 00:00:00') {
-                        continue;
-                    } else {
-                        removeVavBoxFromMap($scope, map, key);
-                        addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
-                    }
-                }
-
-                var current = 0;
-                var length = mappedCSV['47102'].length;
-
-                var animation = setInterval(function() {
-                    var i = current;
-                    var j = current + 1;
-                    current += 2;
-
-                    for(var key in masterData) {
-                        var results = mappedCSV[key];
-
-                        var firstDate = results[i];
-                        var firstTemp = results[j];
-
-                        if(results[0] !== '2013-06-06 00:00:00') {
-                            continue;
-                        } else {
-                            $scope.currentDate = results[i];
-                            removeVavBoxFromMap($scope, map, key);
-                            addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
-                        }
-                    }
-
-                    if(current >= length) clearInterval(animation);
-                }, 50);
-            });
-        });
-    });
 }
 
 // initialize and display map on webpage
