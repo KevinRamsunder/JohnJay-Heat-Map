@@ -6,4 +6,4 @@
 4. go to localhost:8000 in browser
 5. behold
 
-View work in progress demonstration [here.](http://secure-earth-98815.herokuapp.com/)
+View work in progress [here.](http://secure-earth-98815.herokuapp.com/)

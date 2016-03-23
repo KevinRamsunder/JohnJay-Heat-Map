@@ -5,6 +5,9 @@ var app = express();
 // utility to read and write to files
 var fs = require('fs');
 
+var path = require('path');
+var request = require('request');
+
 // utility for asynchronous operations
 var async = require('async');
 
@@ -16,8 +19,8 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // make the server run on port 8000, localhost:8000
-app.listen(8000);
-console.log("Listening on 8000");
+var port = process.env.PORT || 8000;
+app.listen(port);
 
 // ROUTES
 
@@ -37,6 +40,8 @@ vav.floor10 = [
     '48122', '48123', '48124', '48125', '48201'
 ];
 
+app.use('/node/data', express.static('node/data'));
+
 // get all room JSON objects
 app.get('/api/v1/rooms', function(req, res) {
     var object = {};
@@ -48,7 +53,7 @@ app.get('/api/v1/rooms', function(req, res) {
         function() { return count < vav.floor10.length; },
 
         function(callback) {
-            fs.readFile('node/data/room' + vav.floor10[count] + '.csv', 'utf-8', function(err, data) {
+            fs.readFile('node/data/Room' + vav.floor10[count] + '.csv', 'utf-8', function(err, data) {
                 if(err) {
                     console.log(err);
                 } else {
