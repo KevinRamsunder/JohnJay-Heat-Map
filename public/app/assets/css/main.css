@@ -4,28 +4,15 @@ html, body {
     height: 100%;
 }
 
-.container {
-  float: left;
-  margin-top: 30px;
-  width: 30%;
-  padding-right: 20px;
-}
-
 #logo {
-    display: block;
     padding: 25px 30px;
-    float: left;
 }
 
 #map {
     top: 13px;
-    /*right: 20px;*/
-    /*bottom: 30px;*/
-    width: 69%;
+    width: 75%;
     height: 90%;
-    /*margin: 5px;*/
 }
-
 
 .info {
     padding: 6px 8px;
@@ -38,4 +25,8 @@ html, body {
 .info h4 {
     margin: 0 0 5px;
     color: #777;
+}
+
+.table th, .table td {
+    padding: .25em;
 }

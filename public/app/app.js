@@ -1,6 +1,66 @@
 // connect angular application to index.html and include needed libraries
 var app = angular.module('app', ['leaflet-directive']);
 
+app.service('mapInteraction', function() {
+    var self = this;
+    
+    // container for layers
+  self.vectorLayers = {};
+
+    // add specific VAV box to map
+    self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {
+        if(vavBoxes[vav] === undefined) {
+            return;
+        }
+
+        for (var i = 0; i < vavBoxes[vav].length; i++) {
+            var coordinates = roomNumbers[vavBoxes[vav][i]];
+
+            if(color === undefined) {
+                color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+            }
+
+            var object = {
+                color: color,
+                fillOpacity: .5
+            };
+
+            if (coordinates.length === 2) {
+                var layer = new L.rectangle(coordinates, object);
+            } else {
+                var layer = new L.polygon(coordinates, object);
+            }
+
+            if (!self.vectorLayers.hasOwnProperty(vav)) {
+                self.vectorLayers[vav] = [];
+            }
+
+            map.addLayer(layer);
+            self.vectorLayers[vav].push(layer);
+        }
+    };
+
+    // go through object and add vector shapes to map
+    self.addAllVavsToMap = function($scope, map, roomNumbers, vavBoxes) {
+        for (var vav in vavBoxes) {
+            self.addVavBoxToMap($scope, map, roomNumbers, vavBoxes, vav);
+        }
+    };
+
+    // remove specific VAV Box from map
+    self.removeVavBoxFromMap = function($scope, map, vavBox) {
+        if(self.vectorLayers[vavBox] === undefined) {
+            return;
+        }
+
+        for (var i = 0; i < self.vectorLayers[vavBox].length; i++) {
+            map.removeLayer(self.vectorLayers[vavBox][i]);
+        }
+
+        delete self.vectorLayers[vavBox];
+    };
+});
+
 // service for table to map communication
 app.service('tableToMapService', function() {
     var self = this;

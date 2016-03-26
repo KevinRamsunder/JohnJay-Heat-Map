@@ -9,111 +9,117 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/css/bootstrap-colorpicker.css">
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css">
     <link rel="stylesheet" href="app/assets/css/main.css">
+    <link rel="stylesheet" href="app/assets/css/sidebar.css">
   </head>
   <body>
+     <div class="sidebar">
+       <div>
+          <img id="logo" src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
+       </div>
 
-     <div ng-controller="TableController as table" class="container">
-       <img id="logo" src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
-        <table class="table table-striped table-condensed">
-           <thead>
-              <tr>
-                 <th>Color Code</th>
-                 <th>Minimum Temperature</th>
-                 <th>Maximum Temperature</th>
-              </tr>
-           </thead>
-           <tbody>
-              <tr>
-                 <td class=''>
-                    <div class="input-group color-picker">
-                       <input type="text" value="#FFEDA0" class="form-control"></input>
-                       <span class="input-group-addon"><i></i></span>
-                    </div>
-                 </td>
-                 <td><input type="text" class="form-control range-number" value="0"></td>
-                 <td><input type="text" class="form-control range-number" value="62.00"></td>
-              </tr>
-              <tr>
-                 <td>
-                    <div class="input-group color-picker">
-                       <input type="text" value="#FED976" class="form-control"></input>
-                       <span class="input-group-addon"><i></i></span>
-                    </div>
-                 </td>
-                 <td><input type="text" class="form-control range-number" value="62.01"></td>
-                 <td><input type="text" class="form-control range-number" value="66.00"></td>
-              </tr>
-              <tr>
-                 <td>
-                    <div class="input-group color-picker">
-                       <input type="text" value="#FEB24C" class="form-control"></input>
-                       <span class="input-group-addon"><i></i></span>
-                    </div>
-                 </td>
-                 <td><input type="text" class="form-control range-number" value="66.01"></td>
-                 <td><input type="text" class="form-control range-number" value="70.00"></td>
-              </tr>
-              <tr>
-                 <td>
-                    <div class="input-group color-picker">
-                       <input type="text" value="#FD8D3C" class="form-control"></input>
-                       <span class="input-group-addon"><i></i></span>
-                    </div>
-                 </td>
-                 <td><input type="text" class="form-control range-number" value="70.01"></td>
-                 <td><input type="text" class="form-control range-number" value="74.00"></td>
-              </tr>
-              <tr>
-                 <td>
-                    <div class="input-group color-picker">
-                       <input type="text" value="#FC4E2A" class="form-control"></input>
-                       <span class="input-group-addon"><i></i></span>
-                    </div>
-                 </td>
-                 <td><input type="text" class="form-control range-number" value="74.01"></td>
-                 <td><input type="text" class="form-control range-number" value="78.00"></td>
-              </tr>
-              <tr>
-                 <td>
-                    <div class="input-group color-picker">
-                       <input type="text" value="E31A1C" class="form-control"></input>
-                       <span class="input-group-addon"><i></i></span>
-                    </div>
-                 </td>
-                 <td><input type="text" class="form-control range-number" value="78.01"></td>
-                 <td><input type="text" class="form-control range-number" value="82.00"></td>
-              </tr>
-              <tr>
-                 <td>
-                    <div class="input-group color-picker">
-                       <input type="text" value="#BD0026" class="form-control"></input>
-                       <span class="input-group-addon"><i></i></span>
-                    </div>
-                 </td>
-                 <td><input type="text" class="form-control range-number" value="82.01"></td>
-                 <td><input type="text" class="form-control range-number" value="85.00"></td>
-              </tr>
-              <tr>
-                 <td>
-                    <div class="input-group color-picker">
-                       <input type="text" value="#800026" class="form-control"></input>
-                       <span class="input-group-addon"><i></i></span>
-                    </div>
-                 </td>
-                 <td><input type="text" class="form-control range-number" value="85.01"></td>
-                 <td><input type="text" class="form-control range-number" value="100.00"></td>
-              </tr>
-           </tbody>
-        </table>
-     </div>
-
-     <div ng-controller="MainController as main">
-       <div ng-controller="MovieController as movie">
+       
+       <div ng-controller="MovieController as movie" class="moviecontrols">
          <h3>{{currentDate}}</h3>
          <button class="btn btn-secondary" ng-click='startAnimation()' ng-disabled='!isStopped'>Start Animation</button>
          <button class="btn btn-secondary" ng-click='restartAnimation()' ng-disabled='isStopped && firstRun'>Restart Animation</button>
          <button class="btn btn-secondary" ng-click='stopAnimation()' ng-disabled='isStopped'>Stop Animation</button>
        </div>
+       <div ng-controller="TableController as table" class="container">
+          <table class="table table-striped table-condensed">
+             <thead>
+                <tr>
+                   <th>Color Code</th>
+                   <th>Minimum Temperature</th>
+                   <th>Maximum Temperature</th>
+                </tr>
+             </thead>
+             <tbody>
+                <tr>
+                   <td class=''>
+                      <div class="input-group color-picker">
+                         <input type="text" value="#FFEDA0" class="form-control"></input>
+                         <span class="input-group-addon"><i></i></span>
+                      </div>
+                   </td>
+                   <td><input type="text" class="form-control range-number" value="0"></td>
+                   <td><input type="text" class="form-control range-number" value="62.00"></td>
+                </tr>
+                <tr>
+                   <td>
+                      <div class="input-group color-picker">
+                         <input type="text" value="#FED976" class="form-control"></input>
+                         <span class="input-group-addon"><i></i></span>
+                      </div>
+                   </td>
+                   <td><input type="text" class="form-control range-number" value="62.01"></td>
+                   <td><input type="text" class="form-control range-number" value="66.00"></td>
+                </tr>
+                <tr>
+                   <td>
+                      <div class="input-group color-picker">
+                         <input type="text" value="#FEB24C" class="form-control"></input>
+                         <span class="input-group-addon"><i></i></span>
+                      </div>
+                   </td>
+                   <td><input type="text" class="form-control range-number" value="66.01"></td>
+                   <td><input type="text" class="form-control range-number" value="70.00"></td>
+                </tr>
+                <tr>
+                   <td>
+                      <div class="input-group color-picker">
+                         <input type="text" value="#FD8D3C" class="form-control"></input>
+                         <span class="input-group-addon"><i></i></span>
+                      </div>
+                   </td>
+                   <td><input type="text" class="form-control range-number" value="70.01"></td>
+                   <td><input type="text" class="form-control range-number" value="74.00"></td>
+                </tr>
+                <tr>
+                   <td>
+                      <div class="input-group color-picker">
+                         <input type="text" value="#FC4E2A" class="form-control"></input>
+                         <span class="input-group-addon"><i></i></span>
+                      </div>
+                   </td>
+                   <td><input type="text" class="form-control range-number" value="74.01"></td>
+                   <td><input type="text" class="form-control range-number" value="78.00"></td>
+                </tr>
+                <tr>
+                   <td>
+                      <div class="input-group color-picker">
+                         <input type="text" value="E31A1C" class="form-control"></input>
+                         <span class="input-group-addon"><i></i></span>
+                      </div>
+                   </td>
+                   <td><input type="text" class="form-control range-number" value="78.01"></td>
+                   <td><input type="text" class="form-control range-number" value="82.00"></td>
+                </tr>
+                <tr>
+                   <td>
+                      <div class="input-group color-picker">
+                         <input type="text" value="#BD0026" class="form-control"></input>
+                         <span class="input-group-addon"><i></i></span>
+                      </div>
+                   </td>
+                   <td><input type="text" class="form-control range-number" value="82.01"></td>
+                   <td><input type="text" class="form-control range-number" value="85.00"></td>
+                </tr>
+                <tr>
+                   <td>
+                      <div class="input-group color-picker">
+                         <input type="text" value="#800026" class="form-control"></input>
+                         <span class="input-group-addon"><i></i></span>
+                      </div>
+                   </td>
+                   <td><input type="text" class="form-control range-number" value="85.01"></td>
+                   <td><input type="text" class="form-control range-number" value="100.00"></td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
+     </div>
+
+     <div ng-controller="MainController as main">
        <leaflet id="map" lf-center="center" defaults="defaults" layers="layers" height="950px">
        </leaflet>
      </div>

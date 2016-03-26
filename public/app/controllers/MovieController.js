@@ -1,8 +1,8 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService'];
+movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService', 'mapInteraction'];
 
-function movieController($scope, $http, $interval, leafletData, tableToMapService) {
+function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteraction) {
     $scope.currentDate = 'Current Date';
     $scope.isStopped = true;
     $scope.animation = undefined;
@@ -70,8 +70,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
                 if(results[0] === '2013-06-06 00:00:00') {
                     $scope.currentDate = results[i];
-                    removeVavBoxFromMap($scope, map, key);
-                    addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                    mapInteraction.removeVavBoxFromMap($scope, map, key);
+                    mapInteraction.addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
                 }
             }
 
@@ -97,8 +97,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
                 if(results[0] === '2013-06-06 00:00:00') {
                     $scope.currentDate = results[i];
-                    removeVavBoxFromMap($scope, map, key);
-                    addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                    mapInteraction.removeVavBoxFromMap($scope, map, key);
+                    mapInteraction.addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
                 }
             }
 
@@ -109,4 +109,4 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.populateCSV();
-}   
+}
