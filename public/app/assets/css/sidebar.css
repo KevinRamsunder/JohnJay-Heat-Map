@@ -1,0 +1,11 @@
+div.sidebar {
+    display: inline-block;
+    height: 100%;
+    width: 570px;
+    float: left;
+}
+
+div.moviecontrols {
+    margin: 15px;
+    margin-bottom: 25px;
+}
