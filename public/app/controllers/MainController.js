@@ -2,23 +2,20 @@
 app.controller('MainController', mainController);
 
 // inject dependencies into 'MainController' controller
-mainController.$inject = ['$scope', '$http', 'leafletData', 'leafletBoundsHelpers', 'tableToMapService'];
+mainController.$inject = ['$scope', '$http', 'leafletData', 'leafletBoundsHelpers', 'tableToMapService', 'mapInteraction'];
 
 // controller function
-function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableToMapService) {
+function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableToMapService, mapInteraction) {
     // save context
     var self = this;
 
     $scope.currentDate = "";
 
-    // container for layers
-    $scope.vectorLayers = {};
-
     // add map properties to scope
     initMap($scope);
 
     // post-processing
-    postProcess($scope, $http, leafletData);
+    postProcess($scope, $http, leafletData, mapInteraction);
 }
 
 // initialize and display map on webpage
@@ -73,66 +70,13 @@ var getJSON = function($scope, $http) {
     });
 };
 
-// go through object and add vector shapes to map
-var addAllVavsToMap = function($scope, map, roomNumbers, vavBoxes) {
-    for (var vav in vavBoxes) {
-        addVavBoxToMap($scope, map, roomNumbers, vavBoxes, vav);
-    }
-};
-
-// add specific VAV box to map
-var addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {
-    if(vavBoxes[vav] === undefined) {
-        return;
-    }
-
-    for (var i = 0; i < vavBoxes[vav].length; i++) {
-        var coordinates = roomNumbers[vavBoxes[vav][i]];
-
-        if(color === undefined) {
-            color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
-        }
-
-        var object = {
-            color: color,
-            fillOpacity: .5
-        };
-
-        if (coordinates.length === 2) {
-            var layer = new L.rectangle(coordinates, object);
-        } else {
-            var layer = new L.polygon(coordinates, object);
-        }
-
-        if (!$scope.vectorLayers.hasOwnProperty(vav)) {
-            $scope.vectorLayers[vav] = [];
-        }
-
-        map.addLayer(layer);
-        $scope.vectorLayers[vav].push(layer);
-    }
-};
-
-// remove specific VAV Box from map
-var removeVavBoxFromMap = function($scope, map, vavBox) {
-    if($scope.vectorLayers[vavBox] === undefined) {
-        return;
-    }
-
-    for (var i = 0; i < $scope.vectorLayers[vavBox].length; i++) {
-        map.removeLayer($scope.vectorLayers[vavBox][i]);
-    }
-
-    delete $scope.vectorLayers[vavBox];
-};
-
 // execute - will re-write this!
-var postProcess = function($scope, $http, leafletData) {
+var postProcess = function($scope, $http, leafletData, mapInteraction) {
     leafletData.getMap('map').then(function(map) {
         var data = getJSON($scope, $http).then(function(response) {
             var roomNumbers = response.roomNumbers.data;
             var vavBoxes = response.vavBoxes.data;
-            addAllVavsToMap($scope, map, roomNumbers, vavBoxes);
+            mapInteraction.addAllVavsToMap($scope, map, roomNumbers, vavBoxes);
 
             var info = L.control();
 
@@ -141,7 +85,7 @@ var postProcess = function($scope, $http, leafletData) {
 
                 var html = "<div class='btn-group-vertical'>";
                 for (var key in vavBoxes) {
-                    if(key in $scope.vectorLayers) {
+                    if(key in mapInteraction.vectorLayers) {
                         state = 'checked';
                     } else {
                         state = 'unchecked';
@@ -158,9 +102,9 @@ var postProcess = function($scope, $http, leafletData) {
 
             function handleCommand() {
                 if(this.checked) {
-                    addVavBoxToMap($scope, map, roomNumbers, vavBoxes, this.name);
+                    mapInteraction.addVavBoxToMap($scope, map, roomNumbers, vavBoxes, this.name);
                 } else {
-                    removeVavBoxFromMap($scope, map, this.name);
+                    mapInteraction.removeVavBoxFromMap($scope, map, this.name);
                 }
             };
 
@@ -168,7 +112,6 @@ var postProcess = function($scope, $http, leafletData) {
             for(var i = 0; i < checkboxes.length; i++) {
                 checkboxes[i].addEventListener('click', handleCommand, false);
             }
-            
         });
     });
 };
