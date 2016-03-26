@@ -10,10 +10,9 @@ html, body {
 
 #map {
     top: 13px;
-    width: 69%;
+    width: 75%;
     height: 90%;
 }
-
 
 .info {
     padding: 6px 8px;
