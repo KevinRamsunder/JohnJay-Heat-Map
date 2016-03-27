@@ -84,6 +84,10 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                     $scope.currentDate = results[i];
                     mapInteraction.removeVavBoxFromMap($scope, map, key);
                     mapInteraction.addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                } else {
+                    // delete error boxes from the map
+                    mapInteraction.removeVavBoxFromMap($scope, map, key);
+                    $scope.masterData[key] = undefined;
                 }
             }
 
