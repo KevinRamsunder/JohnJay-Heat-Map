@@ -4,8 +4,14 @@ var app = angular.module('app', ['leaflet-directive']);
 app.service('mapInteraction', function() {
     var self = this;
     
+    // data returned
+    self.data = {};
+    
+    // if currently loading csv files set true
+    self.loading = false;
+
     // container for layers
-  self.vectorLayers = {};
+    self.vectorLayers = {};
 
     // add specific VAV box to map
     self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {

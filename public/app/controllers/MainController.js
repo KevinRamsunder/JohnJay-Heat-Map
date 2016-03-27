@@ -58,13 +58,17 @@ var initMap = function(self) {
 };
 
 // get json files from local storage
-var getJSON = function($scope, $http) {
+var getJSON = function($scope, $http, mapInteraction) {
+    mapInteraction.loading = true;
+
     // function to make http call to get content of JSON
     return getRoomDataFromJson = new Promise(function(resolve, reject) {
         $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
             var roomNumbers = response;
             $http.get('app/assets/json/floor_10/vav.json').then(function(response) {
-                resolve({'roomNumbers': roomNumbers, 'vavBoxes': response});
+                mapInteraction.loading = false;
+                mapInteraction.data = {'roomNumbers': roomNumbers, 'vavBoxes': response};
+                resolve(mapInteraction.data);
             });
         });
     });
@@ -73,7 +77,7 @@ var getJSON = function($scope, $http) {
 // execute - will re-write this!
 var postProcess = function($scope, $http, leafletData, mapInteraction) {
     leafletData.getMap('map').then(function(map) {
-        var data = getJSON($scope, $http).then(function(response) {
+        var data = getJSON($scope, $http, mapInteraction).then(function(response) {
             var roomNumbers = response.roomNumbers.data;
             var vavBoxes = response.vavBoxes.data;
             mapInteraction.addAllVavsToMap($scope, map, roomNumbers, vavBoxes);

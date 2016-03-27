@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/css/bootstrap-colorpicker.css">
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="app/assets/css/main.css">
     <link rel="stylesheet" href="app/assets/css/sidebar.css">
   </head>
@@ -15,13 +16,11 @@
      <div class="sidebar">
        <div>
           <img id="logo" src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
-       </div>
-
-       
+       </div>       
        <div ng-controller="MovieController as movie" class="moviecontrols">
          <h3>{{currentDate}}</h3>
-         <button class="btn btn-secondary" ng-click='startAnimation()' ng-disabled='!isStopped'>Start Animation</button>
-         <button class="btn btn-secondary" ng-click='restartAnimation()' ng-disabled='isStopped && firstRun'>Restart Animation</button>
+         <button class="btn btn-secondary" ng-click='startAnimation()' ng-disabled='!isStopped || loaderStatus()'>Play Animation     <i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i></button>
+         <button class="btn btn-secondary" ng-click='restartAnimation()' ng-disabled='isStopped && firstRun'>Continue Animation</button>
          <button class="btn btn-secondary" ng-click='stopAnimation()' ng-disabled='isStopped'>Stop Animation</button>
        </div>
        <div ng-controller="TableController as table" class="container">

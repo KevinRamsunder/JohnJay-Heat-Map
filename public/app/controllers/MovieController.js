@@ -28,7 +28,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         $scope.firstRun = false;
 
         leafletData.getMap('map').then(function(map) {
-            var data = getJSON($scope, $http).then(function(response) {
+            var data = getJSON($scope, $http, mapInteraction).then(function(response) {
                $scope.restartAnimate(map, response);               
             });
         });
@@ -47,7 +47,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         $scope.firstRun = false;
 
         leafletData.getMap('map').then(function(map) {
-            var data = getJSON($scope, $http).then(function(response) {
+            var data = getJSON($scope, $http, mapInteraction).then(function(response) {
                $scope.animate(map, response);               
             });
         });
@@ -107,6 +107,10 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
             }
         }, $scope.interval);
     };
+
+    $scope.loaderStatus = function() {
+        return mapInteraction.loading;
+    }
 
     $scope.populateCSV();
 }
