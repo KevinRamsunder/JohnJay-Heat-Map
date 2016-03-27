@@ -108,7 +108,9 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         }, $scope.interval);
     };
 
-    $scope.loaderStatus = mapInteraction.loading;
+    $scope.loaderStatus = function() {
+        return mapInteraction.loading;
+    }
 
     $scope.populateCSV();
 }
