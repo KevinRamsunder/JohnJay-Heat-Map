@@ -19,7 +19,7 @@
        </div>       
        <div ng-controller="MovieController as movie" class="moviecontrols">
          <h3>{{currentDate}}</h3>
-         <button class="btn btn-secondary" ng-click='startAnimation()' ng-disabled='!isStopped'>Play Animation     <i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i></button>
+         <button class="btn btn-secondary" ng-click='startAnimation()' ng-disabled='!isStopped || loaderStatus()'>Play Animation     <i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i></button>
          <button class="btn btn-secondary" ng-click='restartAnimation()' ng-disabled='isStopped && firstRun'>Continue Animation</button>
          <button class="btn btn-secondary" ng-click='stopAnimation()' ng-disabled='isStopped'>Stop Animation</button>
        </div>
