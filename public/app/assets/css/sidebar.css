@@ -9,3 +9,11 @@ div.moviecontrols {
     margin: 15px;
     margin-bottom: 25px;
 }
+
+#movie-controller-block {
+    padding: 0 15px;
+}
+
+.movie-block-element {
+    margin: 0 5px;
+}
