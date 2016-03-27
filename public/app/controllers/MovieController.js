@@ -10,6 +10,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.interval = 50; // refresh rate for animation
 
     $scope.populateCSV = function() {
+        mapInteraction.makingRequest = true;
+
         $http.get('/api/v1/rooms').then(function(response) {
             $scope.masterData = response.data;
             $scope.mappedCSV = {};
@@ -17,6 +19,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
             for(var key in $scope.masterData) {
                 $scope.mappedCSV[key] = $scope.masterData[key].split(',');
             }
+
+            mapInteraction.makingRequest = false;
         });
     };
 
@@ -109,7 +113,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.loaderStatus = function() {
-        return mapInteraction.loading;
+        return mapInteraction.loading || mapInteraction.makingRequest;
     }
 
     $scope.populateCSV();
