@@ -24,7 +24,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         });
     };
 
-    $scope.restartAnimation = function() {
+    $scope.continueAnimation = function() {
         $scope.restartDate = $scope.currentDate;
         $scope.stopAnimation();
 
@@ -33,7 +33,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
         leafletData.getMap('map').then(function(map) {
             var data = getJSON($scope, $http, mapInteraction).then(function(response) {
-               $scope.restartAnimate(map, response);               
+               $scope.continueAnimate(map, response);               
             });
         });
     };
@@ -55,7 +55,15 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                $scope.animate(map, response);               
             });
         });
-    }
+    };
+
+    $scope.handleAnimation = function() {
+        if($scope.firstRun) {
+            $scope.startAnimation();
+        } else {
+            $scope.continueAnimation();
+        }
+    };
 
     $scope.animate = function(map, response) {
         $scope.current = 0;
@@ -85,7 +93,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         }, $scope.interval);
     };
 
-    $scope.restartAnimate = function(map, response) {
+    $scope.continueAnimate = function(map, response) {
         var length = $scope.mappedCSV['47102'].length;
 
         $scope.animation = $interval(function() {
