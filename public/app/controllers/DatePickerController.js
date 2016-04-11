@@ -9,9 +9,4 @@ function datePickerController($scope, $http) {
     $scope.myDate = new Date("1-31-2016");;
     $scope.minDate = new Date("6-6-2013");
     $scope.maxDate = new Date("1-31-2016");
-
-    $scope.onlyWeekendsPredicate = function (date) {
-        var day = date.getDay();
-        return day === 0 || day === 6;
-    }
 }
