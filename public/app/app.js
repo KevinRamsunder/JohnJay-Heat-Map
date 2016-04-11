@@ -1,5 +1,5 @@
 // connect angular application to index.html and include needed libraries
-var app = angular.module('app', ['leaflet-directive']);
+var app = angular.module('app', ['leaflet-directive', 'ngMaterial', 'ngMessages']);
 
 app.service('mapInteraction', function() {
     var self = this;
