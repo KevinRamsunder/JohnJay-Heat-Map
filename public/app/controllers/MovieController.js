@@ -83,7 +83,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                 if(results[0] === '2013-06-06 00:00:00') {
                     $scope.currentDate = results[i];
                     mapInteraction.removeVavBoxFromMap($scope, map, key);
-                    mapInteraction.addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color); 
+                    mapInteraction.addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color, firstTemp);
                 } else {
                     // delete error boxes from the map
                     mapInteraction.removeVavBoxFromMap($scope, map, key);

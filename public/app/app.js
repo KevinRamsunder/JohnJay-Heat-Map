@@ -3,10 +3,10 @@ var app = angular.module('app', ['leaflet-directive']);
 
 app.service('mapInteraction', function() {
     var self = this;
-    
+
     // data returned
     self.data = {};
-    
+
     // if currently loading csv files set true
     self.loading = false;
     self.makingRequest = false;
@@ -15,7 +15,7 @@ app.service('mapInteraction', function() {
     self.vectorLayers = {};
 
     // add specific VAV box to map
-    self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {
+    self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color, currentTemp) {
         if(vavBoxes[vav] === undefined) {
             return;
         }
@@ -32,15 +32,34 @@ app.service('mapInteraction', function() {
                 fillOpacity: .5
             };
 
-            if (coordinates.length === 2) {
-                var layer = new L.rectangle(coordinates, object);
+            // var layer = new L.rectangle(coordinates, object);
+            var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
+            if(currentTemp !== undefined) {
+                var layer = new L.circle(latlng, (currentTemp * 300), object);
             } else {
-                var layer = new L.polygon(coordinates, object);
+                var layer = new L.circle(latlng, 10000, object);
             }
 
             if (!self.vectorLayers.hasOwnProperty(vav)) {
                 self.vectorLayers[vav] = [];
             }
+
+            // Too see coordinates
+            // var info = L.control();
+            // info.onAdd = function (map) {
+            //     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            //     return this._div;
+            // };
+            //
+            // info.update = function (latlong) {
+            //     this._div.innerHTML = latlong;
+            // };
+            //
+            // map.on('mousemove',function(e){
+            //     info.update(e.latlng);
+            // });
+            //
+            // info.addTo(map);
 
             map.addLayer(layer);
             self.vectorLayers[vav].push(layer);
@@ -71,7 +90,7 @@ app.service('mapInteraction', function() {
 // service for table to map communication
 app.service('tableToMapService', function() {
     var self = this;
-    
+
     // get colors from each row in the table
     self.getColors = function() {
         var colors = [];
