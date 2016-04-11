@@ -3,10 +3,10 @@ var app = angular.module('app', ['leaflet-directive']);
 
 app.service('mapInteraction', function() {
     var self = this;
-    
+
     // data returned
     self.data = {};
-    
+
     // if currently loading csv files set true
     self.loading = false;
     self.makingRequest = false;
@@ -33,7 +33,9 @@ app.service('mapInteraction', function() {
             };
 
             if (coordinates.length === 2) {
-                var layer = new L.rectangle(coordinates, object);
+                // var layer = new L.rectangle(coordinates, object);
+                var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
+                var layer = new L.circle(latlng, 500, object)
             } else {
                 var layer = new L.polygon(coordinates, object);
             }
@@ -71,7 +73,7 @@ app.service('mapInteraction', function() {
 // service for table to map communication
 app.service('tableToMapService', function() {
     var self = this;
-    
+
     // get colors from each row in the table
     self.getColors = function() {
         var colors = [];
