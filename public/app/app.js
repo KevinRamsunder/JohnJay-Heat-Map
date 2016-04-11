@@ -16,14 +16,6 @@ app.service('mapInteraction', function() {
 
     // add specific VAV box to map
     self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color, currentTemp) {
-        // Alessandro's function
-        if(currentTemp !== undefined) {
-            console.log(currentTemp);
-
-            // exit function (remove if you want)
-            return;
-        }
-
         if(vavBoxes[vav] === undefined) {
             return;
         }
@@ -43,7 +35,11 @@ app.service('mapInteraction', function() {
             if (coordinates.length === 2) {
                 // var layer = new L.rectangle(coordinates, object);
                 var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
-                var layer = new L.circle(latlng, 500, object)
+                if(currentTemp !== undefined) {
+                    var layer = new L.circle(latlng, (currentTemp * 10), object);
+                } else {
+                    var layer = new L.circle(latlng, 10000, object);
+                }
             } else {
                 var layer = new L.polygon(coordinates, object);
             }
