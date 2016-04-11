@@ -15,7 +15,15 @@ app.service('mapInteraction', function() {
     self.vectorLayers = {};
 
     // add specific VAV box to map
-    self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color) {
+    self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color, currentTemp) {
+        // Alessandro's function
+        if(currentTemp !== undefined) {
+            console.log(currentTemp);
+
+            // exit function (remove if you want)
+            return;
+        }
+
         if(vavBoxes[vav] === undefined) {
             return;
         }
