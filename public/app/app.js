@@ -1,7 +1,7 @@
 // connect angular application to index.html and include needed libraries
 var app = angular.module('app', ['leaflet-directive', 'ngMaterial', 'ngMessages']);
 
-app.service('mapInteraction', function() {
+app.service('mapInteraction', function(tableToMapService) {
     var self = this;
 
     // data returned
@@ -32,10 +32,10 @@ app.service('mapInteraction', function() {
                 fillOpacity: .5
             };
 
-            // var layer = new L.rectangle(coordinates, object);
             var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
             if(currentTemp !== undefined) {
-                var layer = new L.circleMarker(latlng, object).setRadius(currentTemp/4);
+                var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
+                var layer = new L.circleMarker(latlng, object).setRadius(radius);
             } else {
                 var layer = new L.circleMarker(latlng, object).setRadius(10);
             }
@@ -43,23 +43,6 @@ app.service('mapInteraction', function() {
             if (!self.vectorLayers.hasOwnProperty(vav)) {
                 self.vectorLayers[vav] = [];
             }
-
-            // Too see coordinates
-            // var info = L.control();
-            // info.onAdd = function (map) {
-            //     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-            //     return this._div;
-            // };
-            //
-            // info.update = function (latlong) {
-            //     this._div.innerHTML = latlong;
-            // };
-            //
-            // map.on('mousemove',function(e){
-            //     info.update(e.latlng);
-            // });
-            //
-            // info.addTo(map);
 
             map.addLayer(layer);
             self.vectorLayers[vav].push(layer);
@@ -129,8 +112,15 @@ app.service('tableToMapService', function() {
             }
         }
 
+        // error value
         return {color: '#0000ff'};
     };
+
+    // get the index of the given color code from the table, used for circle scaling
+    self.getIndexOfColor = function(colorCode) {
+        var colors = self.getColors();
+        return colors.indexOf(colorCode);
+    }
 
     // attach event listeners to color-picker elements
     $('.color-picker').colorpicker().on('changeColor.colorpicker', function(event) {
