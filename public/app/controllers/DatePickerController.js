@@ -6,7 +6,7 @@ datePickerController.$inject = ['$scope', '$http'];
 
 // controller function
 function datePickerController($scope, $http) {
-    $scope.myDate = new Date("1-31-2016");;
-    $scope.minDate = new Date("6-6-2013");
-    $scope.maxDate = new Date("1-31-2016");
+    $scope.myDate = new Date(2016, 1, 31);
+    $scope.minDate = new Date(2013, 6, 6);
+    $scope.maxDate = new Date(2016, 1, 31);
 }
