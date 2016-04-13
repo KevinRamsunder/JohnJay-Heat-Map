@@ -35,9 +35,9 @@ app.service('mapInteraction', function() {
             // var layer = new L.rectangle(coordinates, object);
             var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
             if(currentTemp !== undefined) {
-                var layer = new L.circle(latlng, (currentTemp * 300), object);
+                var layer = new L.circleMarker(latlng, object).setRadius(currentTemp/4);
             } else {
-                var layer = new L.circle(latlng, 10000, object);
+                var layer = new L.circleMarker(latlng, object).setRadius(10);
             }
 
             if (!self.vectorLayers.hasOwnProperty(vav)) {
