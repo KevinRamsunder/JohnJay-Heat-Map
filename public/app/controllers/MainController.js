@@ -16,6 +16,27 @@ function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableT
 
     // post-processing
     postProcess($scope, $http, leafletData, mapInteraction);
+
+    // circles on map will zoom appropriately when movie is not playing
+    leafletData.getMap('map').then(function (map) {
+        map.on('zoomend', function () {
+            var markers = [];
+            this.eachLayer(function (marker) {
+                markers.push(marker);
+            });
+
+            var i;
+            if (map.getZoom() == 2) {
+                for (i = 1; i < markers.length; i++) {
+                    // markers[i].setRadius(markers[i].getRadius() * 1.2);
+                }
+            } else if (map.getZoom() == 3) {
+                for (i = 1; i < markers.length; i++) {
+                    // markers[i].setRadius(markers[i].getRadius() * 4);
+                }
+            }
+        });
+    });
 }
 
 // initialize and display map on webpage
@@ -25,7 +46,7 @@ var initMap = function(self) {
         // default map properties
         defaults: {
             minZoom: 1,
-            maxZoom: 3.6,
+            maxZoom: 3,
             crs: 'Simple'
         },
 
