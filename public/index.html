@@ -21,15 +21,20 @@
         <img id="logo" src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
     </div>
     <div ng-controller="DatePickerController" class="row">
-        <md-content class="col-xs-6">
-            <md-datepicker ng-model="myDate" md-placeholder="Enter date"
-                           md-min-date="minDate" md-max-date="maxDate">
+        <md-content class="col-xs-6 col-md-6">
+            <span class="date-text">select min date</span>
+            <md-datepicker ng-model="leftDate" md-placeholder="Enter date"
+                           md-min-date="leftMinDate" md-max-date="leftMaxDate"
+                           ng-click="checkDate()">
             </md-datepicker>
         </md-content>
 
-        <md-content class="col-xs-6">
-            <md-datepicker ng-model="myDate" md-placeholder="Enter date"
-                           md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+        <md-content class="col-xs-6 col-md-6">
+            <span class="date-text">select max date</span>
+            <md-datepicker ng-model="rightDate" md-placeholder="Enter date"
+                           md-min-date="rightMinDate" md-max-date="rightMaxDate"
+                           ng-click="checkDate()">
+            </md-datepicker>
         </md-content>
     </div>
     <div ng-controller="MovieController as movie" class="moviecontrols">
