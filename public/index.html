@@ -20,8 +20,14 @@
     <div>
         <img id="logo" src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
     </div>
-    <div ng-controller="DatePickerController">
-        <md-content>
+    <div ng-controller="DatePickerController" class="row">
+        <md-content class="col-xs-6">
+            <md-datepicker ng-model="myDate" md-placeholder="Enter date"
+                           md-min-date="minDate" md-max-date="maxDate">
+            </md-datepicker>
+        </md-content>
+
+        <md-content class="col-xs-6">
             <md-datepicker ng-model="myDate" md-placeholder="Enter date"
                            md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
         </md-content>

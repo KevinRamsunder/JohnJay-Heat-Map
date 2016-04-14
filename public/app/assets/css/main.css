@@ -10,7 +10,7 @@ html, body {
 
 #map {
     top: 13px;
-    width: 75%;
+    width: 70%;
     height: 90%;
 }
 
@@ -29,4 +29,17 @@ html, body {
 
 .table th, .table td {
     padding: .25em;
+}
+
+.left_padding {
+
+}
+
+.md-datepicker-input-container {
+    padding: 0;
+    margin: 0;
+}
+.md-button.md-icon-button {
+    margin: 0;
+    padding: 0;
 }
