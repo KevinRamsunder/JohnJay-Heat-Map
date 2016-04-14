@@ -1,6 +1,11 @@
 // connect angular application to index.html and include needed libraries
 var app = angular.module('app', ['leaflet-directive', 'ngMaterial', 'ngMessages']);
 
+// disable leaflet logging
+app.config(function($logProvider){
+    $logProvider.debugEnabled(false);
+});
+
 app.service('mapInteraction', function(tableToMapService) {
     var self = this;
 
@@ -32,12 +37,22 @@ app.service('mapInteraction', function(tableToMapService) {
                 fillOpacity: .5
             };
 
+            var layer = null;
             var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
+
             if(currentTemp !== undefined) {
                 var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
-                var layer = new L.circleMarker(latlng, object).setRadius(radius);
+
+                if (map.getZoom() == 1) {
+                    layer = new L.circleMarker(latlng, object).setRadius(radius);
+                } else if (map.getZoom() == 2) {
+                    layer = new L.circleMarker(latlng, object).setRadius(radius*2);
+                } else {
+                    layer = new L.circleMarker(latlng, object).setRadius(radius*3);
+                }
+
             } else {
-                var layer = new L.circleMarker(latlng, object).setRadius(10);
+                layer = new L.circleMarker(latlng, object).setRadius(10);
             }
 
             if (!self.vectorLayers.hasOwnProperty(vav)) {
