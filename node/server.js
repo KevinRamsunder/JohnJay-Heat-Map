@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 
 // use this directory to serve static files
 app.use(express.static('public'));
+app.use('/bower_components', express.static('bower_components'));
 
 // make the server run on port 8000, localhost:8000
 var port = process.env.PORT || 8000;
