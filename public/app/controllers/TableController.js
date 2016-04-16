@@ -6,6 +6,4 @@ tableController.$inject = ['$scope', 'tableToMapService'];
 
 function tableController($scope, tableToMapService) {
     var self = this;
-
-    console.log(tableToMapService.getColorFromRanges(73.13));
-};
+}
