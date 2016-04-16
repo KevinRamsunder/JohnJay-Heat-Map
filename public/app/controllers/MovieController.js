@@ -1,8 +1,8 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService', 'mapInteraction'];
+movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService', 'mapInteraction', 'datePickerService'];
 
-function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteraction) {
+function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteraction, datePickerService) {
     $scope.currentDate = 'Current Date';
     $scope.isStopped = true;
     $scope.animation = undefined;
@@ -18,6 +18,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
             for(var key in $scope.masterData) {
                 $scope.mappedCSV[key] = $scope.masterData[key].split(',');
+                console.log($scope.mappedCSV[key]);
             }
 
             mapInteraction.makingRequest = false;
