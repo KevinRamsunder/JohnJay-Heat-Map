@@ -72,6 +72,46 @@ var initMap = function(self) {
                         [0, 347.8552729775042],
                         [-374.5753081706553, 0]
                     ]
+                },
+                ninthFloor: {
+                    name: 'Ninth Floor',
+                    type: 'imageOverlay',
+                    url: 'app/assets/images/floor_9.jpg',
+                    // will fix this later
+                    bounds: [
+                        [0, 347.8552729775042],
+                        [-374.5753081706553, 0]
+                    ]
+                },
+                eightFloor: {
+                    name: 'Eight Floor',
+                    type: 'imageOverlay',
+                    url: 'app/assets/images/floor_8.jpg',
+                    // will fix this later
+                    bounds: [
+                        [0, 347.8552729775042],
+                        [-374.5753081706553, 0]
+                    ]
+                },
+                seventhFloor: {
+                    name: 'Seventh Floor',
+                    type: 'imageOverlay',
+                    url: 'app/assets/images/floor_7.jpg',
+                    // will fix this later
+                    bounds: [
+                        [0, 347.8552729775042],
+                        [-374.5753081706553, 0]
+                    ]
+                },
+                sixthFloor: {
+                    name: 'Sixth Floor',
+                    type: 'imageOverlay',
+                    url: 'app/assets/images/floor_6.jpg',
+                    // will fix this later
+                    bounds: [
+                        [0, 347.8552729775042],
+                        [-374.5753081706553, 0]
+                    ]
                 }
             }
         }
