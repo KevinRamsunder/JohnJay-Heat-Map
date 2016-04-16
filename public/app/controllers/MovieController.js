@@ -8,9 +8,9 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.animation = undefined;
     $scope.firstRun = true;
     $scope.interval = 50; // refresh rate for animation
-
     $scope.startDateIndex = 0;
     $scope.endDateIndex = 0;
+    $scope.marker_options = 'Circles';
 
     $scope.locationOfDate = {};
 
@@ -107,6 +107,10 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         $scope.endDateIndex = $scope.locationOfDate['47102'][endDate];
 
         datePickerService.dateChanged = false;
+    };
+
+    $scope.updateMarkers = function() {
+        mapInteraction.marker_options = $scope.marker_options;
     };
 
     $scope.populateCSV();
