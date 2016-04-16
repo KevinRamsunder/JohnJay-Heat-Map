@@ -8,6 +8,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.animation = undefined;
     $scope.firstRun = true;
     $scope.interval = 50; // refresh rate for animation
+    $scope.locationOfDate = {};
 
     $scope.populateCSV = function() {
         mapInteraction.makingRequest = true;
@@ -18,6 +19,15 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
             for(var key in $scope.masterData) {
                 $scope.mappedCSV[key] = $scope.masterData[key].split(',');
+                $scope.locationOfDate[key] = {};
+
+                for (var i = 0; i < $scope.mappedCSV[key].length; i += 2) {
+                    var index = i;
+                    var date = $scope.mappedCSV[key][index];
+
+                    $scope.mappedCSV[key];
+                    $scope.locationOfDate[key][date] = index;
+                }
             }
 
             mapInteraction.makingRequest = false;
