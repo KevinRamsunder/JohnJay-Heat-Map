@@ -24,24 +24,25 @@
         <md-content class="col-xs-6 col-md-6">
             <span class="date-text">select min date</span>
             <md-datepicker ng-model="startDate" md-placeholder="Enter date"
-                           md-min-date="minDate" md-max-date="endDate">
+                           md-min-date="minDate" md-max-date="endDate" ng-change="updateDate()">
             </md-datepicker>
         </md-content>
 
         <md-content class="col-xs-6 col-md-6">
             <span class="date-text">select max date</span>
             <md-datepicker ng-model="endDate" md-placeholder="Enter date"
-                           md-min-date="startDate" md-max-date="maxDate">
+                           md-min-date="startDate" md-max-date="maxDate" ng-change="updateDate()">
             </md-datepicker>
         </md-content>
     </div>
     <div ng-controller="MovieController as movie" class="moviecontrols">
         <h3>{{currentDate}}</h3>
         <div id="movie-controller-block" class="row">
+            <div ng-show="loaderStatus()"> loading... </div>
             <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='startAnimation()'
                     ng-disabled='!isStopped || loaderStatus()'>
                 <i class="fa fa-play"></i>
-                <i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i>
+                <!--<i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i>-->
             </button>
             <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='stopAnimation()'
                     ng-disabled='isStopped'>
