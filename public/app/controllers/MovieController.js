@@ -10,7 +10,9 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.interval = 50; // refresh rate for animation
     $scope.startDateIndex = 0;
     $scope.endDateIndex = 0;
-    $scope.marker_options = 'Circles';
+
+    $scope.marker_type = 'Circles';
+    $scope.marker_options = 'Temp';
 
     $scope.locationOfDate = {};
 
@@ -110,6 +112,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.updateMarkers = function() {
+        mapInteraction.marker_type = $scope.marker_type;
         mapInteraction.marker_options = $scope.marker_options;
     };
 
