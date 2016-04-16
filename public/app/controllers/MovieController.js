@@ -24,8 +24,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                 for (var i = 0; i < $scope.mappedCSV[key].length; i += 2) {
                     var index = i;
                     var date = $scope.mappedCSV[key][index];
-
-                    $scope.mappedCSV[key];
                     $scope.locationOfDate[key][date] = index;
                 }
             }
