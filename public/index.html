@@ -38,7 +38,7 @@
     <div ng-controller="MovieController as movie" class="moviecontrols">
         <h3>{{currentDate}}</h3>
         <div id="movie-controller-block" class="row">
-            <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='handleAnimation()'
+            <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='playAnimation()'
                     ng-disabled='!isStopped || loaderStatus()'>
                 <i class="fa fa-play"></i>
                 <i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i>
@@ -47,7 +47,7 @@
                     ng-disabled='isStopped'>
                 <i class="fa fa-stop"></i>
             </button>
-            <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='startAnimation()'
+            <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='restartAnimation()'
                     ng-disabled='!isStopped || firstRun'>
                 <i class="fa fa-refresh"></i>
             </button>
