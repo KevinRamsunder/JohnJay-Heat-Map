@@ -9,7 +9,8 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/css/bootstrap-colorpicker.css">
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet"
+          href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="app/assets/css/main.css">
@@ -35,10 +36,10 @@
             </md-datepicker>
         </md-content>
     </div>
-    <div ng-controller="MovieController as movie" class="moviecontrols">
-        <h3>{{currentDate}}</h3>
+    <div ng-controller="MovieController" class="moviecontrols">
+        <h3>{{showDate}}</h3>
         <div id="movie-controller-block" class="row">
-            <div ng-show="loaderStatus()"> loading... </div>
+            <div ng-show="loaderStatus()"> loading...</div>
             <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='startAnimation()'
                     ng-disabled='!isStopped || loaderStatus()'>
                 <i class="fa fa-play"></i>
@@ -46,17 +47,22 @@
             </button>
             <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='stopAnimation()'
                     ng-disabled='isStopped'>
-                <i class="fa fa-stop"></i>
+                <i class="fa fa-pause"></i>
             </button>
             <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='restartAnimation()'
                     ng-disabled='!isStopped || firstRun'>
                 <i class="fa fa-refresh"></i>
             </button>
         </div>
-        <div>
-            <select class="selectpicker marker-options" ng-model="marker_options" ng-change="updateMarkers()">
+        <div class="marker-drop-down">
+            <select class="selectpicker" ng-model="marker_type" ng-change="updateMarkers()">
                 <option>Circles</option>
                 <option>Squares</option>
+            </select>
+
+            <select class="selectpicker marker-drop-down" ng-model="marker_options" ng-change="updateMarkers()">
+                <option>Temp</option>
+                <option>Temp: Inside Vs Outside</option>
             </select>
         </div>
     </div>

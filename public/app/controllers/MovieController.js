@@ -3,15 +3,23 @@ app.controller('MovieController', movieController);
 movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService', 'mapInteraction', 'datePickerService'];
 
 function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteraction, datePickerService) {
-    $scope.currentDate = 'Current Date';
+    $scope.showDate  = 'Current Date';
     $scope.isStopped = true;
     $scope.animation = undefined;
-    $scope.firstRun = true;
-    $scope.interval = 50; // refresh rate for animation
-    $scope.startDateIndex = 0;
-    $scope.endDateIndex = 0;
-    $scope.marker_options = 'Circles';
+    $scope.interval  = 50; // refresh rate for animation
 
+    // index for run movie
+    $scope.startDateIndex = 0;
+    $scope.endDateIndex   = 0;
+
+    // variables for markers and data being shown
+    $scope.marker_type = 'Circles';
+    $scope.marker_options = 'Temp';
+
+    // object with {vav: [date, temp, date, temp, ...]}
+    $scope.mappedCSV = {};
+
+    // object with {vav : {"date": "index_in_mappedCSV", "date2": "index", ...}}
     $scope.locationOfDate = {};
 
     $scope.populateCSV = function() {
@@ -19,7 +27,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
         $http.get('/api/v1/rooms').then(function(response) {
             $scope.masterData = response.data;
-            $scope.mappedCSV = {};
 
             for(var key in $scope.masterData) {
                 $scope.mappedCSV[key] = $scope.masterData[key].split(',');
@@ -44,7 +51,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         }
 
         $scope.isStopped = false;
-        $scope.firstRun = false;
 
         leafletData.getMap('map').then(function(map) {
             var data = getJSON($scope, $http, mapInteraction).then(function(response) {
@@ -79,7 +85,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                 var firstTemp = results[j];
 
                 if(results[0] === '2013-06-06 00:00:00') {
-                    $scope.currentDate = results[i];
+                    $scope.showDate = results[i];
                     mapInteraction.removeVavBoxFromMap($scope, map, key);
                     mapInteraction.addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color, firstTemp);
                 } else {
@@ -110,6 +116,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.updateMarkers = function() {
+        mapInteraction.marker_type = $scope.marker_type;
         mapInteraction.marker_options = $scope.marker_options;
     };
 

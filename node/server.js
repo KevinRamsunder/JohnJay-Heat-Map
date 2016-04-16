@@ -11,6 +11,8 @@ var request = require('request');
 // utility for asynchronous operations
 var async = require('async');
 
+var weather_source_api_key = require('./env')
+
 // include middleware for parsing json
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());

@@ -19,7 +19,8 @@ app.service('mapInteraction', function(tableToMapService) {
     // container for layers
     self.vectorLayers = {};
 
-    self.marker_options = 'Circles';
+    self.marker_type = 'Circles';
+    self.marker_options = 'Temp';
 
     // add specific VAV box to map
     self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color, currentTemp) {
@@ -41,7 +42,7 @@ app.service('mapInteraction', function(tableToMapService) {
 
             var layer = null;
 
-            if (self.marker_options === 'Circles') {
+            if (self.marker_type === 'Circles') {
                 var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
 
                 if(currentTemp !== undefined) {
@@ -58,7 +59,7 @@ app.service('mapInteraction', function(tableToMapService) {
                 } else {
                     layer = new L.circleMarker(latlng, object).setRadius(10);
                 }
-            } else if (self.marker_options === 'Squares') {
+            } else if (self.marker_type === 'Squares') {
                 layer = new L.rectangle(coordinates, object);
             }
 
