@@ -53,6 +53,12 @@
                 <i class="fa fa-refresh"></i>
             </button>
         </div>
+        <div>
+            <select class="selectpicker marker-options" ng-model="marker_options" ng-change="updateMarkers()">
+                <option>Circles</option>
+                <option>Squares</option>
+            </select>
+        </div>
     </div>
     <div ng-controller="TableController as table" class="container">
         <table class="table table-striped table-condensed">

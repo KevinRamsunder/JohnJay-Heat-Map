@@ -19,6 +19,8 @@ app.service('mapInteraction', function(tableToMapService) {
     // container for layers
     self.vectorLayers = {};
 
+    self.marker_options = 'Circles';
+
     // add specific VAV box to map
     self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color, currentTemp) {
         if(vavBoxes[vav] === undefined) {
@@ -29,7 +31,7 @@ app.service('mapInteraction', function(tableToMapService) {
             var coordinates = roomNumbers[vavBoxes[vav][i]];
 
             if(color === undefined) {
-                color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+                color = '#ff0000';
             }
 
             var object = {
@@ -38,21 +40,26 @@ app.service('mapInteraction', function(tableToMapService) {
             };
 
             var layer = null;
-            var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
 
-            if(currentTemp !== undefined) {
-                var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
+            if (self.marker_options === 'Circles') {
+                var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
 
-                if (map.getZoom() == 1) {
-                    layer = new L.circleMarker(latlng, object).setRadius(radius);
-                } else if (map.getZoom() == 2) {
-                    layer = new L.circleMarker(latlng, object).setRadius(radius*2);
+                if(currentTemp !== undefined) {
+                    var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
+
+                    if (map.getZoom() == 1) {
+                        layer = new L.circleMarker(latlng, object).setRadius(radius);
+                    } else if (map.getZoom() == 2) {
+                        layer = new L.circleMarker(latlng, object).setRadius(radius*2);
+                    } else {
+                        layer = new L.circleMarker(latlng, object).setRadius(radius*3);
+                    }
+
                 } else {
-                    layer = new L.circleMarker(latlng, object).setRadius(radius*3);
+                    layer = new L.circleMarker(latlng, object).setRadius(10);
                 }
-
-            } else {
-                layer = new L.circleMarker(latlng, object).setRadius(10);
+            } else if (self.marker_options === 'Squares') {
+                layer = new L.rectangle(coordinates, object);
             }
 
             if (!self.vectorLayers.hasOwnProperty(vav)) {
