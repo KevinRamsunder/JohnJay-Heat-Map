@@ -33,22 +33,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         });
     };
 
-    $scope.playAnimation = function() {
-        if($scope.firstRun) {
-            $scope.current = 0;
-        } else {
-            $scope.restartDate = $scope.currentDate;
-            $scope.stopAnimation();
-        }
-
-        $scope.startAnimation();
-    };
-
-    $scope.restartAnimation = function() {
-        $scope.current = 0;
-        $scope.startAnimation();
-    };
-
     $scope.startAnimation = function() {
         $scope.isStopped = false;
         $scope.firstRun = false;
@@ -66,6 +50,11 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
             $interval.cancel($scope.animation);
             $scope.animation = undefined;
         }
+    };
+
+    $scope.restartAnimation = function() {
+        $scope.current = 0;
+        $scope.startAnimation();
     };
 
     $scope.animate = function(map, response) {
@@ -101,7 +90,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
     $scope.loaderStatus = function() {
         return mapInteraction.loading || mapInteraction.makingRequest;
-    }
+    };
 
     $scope.populateCSV();
 }
