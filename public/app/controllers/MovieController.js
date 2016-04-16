@@ -8,7 +8,10 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.animation = undefined;
     $scope.firstRun = true;
     $scope.interval = 50; // refresh rate for animation
-    $scope.current = 0;
+
+    $scope.startDateIndex = 0;
+    $scope.endDateIndex = 0;
+
     $scope.locationOfDate = {};
 
     $scope.populateCSV = function() {
@@ -20,6 +23,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
             for(var key in $scope.masterData) {
                 $scope.mappedCSV[key] = $scope.masterData[key].split(',');
+                $scope.mappedCSV[key] = $scope.mappedCSV[key].map(function(i) {return i.trim()});
                 $scope.locationOfDate[key] = {};
 
                 for (var i = 0; i < $scope.mappedCSV[key].length; i += 2) {
@@ -30,26 +34,15 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
             }
 
             mapInteraction.makingRequest = false;
+            $scope.endDateIndex = $scope.mappedCSV['47102'].length;
         });
     };
 
-    $scope.playAnimation = function() {
-        if($scope.firstRun) {
-            $scope.current = 0;
-        } else {
-            $scope.restartDate = $scope.currentDate;
-            $scope.stopAnimation();
+    $scope.startAnimation = function() {
+        if (datePickerService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
+            $scope.setDateIndex();
         }
 
-        $scope.startAnimation();
-    };
-
-    $scope.restartAnimation = function() {
-        $scope.current = 0;
-        $scope.startAnimation();
-    };
-
-    $scope.startAnimation = function() {
         $scope.isStopped = false;
         $scope.firstRun = false;
 
@@ -68,13 +61,16 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         }
     };
 
-    $scope.animate = function(map, response) {
-        var length = $scope.mappedCSV['47102'].length;
+    $scope.restartAnimation = function() {
+        $scope.setDateIndex();
+        $scope.startAnimation();
+    };
 
+    $scope.animate = function(map, response) {
         $scope.animation = $interval(function() {
-            var i = $scope.current;
-            var j = $scope.current + 1;
-            $scope.current += 2;
+            var i = $scope.startDateIndex;
+            var j = $scope.startDateIndex + 1;
+            $scope.startDateIndex += 2;
 
             for(var key in $scope.masterData) {
                 var results = $scope.mappedCSV[key];
@@ -93,7 +89,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                 }
             }
 
-            if($scope.current >= length) {
+            if($scope.startDateIndex > $scope.endDateIndex) {
                 $scope.stopAnimation();
             }
         }, $scope.interval);
@@ -101,7 +97,17 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
     $scope.loaderStatus = function() {
         return mapInteraction.loading || mapInteraction.makingRequest;
-    }
+    };
+
+    $scope.setDateIndex = function() {
+        var startDate = datePickerService.startDate.toISOString().substring(0,10) + ' 00:00:00';
+        var endDate = datePickerService.endDate.toISOString().substring(0,10) + ' 23:00:00';
+
+        $scope.startDateIndex = $scope.locationOfDate['47102'][startDate];
+        $scope.endDateIndex = $scope.locationOfDate['47102'][endDate];
+
+        datePickerService.dateChanged = false;
+    };
 
     $scope.populateCSV();
 }

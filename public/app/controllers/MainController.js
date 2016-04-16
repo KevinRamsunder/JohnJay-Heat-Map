@@ -2,10 +2,10 @@
 app.controller('MainController', mainController);
 
 // inject dependencies into 'MainController' controller
-mainController.$inject = ['$scope', '$http', 'leafletData', 'leafletBoundsHelpers', 'tableToMapService', 'mapInteraction'];
+mainController.$inject = ['$scope', '$http', 'leafletData', 'mapInteraction'];
 
 // controller function
-function mainController($scope, $http, leafletData, leafletBoundsHelpers, tableToMapService, mapInteraction) {
+function mainController($scope, $http, leafletData, mapInteraction) {
     // save context
     var self = this;
 
@@ -80,14 +80,11 @@ var initMap = function(self) {
 
 // get json files from local storage
 var getJSON = function($scope, $http, mapInteraction) {
-    mapInteraction.loading = true;
-
     // function to make http call to get content of JSON
     return getRoomDataFromJson = new Promise(function(resolve, reject) {
         $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
             var roomNumbers = response;
             $http.get('app/assets/json/floor_10/vav.json').then(function(response) {
-                mapInteraction.loading = false;
                 mapInteraction.data = {'roomNumbers': roomNumbers, 'vavBoxes': response};
                 resolve(mapInteraction.data);
             });

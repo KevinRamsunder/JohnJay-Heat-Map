@@ -146,6 +146,8 @@ app.service('tableToMapService', function() {
 app.service('datePickerService', function () {
     var self = this;
 
-    self.startDate = 0;
-    self.endDate = 0;
+    self.startDate = undefined;
+    self.endDate = undefined;
+
+    self.dateChanged = false;
 });
