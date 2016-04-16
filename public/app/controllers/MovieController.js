@@ -33,10 +33,23 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         });
     };
 
-    $scope.continueAnimation = function() {
-        $scope.restartDate = $scope.currentDate;
-        $scope.stopAnimation();
+    $scope.playAnimation = function() {
+        if($scope.firstRun) {
+            $scope.current = 0;
+        } else {
+            $scope.restartDate = $scope.currentDate;
+            $scope.stopAnimation();
+        }
 
+        $scope.startAnimation();
+    };
+
+    $scope.restartAnimation = function() {
+        $scope.current = 0;
+        $scope.startAnimation();
+    };
+
+    $scope.startAnimation = function() {
         $scope.isStopped = false;
         $scope.firstRun = false;
 
@@ -52,26 +65,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
             $scope.isStopped = true;
             $interval.cancel($scope.animation);
             $scope.animation = undefined;
-        }
-    };
-
-    $scope.startAnimation = function() {
-        $scope.isStopped = false;
-        $scope.firstRun = false;
-        $scope.current = 0;
-
-        leafletData.getMap('map').then(function(map) {
-            var data = getJSON($scope, $http, mapInteraction).then(function(response) {
-               $scope.animate(map, response);               
-            });
-        });
-    };
-
-    $scope.handleAnimation = function() {
-        if($scope.firstRun) {
-            $scope.startAnimation();
-        } else {
-            $scope.continueAnimation();
         }
     };
 
