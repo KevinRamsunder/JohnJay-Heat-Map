@@ -142,3 +142,10 @@ app.service('tableToMapService', function() {
         console.log(event.color.toHex());
     });
 });
+
+app.service('datePickerService', function () {
+    var self = this;
+
+    self.startDate = 0;
+    self.endDate = 0;
+});
