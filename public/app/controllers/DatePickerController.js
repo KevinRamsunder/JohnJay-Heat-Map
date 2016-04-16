@@ -11,4 +11,7 @@ function datePickerController($scope, $http, datePickerService) {
 
     $scope.minDate = new Date(2013, 6, 6);
     $scope.maxDate = new Date(2016, 1, 31);
+
+    datePickerService.startDate = $scope.startDate;
+    datePickerService.endDate = $scope.endDate;
 }
