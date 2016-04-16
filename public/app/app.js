@@ -31,7 +31,7 @@ app.service('mapInteraction', function(tableToMapService) {
             var coordinates = roomNumbers[vavBoxes[vav][i]];
 
             if(color === undefined) {
-                color = '#ff0000'
+                color = '#ff0000';
             }
 
             var object = {
