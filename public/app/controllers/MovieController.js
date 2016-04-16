@@ -8,6 +8,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.animation = undefined;
     $scope.firstRun = true;
     $scope.interval = 50; // refresh rate for animation
+    $scope.current = 0;
     $scope.locationOfDate = {};
 
     $scope.populateCSV = function() {
@@ -41,7 +42,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
         leafletData.getMap('map').then(function(map) {
             var data = getJSON($scope, $http, mapInteraction).then(function(response) {
-               $scope.continueAnimate(map, response);               
+               $scope.animate(map, response);               
             });
         });
     };
@@ -57,6 +58,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.startAnimation = function() {
         $scope.isStopped = false;
         $scope.firstRun = false;
+        $scope.current = 0;
 
         leafletData.getMap('map').then(function(map) {
             var data = getJSON($scope, $http, mapInteraction).then(function(response) {
@@ -74,7 +76,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.animate = function(map, response) {
-        $scope.current = 0;
         var length = $scope.mappedCSV['47102'].length;
 
         $scope.animation = $interval(function() {
@@ -96,33 +97,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                     // delete error boxes from the map
                     mapInteraction.removeVavBoxFromMap($scope, map, key);
                     $scope.masterData[key] = undefined;
-                }
-            }
-
-            if($scope.current >= length) {
-                $scope.stopAnimation();
-            }
-        }, $scope.interval);
-    };
-
-    $scope.continueAnimate = function(map, response) {
-        var length = $scope.mappedCSV['47102'].length;
-
-        $scope.animation = $interval(function() {
-            var i = $scope.current;
-            var j = $scope.current + 1;
-            $scope.current += 2;
-
-            for(var key in $scope.masterData) {
-                var results = $scope.mappedCSV[key];
-
-                var firstDate = results[i];
-                var firstTemp = results[j];
-
-                if(results[0] === '2013-06-06 00:00:00') {
-                    $scope.currentDate = results[i];
-                    mapInteraction.removeVavBoxFromMap($scope, map, key);
-                    mapInteraction.addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color, firstTemp);
                 }
             }
 
