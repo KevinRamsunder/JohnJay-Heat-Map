@@ -66,7 +66,7 @@ var initMap = function(self) {
                 tenthFloor: {
                     name: 'Tenth Floor',
                     type: 'imageOverlay',
-                    url: 'app/assets/images/10thFloor.jpg',
+                    url: 'app/assets/images/floor_10.jpg',
                     // will fix this later
                     bounds: [
                         [0, 347.8552729775042],
