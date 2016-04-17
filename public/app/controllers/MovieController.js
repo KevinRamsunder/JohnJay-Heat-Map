@@ -50,8 +50,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                     var color = tableToMapService.getColorFromRanges(temp).color;
 
                     mapInteractionService.removeVavBoxFromMap($scope, map, vav);
-                    mapInteractionService.addVavBoxToMap($scope, map, floorDataService.roomNumbers,
-                        floorDataService.vavs, vav, color, temp);
+                    mapInteractionService.addVavBoxToMap($scope, map, vav, color, temp);
                 }
 
             }

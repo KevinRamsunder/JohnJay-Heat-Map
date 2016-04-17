@@ -1,4 +1,4 @@
-app.service('mapInteractionService', function(tableToMapService) {
+app.service('mapInteractionService', function(tableToMapService, floorDataService) {
     var self = this;
 
     // container for layers
@@ -8,9 +8,9 @@ app.service('mapInteractionService', function(tableToMapService) {
     self.marker_options = 'Temp';
 
     // add specific VAV box to map
-    self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color, currentTemp) {
-        for (var i = 0; i < vavBoxes[vav].length; i++) {
-            var coordinates = roomNumbers[vavBoxes[vav][i]];
+    self.addVavBoxToMap = function($scope, map, vav, color, currentTemp) {
+        for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
+            var coordinates = floorDataService.roomNumbers[floorDataService.vavs[vav][i]];
             var degreeSign = String.fromCharCode(parseInt("00B0", 16));
             var layer = null;
 
