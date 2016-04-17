@@ -18,7 +18,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
     // object with {47102: "2013-06-06 00:00:00, 73.13, 2013-06006 01:00:00, 73.0, ...}
     // vav: string of all data
-    $scope.masterData = {}
+    $scope.masterData = {};
 
     // object with {vav: {date: temp, date2: temp2, ...}}
     $scope.currentFloorData = {};
