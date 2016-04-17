@@ -16,14 +16,19 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.marker_type = 'Circles';
     $scope.marker_options = 'Temp';
 
-    // object with {vav: [date, temp, date, temp, ...]}
-    $scope.mappedCSV = {};
+    // object with {47102: "2013-06-06 00:00:00, 73.13, 2013-06006 01:00:00, 73.0, ...}
+    // vav: string of all data
+    $scope.masterData = {}
 
-    // object with {vav : {"date": "index_in_mappedCSV", "date2": "index", ...}}
-    $scope.locationOfDate = {};
+    // object with {vav: {date: temp, date2: temp2, ...}}
+    $scope.currentFloorData = {};
+
+    // list of dates [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
+    $scope.currentFloorDates = [];
 
     $scope.getData = function() {
         mapInteraction.makingRequest = true;
+        var do_once = true;
 
         $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
             $scope.roomNumbers = response;
@@ -36,20 +41,27 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         $http.get('/api/v1/rooms').then(function(response) {
             $scope.masterData = response.data;
 
-            for(var key in $scope.masterData) {
-                $scope.mappedCSV[key] = $scope.masterData[key].split(',');
-                $scope.mappedCSV[key] = $scope.mappedCSV[key].map(function(i) {return i.trim()});
-                $scope.locationOfDate[key] = {};
+            var tempData = {};
 
-                for (var i = 0; i < $scope.mappedCSV[key].length; i += 2) {
-                    var index = i;
-                    var date = $scope.mappedCSV[key][index];
-                    $scope.locationOfDate[key][date] = index;
+            for(var key in $scope.masterData) {
+                tempData[key] = $scope.masterData[key].split(',');
+                tempData[key] = tempData[key].map(function(i) {return i.trim()});
+
+                var floorData = {};
+                for(var i = 2; i < tempData[key].length; i += 2) {
+                    floorData[tempData[key][i-2]] = tempData[key][i-1];
+
+                    if (do_once) {
+                        $scope.currentFloorDates.push(tempData[key][i-2])
+                    }
                 }
+
+                do_once = false;
+                $scope.currentFloorData[key] = floorData;
             }
 
+            $scope.endDateIndex = $scope.currentFloorDates.length;
             mapInteraction.makingRequest = false;
-            $scope.endDateIndex = $scope.mappedCSV['47102'].length;
         });
     };
 
@@ -57,6 +69,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         if (datePickerService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
             $scope.setDateIndex();
         }
+
+        console.log($scope.currentFloorDates);
 
         $scope.isStopped = false;
 
@@ -80,29 +94,25 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
     $scope.animate = function(map) {
         $scope.animation = $interval(function() {
-            var i = $scope.startDateIndex;
-            var j = $scope.startDateIndex + 1;
-            $scope.startDateIndex += 2;
+            var current_date = $scope.currentFloorDates[$scope.startDateIndex];
 
-            // get keys from master data
-            for(var key in $scope.masterData) {
 
-                // get the date and temp from the mappedCSV
-                var results = $scope.mappedCSV[key];
-                var firstDate = results[i];
-                var firstTemp = results[j];
 
-                if(results[0] === '2013-06-06 00:00:00') {
-                    $scope.showDate = results[i];
-                    mapInteraction.removeVavBoxFromMap($scope, map, key);
+            for(var vav in $scope.masterData) {
+
+                if (current_date in $scope.currentFloorData[vav]) {
+                    var temp  = $scope.currentFloorData[vav][current_date];
+                    var color = tableToMapService.getColorFromRanges(temp).color;
+
+                    $scope.showDate = current_date;
+                    mapInteraction.removeVavBoxFromMap($scope, map, vav);
                     mapInteraction.addVavBoxToMap($scope, map, $scope.roomNumbers.data,
-                        $scope.vavs.data, key, tableToMapService.getColorFromRanges(firstTemp).color, firstTemp);
-                } else {
-                    // delete error boxes from the map
-                    mapInteraction.removeVavBoxFromMap($scope, map, key);
-                    $scope.masterData[key] = undefined;
+                        $scope.vavs.data, vav, color, temp);
                 }
+
             }
+
+            $scope.startDateIndex += 1;
 
             if($scope.startDateIndex > $scope.endDateIndex) {
                 $scope.stopAnimation();
@@ -118,8 +128,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         var startDate = datePickerService.startDate.toISOString().substring(0,10) + ' 00:00:00';
         var endDate = datePickerService.endDate.toISOString().substring(0,10) + ' 23:00:00';
 
-        $scope.startDateIndex = $scope.locationOfDate['47102'][startDate];
-        $scope.endDateIndex = $scope.locationOfDate['47102'][endDate];
+        $scope.startDateIndex = $scope.currentFloorDates.indexOf(startDate);
+        $scope.endDateIndex = $scope.currentFloorDates.indexOf(endDate);
 
         datePickerService.dateChanged = false;
     };
