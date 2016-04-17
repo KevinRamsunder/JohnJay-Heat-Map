@@ -48,11 +48,11 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                 tempData[key] = tempData[key].map(function(i) {return i.trim()});
 
                 var floorData = {};
-                for(var i = 2; i < tempData[key].length; i += 2) {
-                    floorData[tempData[key][i-2]] = tempData[key][i-1];
+                for(var i = 0; i < tempData[key].length-1; i += 2) {
+                    floorData[tempData[key][i]] = tempData[key][i+1];
 
                     if (do_once) {
-                        $scope.currentFloorDates.push(tempData[key][i-2])
+                        $scope.currentFloorDates.push(tempData[key][i])
                     }
                 }
 
@@ -128,15 +128,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
         $scope.startDateIndex = $scope.currentFloorDates.indexOf(startDate);
         $scope.endDateIndex = $scope.currentFloorDates.indexOf(endDate);
-
-        console.log($scope.currentFloorDates.length);
-        console.log($scope.currentFloorDates)
-
-        console.log(startDate);
-        console.log($scope.startDateIndex);
-
-        console.log(endDate);
-        console.log($scope.endDateIndex);
 
         datePickerService.dateChanged = false;
     };
