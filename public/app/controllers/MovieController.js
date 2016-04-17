@@ -16,10 +16,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.marker_type = 'Circles';
     $scope.marker_options = 'Temp';
 
-    // object with {47102: "2013-06-06 00:00:00, 73.13, 2013-06006 01:00:00, 73.0, ...}
-    // vav: string of all data
-    $scope.masterData = {};
-
     // object with {vav: {date: temp, date2: temp2, ...}}
     $scope.currentFloorData = {};
 
@@ -30,21 +26,23 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         mapInteraction.makingRequest = true;
 
         $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
-            $scope.roomNumbers = response;
+            $scope.roomNumbers = response.data;
         });
 
         $http.get('app/assets/json/floor_10/vav.json').then(function(response) {
-            $scope.vavs = response;
+            $scope.vavs = response.data;
         });
 
         $http.get('/api/v1/rooms').then(function(response) {
-            $scope.masterData = response.data;
+            // object with {47102: "2013-06-06 00:00:00, 73.13, 2013-06006 01:00:00, 73.0, ...}
+            // vav: string of all data
+            var masterData = response.data;
 
             var tempData = {};
             var do_once = true;
 
-            for(var key in $scope.masterData) {
-                tempData[key] = $scope.masterData[key].split(',');
+            for(var key in masterData) {
+                tempData[key] = masterData[key].split(',');
                 tempData[key] = tempData[key].map(function(i) {return i.trim()});
 
                 var floorData = {};
@@ -96,7 +94,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
 
 
-            for(var vav in $scope.masterData) {
+            for(var vav in $scope.vavs) {
 
                 if (current_date in $scope.currentFloorData[vav]) {
                     var temp  = $scope.currentFloorData[vav][current_date];
@@ -104,8 +102,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
                     $scope.showDate = current_date;
                     mapInteraction.removeVavBoxFromMap($scope, map, vav);
-                    mapInteraction.addVavBoxToMap($scope, map, $scope.roomNumbers.data,
-                        $scope.vavs.data, vav, color, temp);
+                    mapInteraction.addVavBoxToMap($scope, map, $scope.roomNumbers,
+                        $scope.vavs, vav, color, temp);
                 }
 
             }
