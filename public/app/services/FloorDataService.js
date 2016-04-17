@@ -1,4 +1,4 @@
-app.service('floorDataService', function (mapInteractionService, $http) {
+app.service('floorDataService', function (mapInteractionService, loadingService, $http) {
     var self = this;
 
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
@@ -7,7 +7,7 @@ app.service('floorDataService', function (mapInteractionService, $http) {
     self.vavs = {};
 
     self.getData = function () {
-        mapInteractionService.makingRequest = true;
+        loadingService.makingRequest = true;
 
         $http.get('app/assets/json/floor_10/room_num.json').then(function (response) {
             self.roomNumbers = response.data;
@@ -43,7 +43,7 @@ app.service('floorDataService', function (mapInteractionService, $http) {
                 self.currentFloorData[key] = floorData;
             }
 
-            mapInteractionService.makingRequest = false;
+            loadingService.makingRequest = false;
         });
     };
 });

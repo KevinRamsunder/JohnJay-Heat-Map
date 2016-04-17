@@ -1,10 +1,6 @@
 app.service('mapInteractionService', function(tableToMapService) {
     var self = this;
 
-    // if currently loading csv files set true
-    self.loading = false;
-    self.makingRequest = false;
-
     // container for layers
     self.vectorLayers = {};
 

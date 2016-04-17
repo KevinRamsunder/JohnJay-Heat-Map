@@ -1,8 +1,10 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService', 'mapInteractionService', 'datePickerService', 'floorDataService'];
+movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService',
+    'mapInteractionService', 'datePickerService', 'floorDataService', 'loadingService'];
 
-function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteractionService, datePickerService, floorDataService) {
+function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteractionService,
+                         datePickerService, floorDataService, loadingService) {
     $scope.currentDate = 'Current Date';
     $scope.isStopped = true;
     $scope.interval  = 50; // refresh rate for animation
@@ -63,7 +65,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.loaderStatus = function () {
-        return mapInteractionService.loading || mapInteractionService.makingRequest;
+        return loadingService.loading || loadingService.makingRequest;
     };
 
     $scope.setDateIndex = function () {
