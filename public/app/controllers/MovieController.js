@@ -42,23 +42,23 @@ function movieController($scope, $http, $interval, leafletData, mapInteractionSe
 
     $scope.animate = function (map) {
         $scope.animation = $interval(function () {
+
+            // get currentDate from startDateIndex
             $scope.currentDate = floorDataService.currentFloorDates[$scope.startDateIndex];
 
-            for (var vav in floorDataService.vavs) {
+            // remove all markers on map
+            mapInteractionService.removeMarkersFromMap($scope, map);
 
-                if ($scope.currentDate in floorDataService.currentFloorData[vav]) {
-                    var temp = floorDataService.currentFloorData[vav][$scope.currentDate];
+            // add new markers to the map
+            mapInteractionService.addMarkersToMap($scope, map, $scope.currentDate);
 
-                    mapInteractionService.removeVavBoxFromMap($scope, map, vav);
-                    mapInteractionService.addVavBoxToMap($scope, map, vav, temp);
-                }
-            }
-
+            // increment the startDateIndex
             $scope.startDateIndex += 1;
 
             if ($scope.startDateIndex > $scope.endDateIndex) {
                 $scope.stopAnimation();
             }
+
         }, $scope.interval);
     };
 
