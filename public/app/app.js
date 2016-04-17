@@ -40,6 +40,7 @@ app.service('mapInteraction', function(tableToMapService) {
                 fillOpacity: .5
             };
 
+            var degreeSign = String.fromCharCode(parseInt("00B0", 16));
             var layer = null;
 
             if (self.marker_type === 'Circles') {
@@ -49,18 +50,18 @@ app.service('mapInteraction', function(tableToMapService) {
                     var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
 
                     if (map.getZoom() == 1) {
-                        layer = new L.circleMarker(latlng, object).setRadius(radius);
+                        layer = new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
                     } else if (map.getZoom() == 2) {
-                        layer = new L.circleMarker(latlng, object).setRadius(radius*2);
+                        layer = new L.circleMarker(latlng, object).setRadius(radius*2).bindPopup(currentTemp + degreeSign);
                     } else {
-                        layer = new L.circleMarker(latlng, object).setRadius(radius*3);
+                        layer = new L.circleMarker(latlng, object).setRadius(radius*3).bindPopup(currentTemp + degreeSign);
                     }
 
                 } else {
-                    layer = new L.circleMarker(latlng, object).setRadius(10);
+                    layer = new L.circleMarker(latlng, object).setRadius(10).bindPopup(currentTemp + degreeSign);
                 }
             } else if (self.marker_type === 'Squares') {
-                layer = new L.rectangle(coordinates, object);
+                layer = new L.rectangle(coordinates, object).bindPopup(currentTemp + degreeSign);
             }
 
             if (!self.vectorLayers.hasOwnProperty(vav)) {
