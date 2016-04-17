@@ -1,0 +1,8 @@
+app.service('datePickerService', function () {
+    var self = this;
+
+    self.startDate = undefined;
+    self.endDate = undefined;
+
+    self.dateChanged = false;
+});
