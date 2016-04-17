@@ -8,10 +8,7 @@ app.config(function($logProvider){
 
 app.service('mapInteraction', function(tableToMapService) {
     var self = this;
-
-    // data returned
-    self.data = {};
-
+    
     // if currently loading csv files set true
     self.loading = false;
     self.makingRequest = false;
@@ -24,42 +21,27 @@ app.service('mapInteraction', function(tableToMapService) {
 
     // add specific VAV box to map
     self.addVavBoxToMap = function($scope, map, roomNumbers, vavBoxes, vav, color, currentTemp) {
-        if(vavBoxes[vav] === undefined) {
-            return;
-        }
-
         for (var i = 0; i < vavBoxes[vav].length; i++) {
             var coordinates = roomNumbers[vavBoxes[vav][i]];
-
-            if(color === undefined) {
-                color = '#ff0000';
-            }
+            var degreeSign = String.fromCharCode(parseInt("00B0", 16));
+            var layer = null;
 
             var object = {
                 color: color,
                 fillOpacity: .5
             };
 
-            var degreeSign = String.fromCharCode(parseInt("00B0", 16));
-            var layer = null;
-
             if (self.marker_type === 'Circles') {
                 var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
+                var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
 
-                if(currentTemp !== undefined) {
-                    var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
-
-                    if (map.getZoom() == 1) {
-                        layer = new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
-                    } else if (map.getZoom() == 2) {
-                        layer = new L.circleMarker(latlng, object).setRadius(radius*2).bindPopup(currentTemp + degreeSign);
-                    } else {
-                        layer = new L.circleMarker(latlng, object).setRadius(radius*3).bindPopup(currentTemp + degreeSign);
-                    }
-
-                } else {
-                    layer = new L.circleMarker(latlng, object).setRadius(10).bindPopup(currentTemp + degreeSign);
+                if (map.getZoom() == 2) {
+                    radius *= 2;
+                } else if (map.getZoom() == 3) {
+                    radius *= 3
                 }
+                layer = new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
+
             } else if (self.marker_type === 'Squares') {
                 layer = new L.rectangle(coordinates, object).bindPopup(currentTemp + degreeSign);
             }
