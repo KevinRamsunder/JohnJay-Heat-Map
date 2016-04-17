@@ -28,7 +28,6 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
     $scope.getData = function() {
         mapInteraction.makingRequest = true;
-        var do_once = true;
 
         $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
             $scope.roomNumbers = response;
@@ -42,6 +41,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
             $scope.masterData = response.data;
 
             var tempData = {};
+            var do_once = true;
 
             for(var key in $scope.masterData) {
                 tempData[key] = $scope.masterData[key].split(',');
