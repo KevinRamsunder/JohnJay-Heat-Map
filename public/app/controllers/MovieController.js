@@ -22,8 +22,16 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     // object with {vav : {"date": "index_in_mappedCSV", "date2": "index", ...}}
     $scope.locationOfDate = {};
 
-    $scope.populateCSV = function() {
+    $scope.getData = function() {
         mapInteraction.makingRequest = true;
+
+        $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
+            $scope.roomNumbers = response;
+        });
+
+        $http.get('app/assets/json/floor_10/vav.json').then(function(response) {
+            $scope.vavs = response;
+        });
 
         $http.get('/api/v1/rooms').then(function(response) {
             $scope.masterData = response.data;
@@ -53,9 +61,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         $scope.isStopped = false;
 
         leafletData.getMap('map').then(function(map) {
-            var data = getJSON($scope, $http, mapInteraction).then(function(response) {
-               $scope.animate(map, response);               
-            });
+            $scope.animate(map);
         });
     };
 
@@ -72,22 +78,25 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         $scope.startAnimation();
     };
 
-    $scope.animate = function(map, response) {
+    $scope.animate = function(map) {
         $scope.animation = $interval(function() {
             var i = $scope.startDateIndex;
             var j = $scope.startDateIndex + 1;
             $scope.startDateIndex += 2;
 
+            // get keys from master data
             for(var key in $scope.masterData) {
-                var results = $scope.mappedCSV[key];
 
+                // get the date and temp from the mappedCSV
+                var results = $scope.mappedCSV[key];
                 var firstDate = results[i];
                 var firstTemp = results[j];
 
                 if(results[0] === '2013-06-06 00:00:00') {
                     $scope.showDate = results[i];
                     mapInteraction.removeVavBoxFromMap($scope, map, key);
-                    mapInteraction.addVavBoxToMap($scope, map, response.roomNumbers.data, response.vavBoxes.data, key, tableToMapService.getColorFromRanges(firstTemp).color, firstTemp);
+                    mapInteraction.addVavBoxToMap($scope, map, $scope.roomNumbers.data,
+                        $scope.vavs.data, key, tableToMapService.getColorFromRanges(firstTemp).color, firstTemp);
                 } else {
                     // delete error boxes from the map
                     mapInteraction.removeVavBoxFromMap($scope, map, key);
@@ -120,5 +129,5 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         mapInteraction.marker_options = $scope.marker_options;
     };
 
-    $scope.populateCSV();
+    $scope.getData();
 }
