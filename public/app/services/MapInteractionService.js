@@ -21,13 +21,8 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
 
             if (self.marker_type === 'Circles') {
                 var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
-                var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
+                var radius = ((tableToMapService.getIndexOfColor(color) + 1) * 5) * map.getZoom();
 
-                if (map.getZoom() == 2) {
-                    radius *= 2;
-                } else if (map.getZoom() == 3) {
-                    radius *= 3
-                }
                 layer = new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
 
             } else if (self.marker_type === 'Squares') {
