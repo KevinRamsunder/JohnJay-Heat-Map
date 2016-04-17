@@ -1,4 +1,4 @@
-app.service('floorDataService', function (mapInteractionService, loadingService, $http) {
+app.service('floorDataService', function (loadingService, $http) {
     var self = this;
 
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
