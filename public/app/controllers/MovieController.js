@@ -14,6 +14,9 @@ function movieController($scope, $http, $interval, leafletData, mapInteractionSe
     $scope.startDateIndex = 0;
     $scope.endDateIndex = 0;
 
+    // get all the files for the floor
+    floorDataService.getData();
+
     $scope.startAnimation = function () {
         if (datePickerService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
             $scope.setDateIndex();
@@ -67,6 +70,4 @@ function movieController($scope, $http, $interval, leafletData, mapInteractionSe
         $scope.endDateIndex = datePickerService.getEndDate();
         datePickerService.dateChanged = false;
     };
-
-    floorDataService.getData();
 }
