@@ -1,10 +1,11 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService',
+movieController.$inject = ['$scope', '$http', '$interval', 'leafletData',
     'mapInteractionService', 'datePickerService', 'floorDataService', 'loadingService'];
 
-function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteractionService,
+function movieController($scope, $http, $interval, leafletData, mapInteractionService,
                          datePickerService, floorDataService, loadingService) {
+
     $scope.currentDate = 'Current Date';
     $scope.isStopped = true;
     $scope.interval  = 50; // refresh rate for animation
@@ -47,12 +48,10 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
                 if ($scope.currentDate in floorDataService.currentFloorData[vav]) {
                     var temp = floorDataService.currentFloorData[vav][$scope.currentDate];
-                    var color = tableToMapService.getColorFromRanges(temp).color;
 
                     mapInteractionService.removeVavBoxFromMap($scope, map, vav);
-                    mapInteractionService.addVavBoxToMap($scope, map, vav, color, temp);
+                    mapInteractionService.addVavBoxToMap($scope, map, vav, temp);
                 }
-
             }
 
             $scope.startDateIndex += 1;
