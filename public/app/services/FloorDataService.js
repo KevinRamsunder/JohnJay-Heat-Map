@@ -1,7 +1,6 @@
 app.service('floorDataService', function (mapInteraction, $http) {
     var self = this;
-
-
+    
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
     self.currentFloorDates = []; // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
     self.roomNumbers = {};
