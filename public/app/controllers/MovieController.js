@@ -3,10 +3,9 @@ app.controller('MovieController', movieController);
 movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService', 'mapInteraction', 'datePickerService'];
 
 function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteraction, datePickerService) {
-    $scope.showDate = 'Current Date';
+    $scope.showDate  = 'Current Date';
     $scope.isStopped = true;
-    $scope.animation = undefined;
-    $scope.interval = 50; // refresh rate for animation
+    $scope.interval  = 50; // refresh rate for animation
 
     // index for run movie
     $scope.startDateIndex = 0;
@@ -78,11 +77,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.stopAnimation = function () {
-        if (angular.isDefined($scope.animation)) {
-            $scope.isStopped = true;
-            $interval.cancel($scope.animation);
-            $scope.animation = undefined;
-        }
+        $scope.isStopped = true;
+        $interval.cancel($scope.animation);
     };
 
     $scope.restartAnimation = function () {
