@@ -14,10 +14,6 @@ function movieController($scope, $http, $interval, leafletData, mapInteractionSe
     $scope.startDateIndex = 0;
     $scope.endDateIndex = 0;
 
-    // variables for markers and data being shown
-    $scope.marker_type = 'Circles';
-    $scope.marker_options = 'Temp';
-
     $scope.startAnimation = function () {
         if (datePickerService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
             $scope.setDateIndex();
@@ -67,18 +63,9 @@ function movieController($scope, $http, $interval, leafletData, mapInteractionSe
     };
 
     $scope.setDateIndex = function () {
-        var startDate = datePickerService.startDate.toISOString().substring(0, 10) + ' 00:00:00';
-        var endDate = datePickerService.endDate.toISOString().substring(0, 10) + ' 23:00:00';
-
-        $scope.startDateIndex = floorDataService.currentFloorDates.indexOf(startDate);
-        $scope.endDateIndex = floorDataService.currentFloorDates.indexOf(endDate);
-
+        $scope.startDateIndex = datePickerService.getStartDate();
+        $scope.endDateIndex = datePickerService.getEndDate();
         datePickerService.dateChanged = false;
-    };
-
-    $scope.updateMarkers = function () {
-        mapInteractionService.marker_type = $scope.marker_type;
-        mapInteractionService.marker_options = $scope.marker_options;
     };
 
     floorDataService.getData();
