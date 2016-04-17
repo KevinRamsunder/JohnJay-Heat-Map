@@ -11,7 +11,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/css/bootstrap-colorpicker.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.min.css">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+    <link rel="stylesheet" href="app/assets/leaflet/leaflet.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="app/assets/css/main.css">
     <link rel="stylesheet" href="app/assets/css/sidebar.css">
@@ -66,7 +66,7 @@
             </select>
         </div>
     </div>
-    <div ng-controller="TableController as table" class="container">
+    <div ng-controller="TableController" class="container">
         <table class="table table-striped table-condensed">
             <thead>
             <tr>
@@ -161,7 +161,7 @@
     </div>
 </div>
 
-<div ng-controller="MainController as main">
+<div ng-controller="MapController">
     <leaflet id="map" lf-center="center" defaults="defaults" layers="layers" height="950px">
     </leaflet>
 </div>
@@ -173,13 +173,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-aria.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-messages.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+<script src="app/assets/leaflet/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-leaflet-directive/0.10.0/angular-leaflet-directive.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/js/bootstrap-colorpicker.js"></script>
 
 <!-- Angular Controllers -->
 <script src="app/app.js"></script>
-<script src="app/controllers/MainController.js"></script>
+<script src="app/services/LoadingService.js"></script>
+<script src="app/services/FloorDataService.js"></script>
+<script src="app/services/TableToMapService.js"></script>
+<script src="app/services/MapInteractionService.js"></script>
+<script src="app/services/DatePickerService"></script>
+<script src="app/controllers/MapController.js"></script>
 <script src="app/controllers/TableController.js"></script>
 <script src="app/controllers/MovieController.js"></script>
 <script src="app/controllers/DatePickerController.js"></script>
