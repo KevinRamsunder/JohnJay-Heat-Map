@@ -125,7 +125,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.setDateIndex = function() {
         var startDate = datePickerService.startDate.toISOString().substring(0,10) + ' 00:00:00';
         var endDate = datePickerService.endDate.toISOString().substring(0,10) + ' 23:00:00';
-        
+
         $scope.startDateIndex = $scope.currentFloorDates.indexOf(startDate);
         $scope.endDateIndex = $scope.currentFloorDates.indexOf(endDate);
 
@@ -133,7 +133,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
         console.log($scope.currentFloorDates)
 
         console.log(startDate);
-        console.log($scope.endDateIndex);
+        console.log($scope.startDateIndex);
 
         console.log(endDate);
         console.log($scope.endDateIndex);
