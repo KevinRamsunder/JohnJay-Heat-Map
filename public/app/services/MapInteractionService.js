@@ -1,4 +1,4 @@
-app.service('mapInteractionService', function(tableToMapService, floorDataService, tableToMapService) {
+app.service('mapInteractionService', function(tableToMapService, floorDataService) {
     var self = this;
 
     // container for layers
@@ -8,24 +8,37 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
     self.marker_options = 'Temp';
 
     // add specific VAV box to map
-    self.addVavBoxToMap = function($scope, map, vav, currentTemp) {
+    self.addMarkersToMap = function($scope, map, date) {
 
-        for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
+        // go through all vavs on floor
+        for (var vav in floorDataService.vavs) {
 
-            var coordinates = floorDataService.roomNumbers[floorDataService.vavs[vav][i]];
-            var color = tableToMapService.getColorFromRanges(currentTemp).color;
-            var layer = self.getLayer(coordinates, color, currentTemp, map.getZoom());
+            // if the currentDate is in that vav set
+            if ($scope.currentDate in floorDataService.currentFloorData[vav]) {
 
-            if (!self.vectorLayers.hasOwnProperty(vav)) {
-                self.vectorLayers[vav] = [];
+                // get the markerValue of that vav
+                var markerValue = floorDataService.currentFloorData[vav][date];
+
+                // go through rooms in vav box and add markers to map
+                for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
+
+                    var coordinates = floorDataService.roomNumbers[floorDataService.vavs[vav][i]];
+                    var color = tableToMapService.getColorFromRanges(markerValue).color;
+                    var layer = self.getMarker(coordinates, color, markerValue, map.getZoom());
+
+                    if (!self.vectorLayers.hasOwnProperty(vav)) {
+                        self.vectorLayers[vav] = [];
+                    }
+
+                    map.addLayer(layer);
+                    self.vectorLayers[vav].push(layer);
+                }
             }
-
-            map.addLayer(layer);
-            self.vectorLayers[vav].push(layer);
         }
+
     };
 
-    self.getLayer = function(coordinates, color, currentTemp, zoom) {
+    self.getMarker = function(coordinates, color, currentTemp, zoom) {
         var degreeSign = String.fromCharCode(parseInt("00B0", 16));
 
         var object = {
@@ -44,23 +57,21 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
         }
     };
 
-    // go through object and add vector shapes to map
-    self.addAllVavsToMap = function($scope, map, roomNumbers, vavBoxes) {
-        for (var vav in vavBoxes) {
-            self.addVavBoxToMap($scope, map, roomNumbers, vavBoxes, vav);
-        }
-    };
-
     // remove specific VAV Box from map
-    self.removeVavBoxFromMap = function($scope, map, vavBox) {
-        if(self.vectorLayers[vavBox] === undefined) {
-            return;
-        }
+    self.removeMarkersFromMap = function($scope, map) {
+        for (var vav in floorDataService.vavs) {
 
-        for (var i = 0; i < self.vectorLayers[vavBox].length; i++) {
-            map.removeLayer(self.vectorLayers[vavBox][i]);
-        }
+            if ($scope.currentDate in floorDataService.currentFloorData[vav]) {
+                if(self.vectorLayers[vav] === undefined) {
+                    return;
+                }
 
-        delete self.vectorLayers[vavBox];
+                for (var i = 0; i < self.vectorLayers[vav].length; i++) {
+                    map.removeLayer(self.vectorLayers[vav][i]);
+                }
+
+                delete self.vectorLayers[vav];
+            }
+        }
     };
 });
