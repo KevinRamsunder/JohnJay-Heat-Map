@@ -15,7 +15,7 @@ function mainController($scope, $http, leafletData, mapInteraction) {
     initMap($scope);
 
     // post-processing
-    postProcess($scope, $http, leafletData, mapInteraction);
+    // postProcess($scope, $http, leafletData, mapInteraction);
 
     // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {

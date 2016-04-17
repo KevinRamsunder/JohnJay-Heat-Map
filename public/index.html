@@ -37,7 +37,7 @@
         </md-content>
     </div>
     <div ng-controller="MovieController" class="moviecontrols">
-        <h3>{{showDate}}</h3>
+        <h3>{{currentDate}}</h3>
         <div id="movie-controller-block" class="row">
             <div ng-show="loaderStatus()"> loading...</div>
             <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='startAnimation()'
@@ -50,7 +50,7 @@
                 <i class="fa fa-pause"></i>
             </button>
             <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='restartAnimation()'
-                    ng-disabled='!isStopped || firstRun'>
+                    ng-disabled='!isStopped'>
                 <i class="fa fa-refresh"></i>
             </button>
         </div>
