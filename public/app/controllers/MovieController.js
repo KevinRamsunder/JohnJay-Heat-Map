@@ -1,8 +1,8 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService', 'mapInteraction', 'datePickerService', 'floorDataService'];
+movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService', 'mapInteractionService', 'datePickerService', 'floorDataService'];
 
-function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteraction, datePickerService, floorDataService) {
+function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteractionService, datePickerService, floorDataService) {
     $scope.currentDate = 'Current Date';
     $scope.isStopped = true;
     $scope.interval  = 50; // refresh rate for animation
@@ -47,8 +47,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
                     var temp = floorDataService.currentFloorData[vav][$scope.currentDate];
                     var color = tableToMapService.getColorFromRanges(temp).color;
 
-                    mapInteraction.removeVavBoxFromMap($scope, map, vav);
-                    mapInteraction.addVavBoxToMap($scope, map, floorDataService.roomNumbers,
+                    mapInteractionService.removeVavBoxFromMap($scope, map, vav);
+                    mapInteractionService.addVavBoxToMap($scope, map, floorDataService.roomNumbers,
                         floorDataService.vavs, vav, color, temp);
                 }
 
@@ -63,7 +63,7 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.loaderStatus = function () {
-        return mapInteraction.loading || mapInteraction.makingRequest;
+        return mapInteractionService.loading || mapInteractionService.makingRequest;
     };
 
     $scope.setDateIndex = function () {
@@ -77,8 +77,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.updateMarkers = function () {
-        mapInteraction.marker_type = $scope.marker_type;
-        mapInteraction.marker_options = $scope.marker_options;
+        mapInteractionService.marker_type = $scope.marker_type;
+        mapInteractionService.marker_options = $scope.marker_options;
     };
 
     floorDataService.getData();

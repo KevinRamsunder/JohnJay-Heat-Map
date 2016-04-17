@@ -2,10 +2,10 @@
 app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteraction'];
+mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteractionService'];
 
 // controller function
-function mapController($scope, $http, leafletData, mapInteraction) {
+function mapController($scope, $http, leafletData, mapInteractionService) {
     // save context
     var self = this;
 
@@ -15,7 +15,7 @@ function mapController($scope, $http, leafletData, mapInteraction) {
     initMap($scope);
 
     // post-processing
-    // postProcess($scope, $http, leafletData, mapInteraction);
+    // postProcess($scope, $http, leafletData, mapInteractionService);
 
     // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {

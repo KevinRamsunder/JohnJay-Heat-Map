@@ -1,4 +1,4 @@
-app.service('mapInteraction', function(tableToMapService) {
+app.service('mapInteractionService', function(tableToMapService) {
     var self = this;
 
     // if currently loading csv files set true
