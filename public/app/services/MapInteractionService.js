@@ -9,7 +9,9 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
 
     // add specific VAV box to map
     self.addVavBoxToMap = function($scope, map, vav, color, currentTemp) {
+
         for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
+            
             var coordinates = floorDataService.roomNumbers[floorDataService.vavs[vav][i]];
             var degreeSign = String.fromCharCode(parseInt("00B0", 16));
             var layer = null;
