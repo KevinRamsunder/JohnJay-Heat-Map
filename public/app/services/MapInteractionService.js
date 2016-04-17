@@ -9,7 +9,9 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
 
     // add specific VAV box to map
     self.addVavBoxToMap = function($scope, map, vav, color, currentTemp) {
+
         for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
+            
             var coordinates = floorDataService.roomNumbers[floorDataService.vavs[vav][i]];
             var degreeSign = String.fromCharCode(parseInt("00B0", 16));
             var layer = null;
@@ -21,13 +23,8 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
 
             if (self.marker_type === 'Circles') {
                 var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
-                var radius = (tableToMapService.getIndexOfColor(color) + 1) * 5;
+                var radius = ((tableToMapService.getIndexOfColor(color) + 1) * 5) * map.getZoom();
 
-                if (map.getZoom() == 2) {
-                    radius *= 2;
-                } else if (map.getZoom() == 3) {
-                    radius *= 3
-                }
                 layer = new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
 
             } else if (self.marker_type === 'Squares') {
