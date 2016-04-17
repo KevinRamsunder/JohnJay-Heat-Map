@@ -1,11 +1,11 @@
 // create and link 'MainController' controller to angular application
-app.controller('MainController', mainController);
+app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mainController.$inject = ['$scope', '$http', 'leafletData', 'mapInteraction'];
+mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteraction'];
 
 // controller function
-function mainController($scope, $http, leafletData, mapInteraction) {
+function mapController($scope, $http, leafletData, mapInteraction) {
     // save context
     var self = this;
 
