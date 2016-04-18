@@ -1,9 +1,9 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$http', '$interval', 'leafletData',
-    'mapInteractionService', 'datePickerService', 'floorDataService', 'loadingService'];
+movieController.$inject = ['$scope', '$interval', 'leafletData', 'mapInteractionService',
+    'datePickerService', 'floorDataService', 'loadingService'];
 
-function movieController($scope, $http, $interval, leafletData, mapInteractionService,
+function movieController($scope, $interval, leafletData, mapInteractionService,
                          datePickerService, floorDataService, loadingService) {
 
     $scope.currentDate = 'Current Date';
