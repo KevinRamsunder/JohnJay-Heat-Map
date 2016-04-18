@@ -2,20 +2,18 @@
 app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteractionService'];
+mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteractionService', 'datePickerService', 'loadingService'];
 
 // controller function
-function mapController($scope, $http, leafletData, mapInteractionService) {
+function mapController($scope, $http, leafletData, mapInteractionService, datePickerService, loadingService) {
     // save context
     var self = this;
-
-    $scope.currentDate = "";
 
     // add map properties to scope
     initMap($scope);
 
     // post-processing
-    // postProcess($scope, $http, leafletData, mapInteractionService);
+    postProcess($scope, leafletData, mapInteractionService, datePickerService, loadingService);
 
     // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {
@@ -118,62 +116,50 @@ var initMap = function(self) {
     });
 };
 
-// get json files from local storage
-var getJSON = function($scope, $http, mapInteraction) {
-    // function to make http call to get content of JSON
-    return getRoomDataFromJson = new Promise(function(resolve, reject) {
-        $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
-            var roomNumbers = response;
-            $http.get('app/assets/json/floor_10/vav.json').then(function(response) {
-                mapInteraction.data = {'roomNumbers': roomNumbers, 'vavBoxes': response};
-                resolve(mapInteraction.data);
-            });
-        });
-    });
-};
-
 // execute - will re-write this!
-var postProcess = function($scope, $http, leafletData, mapInteraction) {
-    leafletData.getMap('map').then(function(map) {
-        var data = getJSON($scope, $http, mapInteraction).then(function(response) {
-            var roomNumbers = response.roomNumbers.data;
-            var vavBoxes = response.vavBoxes.data;
-            mapInteraction.addAllVavsToMap($scope, map, roomNumbers, vavBoxes);
+var postProcess = function ($scope, leafletData, mapInteraction, datePickerService, loadingService) {
+    leafletData.getMap('map').then(function (map) {
 
-            var info = L.control();
+        while (!loadingService.makingRequest) {
+            console.log(loadingService.makingRequest);
+            console.log('waiting')
+        }
 
-            info.onAdd = function(map) {
-                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        mapInteraction.addMarkersToMap($scope, map, datePickerService.getEndDate());
 
-                var html = "<div class='btn-group-vertical'>";
-                for (var key in vavBoxes) {
-                    if(key in mapInteraction.vectorLayers) {
-                        state = 'checked';
-                    } else {
-                        state = 'unchecked';
-                    }
-                    html += "<input type='checkbox' class='vav' name='" + key + "'" + state + ">" + key + "</input><br>";
-                }
-                html += "</div>";
+        // var info = L.control();
 
-                this._div.innerHTML = html;
-                return this._div;
-            };
-
-            info.addTo(map);
-
-            function handleCommand() {
-                if(this.checked) {
-                    mapInteraction.addMarkersToMap($scope, map, roomNumbers, vavBoxes, this.name);
-                } else {
-                    mapInteraction.removeMarkersFromMap($scope, map, this.name);
-                }
-            };
-
-            var checkboxes = document.getElementsByClassName('vav');
-            for(var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].addEventListener('click', handleCommand, false);
-            }
-        });
+        // info.onAdd = function (map) {
+        //     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        //
+        //     var html = "<div class='btn-group-vertical'>";
+        //     for (var key in vavBoxes) {
+        //         if (key in mapInteraction.vectorLayers) {
+        //             state = 'checked';
+        //         } else {
+        //             state = 'unchecked';
+        //         }
+        //         html += "<input type='checkbox' class='vav' name='" + key + "'" + state + ">" + key + "</input><br>";
+        //     }
+        //     html += "</div>";
+        //
+        //     this._div.innerHTML = html;
+        //     return this._div;
+        // };
+        //
+        // info.addTo(map);
+        //
+        // function handleCommand() {
+        //     if (this.checked) {
+        //         mapInteraction.addMarkersToMap($scope, map, roomNumbers, vavBoxes, this.name);
+        //     } else {
+        //         mapInteraction.removeMarkersFromMap($scope, map, this.name);
+        //     }
+        // };
+        //
+        // var checkboxes = document.getElementsByClassName('vav');
+        // for (var i = 0; i < checkboxes.length; i++) {
+        //     checkboxes[i].addEventListener('click', handleCommand, false);
+        // }
     });
 };
