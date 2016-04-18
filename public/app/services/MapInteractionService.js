@@ -17,13 +17,13 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
             if ($scope.currentDate in floorDataService.currentFloorData[vav]) {
 
                 // get the markerValue of that vav
-                var markerValue = floorDataService.currentFloorData[vav][date];
+                var markerValue = self.getMarkerValue(vav, date);
+                var color = tableToMapService.getColorFromRanges(markerValue).color;
 
                 // go through rooms in vav box and add markers to map
                 for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
 
                     var coordinates = floorDataService.roomNumbers[floorDataService.vavs[vav][i]];
-                    var color = tableToMapService.getColorFromRanges(markerValue).color;
                     var layer = self.getMarker(coordinates, color, markerValue, map.getZoom());
 
                     if (!self.vectorLayers.hasOwnProperty(vav)) {
@@ -54,6 +54,14 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
 
         } else if (self.marker_type === 'Squares') {
             return new L.rectangle(coordinates, object).bindPopup(currentTemp + degreeSign);
+        }
+    };
+
+    self.getMarkerValue = function(vav, date) {
+        if (self.marker_options == 'Temp') {
+            return floorDataService.currentFloorData[vav][date];
+        } else if (self.marker_options == 'Temp: Inside Vs Outside') {
+            return 100;
         }
     };
 
