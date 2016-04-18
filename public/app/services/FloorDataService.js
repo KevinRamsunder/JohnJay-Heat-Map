@@ -17,6 +17,10 @@ app.service('floorDataService', function (loadingService, $http) {
             self.vavs = response.data;
         });
 
+        $http.get('/api/v1/weather-data').then(function (response) {
+            console.log(response.data);
+        });
+
         $http.get('/api/v1/rooms').then(function (response) {
             // {vav: "date, temp, date, temp", vav : "date, temp", ...}
             var masterData = response.data;

@@ -74,7 +74,9 @@ app.get('/api/v1/rooms', function(req, res) {
     );
 });
 
-// get specific room JSON object
-app.get('/api/v1/rooms/:roomID', function(req, res) {
-
+// get weather data csv
+app.get('/api/v1/weather-data', function(req, res) {
+    fs.readFile('node/data/weather-data/weather-data.csv', 'utf-8', function(err, data) {
+        res.send(data);
+    });
 });
