@@ -5,7 +5,7 @@ app.service('floorDataService', function (loadingService, $http) {
     self.currentFloorDates = []; // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
     self.roomNumbers = {};
     self.vavs = {};
-    self.weatherData = undefined;
+    self.weatherData = {};
 
     self.getData = function () {
         loadingService.makingRequest = true;
@@ -19,7 +19,13 @@ app.service('floorDataService', function (loadingService, $http) {
         });
 
         $http.get('/api/v1/weather-data').then(function (response) {
-            self.weatherData = response.data;
+            var tempStorage = response.data.split(',');
+
+            for (var i = 16; i < tempStorage.length; i += 8) {
+                self.weatherData[tempStorage[i].replace("EWR", "").replace(/(\r\n|\n|\r)/gm,"")] = tempStorage[i+1];
+            }
+
+            delete self.weatherData[''];
         });
 
         $http.get('/api/v1/rooms').then(function (response) {
