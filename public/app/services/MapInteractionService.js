@@ -24,7 +24,7 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
                 for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
 
                     var coordinates = floorDataService.roomNumbers[floorDataService.vavs[vav][i]];
-                    var layer = self.getMarker(coordinates, color, markerValue, map.getZoom());
+                    var layer = self.getMarkerType(coordinates, color, markerValue, map.getZoom());
 
                     if (!self.vectorLayers.hasOwnProperty(vav)) {
                         self.vectorLayers[vav] = [];
@@ -38,7 +38,7 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
 
     };
 
-    self.getMarker = function(coordinates, color, currentTemp, zoom) {
+    self.getMarkerType = function(coordinates, color, currentTemp, zoom) {
         var degreeSign = String.fromCharCode(parseInt("00B0", 16));
 
         var object = {
