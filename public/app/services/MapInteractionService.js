@@ -58,10 +58,11 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
     };
 
     self.getMarkerValue = function(vav, date) {
+        var roomTemp = floorDataService.currentFloorData[vav][date];
         if (self.marker_options == 'Temp') {
-            return floorDataService.currentFloorData[vav][date];
+            return roomTemp;
         } else if (self.marker_options == 'Temp: Inside Vs Outside') {
-            return 100;
+            return Math.abs(floorDataService.weatherData[date] - roomTemp) * 2;
         }
     };
 
