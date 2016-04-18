@@ -5,6 +5,7 @@ app.service('floorDataService', function (loadingService, $http) {
     self.currentFloorDates = []; // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
     self.roomNumbers = {};
     self.vavs = {};
+    self.weatherData = undefined;
 
     self.getData = function () {
         loadingService.makingRequest = true;
@@ -18,7 +19,7 @@ app.service('floorDataService', function (loadingService, $http) {
         });
 
         $http.get('/api/v1/weather-data').then(function (response) {
-            console.log(response.data);
+            self.weatherData = response.data;
         });
 
         $http.get('/api/v1/rooms').then(function (response) {
