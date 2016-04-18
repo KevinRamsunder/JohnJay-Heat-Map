@@ -164,9 +164,9 @@ var postProcess = function($scope, $http, leafletData, mapInteraction) {
 
             function handleCommand() {
                 if(this.checked) {
-                    mapInteraction.addVavBoxToMap($scope, map, roomNumbers, vavBoxes, this.name);
+                    mapInteraction.addMarkersToMap($scope, map, roomNumbers, vavBoxes, this.name);
                 } else {
-                    mapInteraction.removeVavBoxFromMap($scope, map, this.name);
+                    mapInteraction.removeMarkersFromMap($scope, map, this.name);
                 }
             };
 

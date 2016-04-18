@@ -4324,7 +4324,7 @@ L.LayerGroup = L.Class.extend({
 		return this;
 	},
 
-	getLayer: function (id) {
+	getMarker: function (id) {
 		return this._layers[id];
 	},
 

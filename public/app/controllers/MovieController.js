@@ -1,10 +1,11 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$http', '$interval', 'leafletData', 'tableToMapService',
+movieController.$inject = ['$scope', '$http', '$interval', 'leafletData',
     'mapInteractionService', 'datePickerService', 'floorDataService', 'loadingService'];
 
-function movieController($scope, $http, $interval, leafletData, tableToMapService, mapInteractionService,
+function movieController($scope, $http, $interval, leafletData, mapInteractionService,
                          datePickerService, floorDataService, loadingService) {
+
     $scope.currentDate = 'Current Date';
     $scope.isStopped = true;
     $scope.interval  = 50; // refresh rate for animation
@@ -13,9 +14,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     $scope.startDateIndex = 0;
     $scope.endDateIndex = 0;
 
-    // variables for markers and data being shown
-    $scope.marker_type = 'Circles';
-    $scope.marker_options = 'Temp';
+    // get all the files for the floor
+    floorDataService.getData();
 
     $scope.startAnimation = function () {
         if (datePickerService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
@@ -41,25 +41,23 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
 
     $scope.animate = function (map) {
         $scope.animation = $interval(function () {
+
+            // get currentDate from startDateIndex
             $scope.currentDate = floorDataService.currentFloorDates[$scope.startDateIndex];
 
-            for (var vav in floorDataService.vavs) {
+            // remove all markers on map
+            mapInteractionService.removeMarkersFromMap($scope, map);
 
-                if ($scope.currentDate in floorDataService.currentFloorData[vav]) {
-                    var temp = floorDataService.currentFloorData[vav][$scope.currentDate];
-                    var color = tableToMapService.getColorFromRanges(temp).color;
+            // add new markers to the map
+            mapInteractionService.addMarkersToMap($scope, map, $scope.currentDate);
 
-                    mapInteractionService.removeVavBoxFromMap($scope, map, vav);
-                    mapInteractionService.addVavBoxToMap($scope, map, vav, color, temp);
-                }
-
-            }
-
+            // increment the startDateIndex
             $scope.startDateIndex += 1;
 
             if ($scope.startDateIndex > $scope.endDateIndex) {
                 $scope.stopAnimation();
             }
+
         }, $scope.interval);
     };
 
@@ -68,19 +66,8 @@ function movieController($scope, $http, $interval, leafletData, tableToMapServic
     };
 
     $scope.setDateIndex = function () {
-        var startDate = datePickerService.startDate.toISOString().substring(0, 10) + ' 00:00:00';
-        var endDate = datePickerService.endDate.toISOString().substring(0, 10) + ' 23:00:00';
-
-        $scope.startDateIndex = floorDataService.currentFloorDates.indexOf(startDate);
-        $scope.endDateIndex = floorDataService.currentFloorDates.indexOf(endDate);
-
+        $scope.startDateIndex = datePickerService.getStartDate();
+        $scope.endDateIndex = datePickerService.getEndDate();
         datePickerService.dateChanged = false;
     };
-
-    $scope.updateMarkers = function () {
-        mapInteractionService.marker_type = $scope.marker_type;
-        mapInteractionService.marker_options = $scope.marker_options;
-    };
-
-    floorDataService.getData();
 }
