@@ -15,7 +15,7 @@ function mapController($scope, $http, leafletData, mapInteractionService) {
     initMap($scope);
 
     // post-processing
-    // postProcess($scope, $http, leafletData, mapInteractionService);
+    postProcess($scope, $http, leafletData, mapInteractionService);
 
     // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {
@@ -66,7 +66,7 @@ var initMap = function(self) {
                 tenthFloor: {
                     name: 'Tenth Floor',
                     type: 'imageOverlay',
-                    url: 'app/assets/images/floor_10.jpg',
+                    url: 'app/assets/images/nb_floor_10.jpg',
                     // will fix this later
                     bounds: [
                         [0, 347.8552729775042],
@@ -138,42 +138,50 @@ var postProcess = function($scope, $http, leafletData, mapInteraction) {
         var data = getJSON($scope, $http, mapInteraction).then(function(response) {
             var roomNumbers = response.roomNumbers.data;
             var vavBoxes = response.vavBoxes.data;
-            mapInteraction.addAllVavsToMap($scope, map, roomNumbers, vavBoxes);
+            // mapInteraction.addAllVavsToMap($scope, map, roomNumbers, vavBoxes);
 
             var info = L.control();
 
             info.onAdd = function(map) {
                 this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
 
-                var html = "<div class='btn-group-vertical'>";
-                for (var key in vavBoxes) {
-                    if(key in mapInteraction.vectorLayers) {
-                        state = 'checked';
-                    } else {
-                        state = 'unchecked';
-                    }
-                    html += "<input type='checkbox' class='vav' name='" + key + "'" + state + ">" + key + "</input><br>";
-                }
-                html += "</div>";
-
-                this._div.innerHTML = html;
+                // var html = "<div class='btn-group-vertical'>";
+                // for (var key in vavBoxes) {
+                //     if(key in mapInteraction.vectorLayers) {
+                //         state = 'checked';
+                //     } else {
+                //         state = 'unchecked';
+                //     }
+                //     html += "<input type='checkbox' class='vav' name='" + key + "'" + state + ">" + key + "</input><br>";
+                // }
+                // html += "</div>";
+                //
+                // this._div.innerHTML = html;
                 return this._div;
             };
 
-            info.addTo(map);
-
-            function handleCommand() {
-                if(this.checked) {
-                    mapInteraction.addMarkersToMap($scope, map, roomNumbers, vavBoxes, this.name);
-                } else {
-                    mapInteraction.removeMarkersFromMap($scope, map, this.name);
-                }
+            info.update = function (latlong) {
+                this._div.innerHTML = latlong;
             };
 
-            var checkboxes = document.getElementsByClassName('vav');
-            for(var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].addEventListener('click', handleCommand, false);
-            }
+            map.on('mousemove',function(e){
+                info.update(e.latlng);
+            });
+
+            info.addTo(map);
+
+            // function handleCommand() {
+            //     if(this.checked) {
+            //         mapInteraction.addMarkersToMap($scope, map, roomNumbers, vavBoxes, this.name);
+            //     } else {
+            //         mapInteraction.removeMarkersFromMap($scope, map, this.name);
+            //     }
+            // }
+            //
+            // var checkboxes = document.getElementsByClassName('vav');
+            // for(var i = 0; i < checkboxes.length; i++) {
+            //     checkboxes[i].addEventListener('click', handleCommand, false);
+            // }
         });
     });
 };
