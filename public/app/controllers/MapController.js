@@ -40,48 +40,40 @@ function mapController($scope, $http, leafletData, mapInteractionService) {
 }
 
 // initialize and display map on webpage
-var initMap = function(self) {
+var initMap = function (self) {
     // leaflet map settings
     angular.extend(self, {
+
         // default map properties
         defaults: {
-            minZoom: 1,
-            maxZoom: 3,
-            crs: 'Simple'
+            minZoom: -.7,  // zoom changes by 1
+            maxZoom: .3,
+            crs: L.CRS.Simple
         },
 
-        // center map properties
+        //center map properties
         center: {
-            lat: -190,
-            lng: 150,
-            zoom: 1
+            lat: 400,
+            lng: 500,
+            zoom: -.7  // must be greater than or equal to minZoom
         },
 
-        // set bounds
-        // maxBounds: bounds,
-
-        // layers
         layers: {
             baselayers: {
                 tenthFloor: {
                     name: 'Tenth Floor',
                     type: 'imageOverlay',
                     url: 'app/assets/images/nb_floor_10.jpg',
-                    // will fix this later
-                    bounds: [
-                        [0, 347.8552729775042],
-                        [-374.5753081706553, 0]
-                    ]
+                    // image is 2201 x 2699
+                    // keep ratio of image intact when setting bounds
+                    bounds: [[0, 0], [1226.2, 1000]]
                 },
                 ninthFloor: {
                     name: 'Ninth Floor',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_9.jpg',
                     // will fix this later
-                    bounds: [
-                        [0, 347.8552729775042],
-                        [-374.5753081706553, 0]
-                    ]
+                    bounds: [[0, 0], [1000, 1000]]
                 },
                 eightFloor: {
                     name: 'Eight Floor',
@@ -118,70 +110,50 @@ var initMap = function(self) {
     });
 };
 
-// get json files from local storage
-var getJSON = function($scope, $http, mapInteraction) {
-    // function to make http call to get content of JSON
-    return getRoomDataFromJson = new Promise(function(resolve, reject) {
-        $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
-            var roomNumbers = response;
-            $http.get('app/assets/json/floor_10/vav.json').then(function(response) {
-                mapInteraction.data = {'roomNumbers': roomNumbers, 'vavBoxes': response};
-                resolve(mapInteraction.data);
-            });
-        });
-    });
-};
-
 // execute - will re-write this!
-var postProcess = function($scope, $http, leafletData, mapInteraction) {
-    leafletData.getMap('map').then(function(map) {
-        var data = getJSON($scope, $http, mapInteraction).then(function(response) {
-            var roomNumbers = response.roomNumbers.data;
-            var vavBoxes = response.vavBoxes.data;
-            // mapInteraction.addAllVavsToMap($scope, map, roomNumbers, vavBoxes);
+var postProcess = function ($scope, $http, leafletData, mapInteraction) {
+    leafletData.getMap('map').then(function (map) {
+        var info = L.control();
 
-            var info = L.control();
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
 
-            info.onAdd = function(map) {
-                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-
-                // var html = "<div class='btn-group-vertical'>";
-                // for (var key in vavBoxes) {
-                //     if(key in mapInteraction.vectorLayers) {
-                //         state = 'checked';
-                //     } else {
-                //         state = 'unchecked';
-                //     }
-                //     html += "<input type='checkbox' class='vav' name='" + key + "'" + state + ">" + key + "</input><br>";
-                // }
-                // html += "</div>";
-                //
-                // this._div.innerHTML = html;
-                return this._div;
-            };
-
-            info.update = function (latlong) {
-                this._div.innerHTML = latlong;
-            };
-
-            map.on('mousemove',function(e){
-                info.update(e.latlng);
-            });
-
-            info.addTo(map);
-
-            // function handleCommand() {
-            //     if(this.checked) {
-            //         mapInteraction.addMarkersToMap($scope, map, roomNumbers, vavBoxes, this.name);
+            // var html = "<div class='btn-group-vertical'>";
+            // for (var key in vavBoxes) {
+            //     if(key in mapInteraction.vectorLayers) {
+            //         state = 'checked';
             //     } else {
-            //         mapInteraction.removeMarkersFromMap($scope, map, this.name);
+            //         state = 'unchecked';
             //     }
+            //     html += "<input type='checkbox' class='vav' name='" + key + "'" + state + ">" + key + "</input><br>";
             // }
+            // html += "</div>";
             //
-            // var checkboxes = document.getElementsByClassName('vav');
-            // for(var i = 0; i < checkboxes.length; i++) {
-            //     checkboxes[i].addEventListener('click', handleCommand, false);
-            // }
+            // this._div.innerHTML = html;
+            return this._div;
+        };
+
+        info.update = function (latlong) {
+            this._div.innerHTML = latlong;
+        };
+
+        map.on('mousemove', function (e) {
+            info.update(e.latlng);
         });
+
+        info.addTo(map);
+
+        // function handleCommand() {
+        //     if(this.checked) {
+        //         mapInteraction.addMarkersToMap($scope, map, roomNumbers, vavBoxes, this.name);
+        //     } else {
+        //         mapInteraction.removeMarkersFromMap($scope, map, this.name);
+        //     }
+        // }
+        //
+        // var checkboxes = document.getElementsByClassName('vav');
+        // for(var i = 0; i < checkboxes.length; i++) {
+        //     checkboxes[i].addEventListener('click', handleCommand, false);
+        // }
     });
 };
