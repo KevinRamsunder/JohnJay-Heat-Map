@@ -4,12 +4,12 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
     // container for layers
     self.vectorLayers = {};
 
-    self.marker_type = 'Circles';
+    self.marker_type = 'Squares';
     self.marker_options = 'Temp';
 
     // add specific VAV box to map
     self.addMarkersToMap = function($scope, map, date) {
-
+        
         // go through all vavs on floor
         for (var vav in floorDataService.vavs) {
 

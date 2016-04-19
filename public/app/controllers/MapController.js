@@ -66,7 +66,7 @@ var initMap = function (self) {
                     url: 'app/assets/images/nb_floor_10.jpg',
                     // image is 2201 x 2699
                     // keep ratio of image intact when setting bounds
-                    bounds: [[0, 0], [1226.2, 1000]]
+                    bounds: [[0, 1000], [1226.2, 0]]
                 },
                 ninthFloor: {
                     name: 'Ninth Floor',

@@ -15,11 +15,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="app/assets/css/main.css">
     <link rel="stylesheet" href="app/assets/css/sidebar.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-resource.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-route.js"></script>
 </head>
 <body>
 <div class="sidebar">
     <div>
         <img id="logo" src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
+    </div>
+
+    <div ng-controller="MainCtrl" ng-view>
+
     </div>
     <div ng-controller="DatePickerController" class="row">
         <md-content class="col-xs-6 col-md-6">
@@ -170,11 +178,10 @@
 
 <!-- JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-animate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-aria.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-messages.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-animate.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-aria.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-messages.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.js"></script>
 <script src="app/assets/leaflet/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-leaflet-directive/0.10.0/angular-leaflet-directive.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/js/bootstrap-colorpicker.js"></script>
@@ -187,6 +194,7 @@
 <script src="app/services/MapInteractionService.js"></script>
 <script src="app/services/DatePickerService"></script>
 <script src="app/controllers/MapController.js"></script>
+<script src="app/controllers/MainCtrl.js"></script>
 <script src="app/controllers/TableController.js"></script>
 <script src="app/controllers/MovieController.js"></script>
 <script src="app/controllers/DatePickerController.js"></script>

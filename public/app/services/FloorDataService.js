@@ -1,4 +1,4 @@
-app.service('floorDataService', function (loadingService, $http) {
+app.service('floorDataService', function (loadingService, $http, $q) {
     var self = this;
 
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
@@ -10,27 +10,24 @@ app.service('floorDataService', function (loadingService, $http) {
     self.getData = function () {
         loadingService.makingRequest = true;
 
-        $http.get('app/assets/json/floor_10/room_num.json').then(function (response) {
-            self.roomNumbers = response.data;
-        });
+        var roomNumbers = $http.get("app/assets/json/floor_10/room_num.json"),
+            vavs = $http.get("app/assets/json/floor_10/vav.json"),
+            weather = $http.get("/api/v1/weather-data"),
+            currentFloorData = $http.get("/api/v1/rooms");
 
-        $http.get('app/assets/json/floor_10/vav.json').then(function (response) {
-            self.vavs = response.data;
-        });
+        var promise = $q.all([roomNumbers, vavs, weather, currentFloorData]).then(function (arrayOfResults) {
 
-        $http.get('/api/v1/weather-data').then(function (response) {
-            var tempStorage = response.data.split(',');
+            self.roomNumbers = arrayOfResults[0].data;
+            self.vavs = arrayOfResults[1].data;
 
+            var tempStorage = arrayOfResults[2].data.split(',');
             for (var i = 16; i < tempStorage.length; i += 8) {
-                self.weatherData[tempStorage[i].replace("EWR", "").replace(/(\r\n|\n|\r)/gm,"")] = tempStorage[i+1];
+                self.weatherData[tempStorage[i].replace("EWR", "").replace(/(\r\n|\n|\r)/gm, "")] = tempStorage[i + 1];
             }
-
             delete self.weatherData[''];
-        });
 
-        $http.get('/api/v1/rooms').then(function (response) {
             // {vav: "date, temp, date, temp", vav : "date, temp", ...}
-            var masterData = response.data;
+            var masterData = arrayOfResults[3].data;
 
             var tempData = {};
             var do_once = true;
@@ -56,5 +53,10 @@ app.service('floorDataService', function (loadingService, $http) {
 
             loadingService.makingRequest = false;
         });
+
+        return {
+            promise: promise
+        }
+
     };
 });
