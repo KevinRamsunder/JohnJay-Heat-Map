@@ -2,10 +2,10 @@
 app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mapController.$inject = ['$scope', 'leafletData', 'MapInteractionService', 'FloorDataService', 'DateService'];
+mapController.$inject = ['$scope', 'leafletData', 'FloorDataService', 'MapInteractionService', 'DateService'];
 
 // controller function
-function mapController($scope, leafletData, MapInteractionService, FloorDataService, DateService) {
+function mapController($scope, leafletData, FloorDataService, MapInteractionService, DateService) {
     // save context
     var self = this;
     $scope.currentDate = "";
@@ -24,7 +24,6 @@ function mapController($scope, leafletData, MapInteractionService, FloorDataServ
         MapInteractionService.addMarkersToMap(DateService.getEndDateString());
     });
 
-    // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {
         map.on('baselayerchange', function (layer) {
             MapInteractionService.removeMarkersFromMap();
@@ -51,6 +50,7 @@ function mapController($scope, leafletData, MapInteractionService, FloorDataServ
 
         info.addTo(map);
 
+        // circles on map will zoom appropriately when movie is not playing
         map.on('zoomend', function () {
             var markers = [];
             this.eachLayer(function (marker) {
@@ -73,26 +73,19 @@ function mapController($scope, leafletData, MapInteractionService, FloorDataServ
 
 // initialize and display map on webpage
 var initMap = function (self) {
-    // leaflet map settings
     angular.extend(self, {
-        // default map properties
         defaults: {
             minZoom: 1,
             maxZoom: 3,
             crs: 'Simple'
         },
 
-        // center map properties
         center: {
             lat: -190,
             lng: 150,
             zoom: 1
         },
 
-        // set bounds
-        // maxBounds: bounds,
-
-        // layers
         layers: {
             baselayers: {
                 tenthFloor: {
