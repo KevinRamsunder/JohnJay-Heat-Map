@@ -1,10 +1,10 @@
 app.controller('MovieController', movieController);
 
 movieController.$inject = ['$scope', '$interval', 'leafletData', 'MapInteractionService',
-    'DateService', 'floorDataService', 'loadingService'];
+    'DateService', 'floorDataService', 'LoadingService'];
 
 function movieController($scope, $interval, leafletData, MapInteractionService,
-                         DateService, floorDataService, loadingService) {
+                         DateService, floorDataService, LoadingService) {
 
     $scope.currentDate = DateService.getEndDateString();
     $scope.isStopped = true;
@@ -59,7 +59,7 @@ function movieController($scope, $interval, leafletData, MapInteractionService,
     };
 
     $scope.loaderStatus = function () {
-        return loadingService.loading || loadingService.makingRequest;
+        return LoadingService.loading || LoadingService.makingRequest;
     };
 
     $scope.setDateIndex = function () {

@@ -1,4 +1,4 @@
-app.service('floorDataService', function (loadingService, $http, $q) {
+app.service('floorDataService', function (LoadingService, $http, $q) {
     var self = this;
 
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
@@ -18,7 +18,7 @@ app.service('floorDataService', function (loadingService, $http, $q) {
         return $http.post('/api/v1/rooms', {'floorLevel': floorLevel}).then(function(response) {
             self.currentFloorDates = response.data['Dates'];
             self.currentFloorData = response.data['Data'];
-            loadingService.makingRequest = false;
+            LoadingService.makingRequest = false;
         });
     };
 
@@ -29,7 +29,7 @@ app.service('floorDataService', function (loadingService, $http, $q) {
     };
 
     self.getAllFloorData = function getAllFloorData(floorLevel) {
-        loadingService.makingRequest = true;
+        LoadingService.makingRequest = true;
         
         var promises = [self.getCoordinates(floorLevel), self.getRoomData(floorLevel),
             self.getWeatherData()];
