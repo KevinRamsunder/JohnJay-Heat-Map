@@ -1,13 +1,9 @@
 div.sidebar {
-    display: inline-block;
-    height: 100%;
-    width: 30%;
-    float: left;
+
 }
 
 div.moviecontrols {
-    margin: 15px;
-    margin-bottom: 25px;
+
 }
 
 #movie-controller-block {
@@ -16,4 +12,12 @@ div.moviecontrols {
 
 .movie-block-element {
     margin: 0 5px;
+}
+
+#start-data {
+    padding-right: 0;
+}
+
+#end-date {
+    padding-left: 0;
 }
