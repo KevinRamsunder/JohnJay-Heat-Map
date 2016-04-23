@@ -1,10 +1,10 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$interval', 'MapInteractionService',
-    'DateService', 'FloorDataService', 'LoadingService'];
+movieController.$inject = ['$scope', '$interval', 'FloorDataService', 'MapInteractionService',
+    'DateService', 'LoadingService'];
 
-function movieController($scope, $interval, MapInteractionService,
-                         DateService, FloorDataService, LoadingService) {
+function movieController($scope, $interval, FloorDataService, MapInteractionService,
+                         DateService, LoadingService) {
 
     $scope.currentDate = DateService.getEndDateString();
     $scope.isStopped = true;
