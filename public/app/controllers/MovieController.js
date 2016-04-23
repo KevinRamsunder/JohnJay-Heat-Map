@@ -1,10 +1,10 @@
 app.controller('MovieController', movieController);
 
 movieController.$inject = ['$scope', '$interval', 'leafletData', 'MapInteractionService',
-    'DateService', 'floorDataService', 'LoadingService'];
+    'DateService', 'FloorDataService', 'LoadingService'];
 
 function movieController($scope, $interval, leafletData, MapInteractionService,
-                         DateService, floorDataService, LoadingService) {
+                         DateService, FloorDataService, LoadingService) {
 
     $scope.currentDate = DateService.getEndDateString();
     $scope.isStopped = true;
@@ -40,7 +40,7 @@ function movieController($scope, $interval, leafletData, MapInteractionService,
         $scope.animation = $interval(function () {
 
             // get currentDate from startDateIndex
-            $scope.currentDate = floorDataService.currentFloorDates[$scope.startDateIndex];
+            $scope.currentDate = FloorDataService.currentFloorDates[$scope.startDateIndex];
 
             // remove all markers on map
             MapInteractionService.removeMarkersFromMap(map);

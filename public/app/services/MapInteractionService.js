@@ -1,4 +1,4 @@
-app.service('MapInteractionService', function(TableToMapService, floorDataService) {
+app.service('MapInteractionService', function(TableToMapService, FloorDataService) {
     var self = this;
 
     // container for layers
@@ -11,19 +11,19 @@ app.service('MapInteractionService', function(TableToMapService, floorDataServic
     self.addMarkersToMap = function(map, date) {
 
         // go through all vavs on floor
-        for (var vav in floorDataService.vavs) {
+        for (var vav in FloorDataService.vavs) {
 
             // if the currentDate is in that vav set
-            if (date in floorDataService.currentFloorData[vav]) {
+            if (date in FloorDataService.currentFloorData[vav]) {
 
                 // get the markerValue of that vav
                 var markerValue = self.getMarkerValue(vav, date);
                 var color = TableToMapService.getColorFromRanges(markerValue).color;
 
                 // go through rooms in vav box and add markers to map
-                for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
+                for (var i = 0; i < FloorDataService.vavs[vav].length; i++) {
 
-                    var coordinates = floorDataService.roomNumbers[floorDataService.vavs[vav][i]];
+                    var coordinates = FloorDataService.roomNumbers[FloorDataService.vavs[vav][i]];
                     var layer = self.getMarkerType(coordinates, color, markerValue, map.getZoom());
 
                     if (!self.vectorLayers.hasOwnProperty(vav)) {
@@ -58,17 +58,17 @@ app.service('MapInteractionService', function(TableToMapService, floorDataServic
     };
 
     self.getMarkerValue = function(vav, date) {
-        var roomTemp = floorDataService.currentFloorData[vav][date];
+        var roomTemp = FloorDataService.currentFloorData[vav][date];
         if (self.marker_options == 'Temp') {
             return roomTemp;
         } else if (self.marker_options == 'Temp: Inside Vs Outside') {
-            return Math.abs(floorDataService.weatherData[date] - roomTemp) * 2;
+            return Math.abs(FloorDataService.weatherData[date] - roomTemp) * 2;
         }
     };
 
     // remove specific VAV Box from map
     self.removeMarkersFromMap = function(map) {
-        for (var vav in floorDataService.vavs) {
+        for (var vav in FloorDataService.vavs) {
             if(self.vectorLayers[vav] === undefined) {
                 return;
             }

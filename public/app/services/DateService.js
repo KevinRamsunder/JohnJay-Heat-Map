@@ -1,4 +1,4 @@
-app.service('DateService', function (floorDataService) {
+app.service('DateService', function (FloorDataService) {
     var self = this;
 
     self.startDate = undefined;
@@ -9,13 +9,13 @@ app.service('DateService', function (floorDataService) {
     // returns the index of the start date in the array of dates
     self.getStartDate = function () {
         var startDateString = self.startDate.toISOString().substring(0, 10) + ' 00:00:00';
-        return floorDataService.currentFloorDates.indexOf(startDateString);
+        return FloorDataService.currentFloorDates.indexOf(startDateString);
     };
 
     // returns the index of the end date in the array of dates
     self.getEndDate = function () {
         var endDateString = self.endDate.toISOString().substring(0, 10) + ' 23:00:00';
-        return floorDataService.currentFloorDates.indexOf(endDateString);
+        return FloorDataService.currentFloorDates.indexOf(endDateString);
     };
 
     self.getEndDateString = function () {

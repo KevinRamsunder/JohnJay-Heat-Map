@@ -1,4 +1,4 @@
-app.service('floorDataService', function (LoadingService, $http, $q) {
+app.service('FloorDataService', function (LoadingService, $http, $q) {
     var self = this;
 
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
