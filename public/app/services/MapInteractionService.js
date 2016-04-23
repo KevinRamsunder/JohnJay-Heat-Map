@@ -1,4 +1,4 @@
-app.service('mapInteractionService', function(tableToMapService, floorDataService) {
+app.service('MapInteractionService', function(tableToMapService, floorDataService) {
     var self = this;
 
     // container for layers
