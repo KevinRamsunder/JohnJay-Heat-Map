@@ -9,9 +9,7 @@ html, body {
 }
 
 #map {
-    top: 13px;
-    width: 70%;
-    height: 90%;
+
 }
 
 .info {
@@ -25,6 +23,11 @@ html, body {
 .info h4 {
     margin: 0 0 5px;
     color: #777;
+}
+
+.container {
+    margin: 0;
+    margin-right: 0;
 }
 
 .table th, .table td {
