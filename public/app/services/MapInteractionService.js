@@ -69,10 +69,6 @@ app.service('MapInteractionService', function(TableToMapService, FloorDataServic
     // remove specific VAV Box from map
     self.removeMarkersFromMap = function(map) {
         for (var vav in FloorDataService.vavs) {
-            if(self.vectorLayers[vav] === undefined) {
-                return;
-            }
-
             for (var i = 0; i < self.vectorLayers[vav].length; i++) {
                 map.removeLayer(self.vectorLayers[vav][i]);
             }
