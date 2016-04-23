@@ -37,7 +37,7 @@ function mapController($scope, $http, leafletData, mapInteractionService, floorD
                     mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');                     
                 });
             }
-        })
+        });
 
         var info = L.control();
 
