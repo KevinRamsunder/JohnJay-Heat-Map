@@ -112,7 +112,7 @@ app.get('/api/v1/rooms', function (req, res) {
 
 // get weather data csv
 app.get('/api/v1/weather-data', function (req, res) {
-    console.log('weather data request');
+    console.log('weather data requested');
 
     fs.readFile('node/data/weather-data/weather.json', 'utf-8', function (err, data) {
         res.send(data);
