@@ -33,7 +33,7 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
         $scope.startAnimation();
     };
 
-    $scope.animate = function (map) {
+    $scope.animate = function () {
         $scope.animation = $interval(function () {
 
             // get currentDate from startDateIndex
