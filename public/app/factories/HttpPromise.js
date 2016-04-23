@@ -12,7 +12,7 @@ app.factory('HttpPromise', function($http) {
         },
         getWeatherData: function getWeatherData() {
             return $http.get('/api/v1/weather-data').then(function (response) {
-                return response.data.split(',');
+                return response.data;
             });
         },
         getRoomData: function getRoomData() {
