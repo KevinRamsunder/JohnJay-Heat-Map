@@ -46,12 +46,9 @@ vav.floor10 = [
 app.use('/node/data', express.static('node/data'));
 
 // get all room JSON objects
-app.get('/api/v1/rooms', function (req, res) {
+app.post('/api/v1/rooms', function (req, res) {
     // allRoomData {vav: "date, temp, date, temp", vav : "date, temp", ...}
     var allRoomData = {};
-
-    console.log('room data requested');
-
     var count = 0;
 
     async.whilst(
@@ -124,8 +121,6 @@ app.post('/api/v1/coordinates', function (req, res) {
 
 // get weather data csv
 app.get('/api/v1/weather-data', function (req, res) {
-    console.log('weather data requested');
-
     fs.readFile('node/data/weather-data/weather.json', 'utf-8', function (err, data) {
         res.send(data);
     });

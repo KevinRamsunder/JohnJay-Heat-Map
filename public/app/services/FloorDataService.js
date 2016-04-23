@@ -14,17 +14,17 @@ app.service('floorDataService', function (loadingService, $http, $q) {
         });
     };
 
-    self.getWeatherData = function getWeatherData() {
-        return $http.get('/api/v1/weather-data').then(function(response) {
-            self.weatherData = response.data;
-        });
-    };
-
     self.getRoomData = function getRoomData() {
-        return $http.get('/api/v1/rooms').then(function(response) {
+        return $http.post('/api/v1/rooms').then(function(response) {
             self.currentFloorDates = response.data['Dates'];
             self.currentFloorData = response.data['Data'];
             loadingService.makingRequest = false;
+        });
+    };
+
+    self.getWeatherData = function getWeatherData() {
+        return $http.get('/api/v1/weather-data').then(function(response) {
+            self.weatherData = response.data;
         });
     };
 
