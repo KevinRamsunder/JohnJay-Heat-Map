@@ -67,20 +67,17 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
     };
 
     // remove specific VAV Box from map
-    self.removeMarkersFromMap = function($scope, map) {
+    self.removeMarkersFromMap = function(map) {
         for (var vav in floorDataService.vavs) {
-
-            if ($scope.currentDate in floorDataService.currentFloorData[vav]) {
-                if(self.vectorLayers[vav] === undefined) {
-                    return;
-                }
-
-                for (var i = 0; i < self.vectorLayers[vav].length; i++) {
-                    map.removeLayer(self.vectorLayers[vav][i]);
-                }
-
-                delete self.vectorLayers[vav];
+            if(self.vectorLayers[vav] === undefined) {
+                return;
             }
+
+            for (var i = 0; i < self.vectorLayers[vav].length; i++) {
+                map.removeLayer(self.vectorLayers[vav][i]);
+            }
+
+            delete self.vectorLayers[vav];
         }
     };
 });
