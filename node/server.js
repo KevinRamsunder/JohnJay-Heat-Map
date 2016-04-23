@@ -35,7 +35,7 @@ app.post('/api/v1/rooms', function (req, res) {
 
     fs.readFile(url + '/vav.json', 'utf-8', function (err, data) {
         var vav_keys = JSON.parse(data);
-        for (key in vav_keys) {
+        for (var key in vav_keys) {
             vav.push(key);
         }
 
