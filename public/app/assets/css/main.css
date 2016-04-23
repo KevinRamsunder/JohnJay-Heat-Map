@@ -62,3 +62,8 @@ html, body {
 .leaflet-image-layer.leaflet-zoom-animated {
     z-index: -5 !important;
 }
+
+/*Grey out drop down when disabled*/
+select[disabled] {
+    background-color: #CCC;  //use your prefered color here
+}
