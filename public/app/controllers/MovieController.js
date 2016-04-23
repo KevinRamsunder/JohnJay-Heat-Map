@@ -43,7 +43,7 @@ function movieController($scope, $interval, leafletData, MapInteractionService,
             $scope.currentDate = FloorDataService.currentFloorDates[$scope.startDateIndex];
 
             // remove all markers on map
-            MapInteractionService.removeMarkersFromMap(map);
+            MapInteractionService.removeMarkersFromMap();
 
             // add new markers to the map
             MapInteractionService.addMarkersToMap($scope.currentDate);

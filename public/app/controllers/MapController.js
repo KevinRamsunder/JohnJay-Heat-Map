@@ -28,10 +28,10 @@ function mapController($scope, $http, leafletData, MapInteractionService, FloorD
     // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {
         map.on('baselayerchange', function(layer) {
-            MapInteractionService.removeMarkersFromMap(map);
+            MapInteractionService.removeMarkersFromMap();
             
             FloorDataService.getAllFloorData(layer.name).then(function() {
-                MapInteractionService.addMarkersToMap(map, DateService.getEndDateString());
+                MapInteractionService.addMarkersToMap(DateService.getEndDateString());
             });
         });
 

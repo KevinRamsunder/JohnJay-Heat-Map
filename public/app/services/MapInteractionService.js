@@ -41,14 +41,17 @@ app.service('MapInteractionService', function (TableToMapService, FloorDataServi
     };
 
     // remove specific VAV Box from map
-    self.removeMarkersFromMap = function (map) {
-        for (var vav in FloorDataService.vavs) {
-            for (var i = 0; i < self.vectorLayers[vav].length; i++) {
-                map.removeLayer(self.vectorLayers[vav][i]);
-            }
+    self.removeMarkersFromMap = function () {
 
-            delete self.vectorLayers[vav];
-        }
+        leafletData.getMap('map').then(function (map) {
+            for (var vav in FloorDataService.vavs) {
+                for (var i = 0; i < self.vectorLayers[vav].length; i++) {
+                    map.removeLayer(self.vectorLayers[vav][i]);
+                }
+
+                delete self.vectorLayers[vav];
+            }
+        });
     };
 
     self.getMarkerType = function (coordinates, color, currentTemp, zoom) {
