@@ -1,4 +1,4 @@
-app.service('floorDataService', function (loadingService, $http) {
+app.service('floorDataService', function (loadingService, $http, $q, HttpPromise) {
     var self = this;
 
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
@@ -7,26 +7,38 @@ app.service('floorDataService', function (loadingService, $http) {
     self.roomNumbers = {};
     self.weatherData = {};
 
-    self.getData = function () {
-        loadingService.makingRequest = true;
+    loadingService.makingRequest = true;
 
-        $http.get('app/assets/json/floor_10/room_num.json').then(function (response) {
-            self.roomNumbers = response.data;
+    self.getRoomNumbers = function getRoomNumbers() {
+        return HttpPromise.getRoomNumbers().then(function(data) {
+            self.roomNumbers = data;
         });
+    };
 
-        $http.get('app/assets/json/floor_10/vav.json').then(function (response) {
-            self.vavs = response.data;
+    self.getVavNumbers = function getVavNumbers() {
+        return HttpPromise.getVavNumbers().then(function(data) {
+           self.vavs = data;
         });
+    };
 
-        $http.get('/api/v1/weather-data').then(function (response) {
-            self.weatherData = response.data;
+    self.getWeatherData = function getWeatherData() {
+        return HttpPromise.getWeatherData().then(function(data) {
+            self.weatherData = data;
         });
+    };
 
-        $http.get('/api/v1/rooms').then(function (response) {
-            self.currentFloorDates = response.data['Dates'];
-            self.currentFloorData = response.data['Data'];
-
+    self.getRoomData = function getRoomData() {
+        return HttpPromise.getRoomData().then(function(data) {
+            self.currentFloorDates = data['Dates'];
+            self.currentFloorData = data['Data'];
             loadingService.makingRequest = false;
         });
     };
+
+    self.getAllFloorData = function getAllFloorData() {
+        var promises = [self.getRoomNumbers(), self.getVavNumbers(),
+                        self.getWeatherData(), self.getRoomData()];
+
+        return $q.all(promises);
+    }
 });

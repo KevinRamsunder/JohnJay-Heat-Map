@@ -8,13 +8,13 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
     self.marker_options = 'Temp';
 
     // add specific VAV box to map
-    self.addMarkersToMap = function($scope, map, date) {
+    self.addMarkersToMap = function(map, date) {
 
         // go through all vavs on floor
         for (var vav in floorDataService.vavs) {
 
             // if the currentDate is in that vav set
-            if ($scope.currentDate in floorDataService.currentFloorData[vav]) {
+            if (date in floorDataService.currentFloorData[vav]) {
 
                 // get the markerValue of that vav
                 var markerValue = self.getMarkerValue(vav, date);
