@@ -60,7 +60,7 @@ app.get('/api/v1/rooms', function (req, res) {
         },
 
         function (callback) {
-            fs.readFile('node/data/Room' + vav.floor10[count] + '.csv', 'utf-8', function (err, data) {
+            fs.readFile('node/data/floor_10/room_data/Room' + vav.floor10[count] + '.csv', 'utf-8', function (err, data) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -108,6 +108,18 @@ app.get('/api/v1/rooms', function (req, res) {
             res.send(sendData);
         }
     );
+});
+
+// route to get room numbers and vav coordinates
+app.post('/api/v1/coordinates', function (req, res) {
+    fs.readFile('node/data/floor_10/room_num.json', 'utf-8', function (err, data) {
+        var room_num = JSON.parse(data);
+
+        fs.readFile('node/data/floor_10/vav.json', 'utf-8', function (err, data) {
+            var vav = JSON.parse(data);
+            res.send({'room_num': room_num, 'vav': vav});
+        });
+    });
 });
 
 // get weather data csv
