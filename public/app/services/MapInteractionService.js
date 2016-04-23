@@ -4,8 +4,8 @@ app.service('mapInteractionService', function(tableToMapService, floorDataServic
     // container for layers
     self.vectorLayers = {};
 
-    self.marker_type = 'Circles';
-    self.marker_options = 'Temp';
+    self.marker_type = undefined;
+    self.marker_options = undefined;
 
     // add specific VAV box to map
     self.addMarkersToMap = function(map, date) {
