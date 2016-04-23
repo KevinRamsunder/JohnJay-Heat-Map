@@ -3,8 +3,8 @@ app.service('floorDataService', function (loadingService, $http) {
 
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
     self.currentFloorDates = []; // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
-    self.roomNumbers = {};
     self.vavs = {};
+    self.roomNumbers = {};
     self.weatherData = {};
 
     self.getData = function () {
@@ -23,30 +23,8 @@ app.service('floorDataService', function (loadingService, $http) {
         });
 
         $http.get('/api/v1/rooms').then(function (response) {
-            // {vav: "date, temp, date, temp", vav : "date, temp", ...}
-            var masterData = response.data;
-
-            var tempData = {};
-            var do_once = true;
-
-            for (var key in masterData) {
-                tempData[key] = masterData[key].split(',');
-                tempData[key] = tempData[key].map(function (i) {
-                    return i.trim()
-                });
-
-                var floorData = {};
-                for (var i = 0; i < tempData[key].length - 1; i += 2) {
-                    floorData[tempData[key][i]] = tempData[key][i + 1];
-
-                    if (do_once) {
-                        self.currentFloorDates.push(tempData[key][i])
-                    }
-                }
-
-                do_once = false;
-                self.currentFloorData[key] = floorData;
-            }
+            self.currentFloorDates = response.data['Dates'];
+            self.currentFloorData = response.data['Data'];
 
             loadingService.makingRequest = false;
         });

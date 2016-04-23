@@ -47,8 +47,10 @@ app.use('/node/data', express.static('node/data'));
 
 // get all room JSON objects
 app.get('/api/v1/rooms', function(req, res) {
-    var object = {};
-    console.log('received request!');
+    // allRoomData {vav: "date, temp, date, temp", vav : "date, temp", ...}
+    var allRoomData = {};
+
+    console.log('Sending Room Data');
 
     var count = 0;
 
@@ -60,7 +62,7 @@ app.get('/api/v1/rooms', function(req, res) {
                 if(err) {
                     console.log(err);
                 } else {
-                    object[vav.floor10[count]] = data;
+                    allRoomData[vav.floor10[count]] = data;
                 }
                 
                 count++;
@@ -69,14 +71,45 @@ app.get('/api/v1/rooms', function(req, res) {
         },
         
         function() {
-            res.send(object);
+            var currentFloorDates = [];
+            var currentFloorData = {};
+            var tempData = {};
+            var do_once = true;
+
+            for (var key in allRoomData) {
+                tempData[key] = allRoomData[key].split(',');
+                tempData[key] = tempData[key].map(function (i) {
+                    return i.trim()
+                });
+
+                var floorData = {};
+                for (var i = 0; i < tempData[key].length - 1; i += 2) {
+                    floorData[tempData[key][i]] = tempData[key][i + 1];
+
+                    if (do_once) {
+                        currentFloorDates.push(tempData[key][i])
+                    }
+                }
+
+                do_once = false;
+                currentFloorData[key] = floorData;
+            }
+
+            var sendData = {};
+
+            // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
+            sendData['Dates'] = currentFloorDates;
+
+            // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
+            sendData['Data'] = currentFloorData;
+
+            res.send(sendData);
         }
     );
 });
 
 // get weather data csv
 app.get('/api/v1/weather-data', function(req, res) {
-    var object = {};
     console.log('Sending weather data');
 
     fs.readFile('node/data/weather-data/weather.json', 'utf-8', function(err, data) {
