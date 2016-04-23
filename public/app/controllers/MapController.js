@@ -2,17 +2,16 @@
 app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mapController.$inject = ['$scope', '$http', 'leafletData', 'MapInteractionService', 'FloorDataService', 'DateService'];
+mapController.$inject = ['$scope', 'leafletData', 'MapInteractionService', 'FloorDataService', 'DateService'];
 
 // controller function
-function mapController($scope, $http, leafletData, MapInteractionService, FloorDataService, DateService) {
+function mapController($scope, leafletData, MapInteractionService, FloorDataService, DateService) {
     // save context
     var self = this;
     $scope.currentDate = "";
 
     // add map properties to scope
     initMap($scope);
-
 
     /*********************************************************/
 
@@ -21,23 +20,23 @@ function mapController($scope, $http, leafletData, MapInteractionService, FloorD
     /*********************************************************/
 
     // initialize current layer
-    FloorDataService.getAllFloorData('floor_10').then(function() {
+    FloorDataService.getAllFloorData('floor_10').then(function () {
         MapInteractionService.addMarkersToMap(DateService.getEndDateString());
     });
 
     // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {
-        map.on('baselayerchange', function(layer) {
+        map.on('baselayerchange', function (layer) {
             MapInteractionService.removeMarkersFromMap();
-            
-            FloorDataService.getAllFloorData(layer.name).then(function() {
+
+            FloorDataService.getAllFloorData(layer.name).then(function () {
                 MapInteractionService.addMarkersToMap(DateService.getEndDateString());
             });
         });
 
         var info = L.control();
 
-        info.onAdd = function(map) {
+        info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info');
             return this._div;
         };
@@ -46,7 +45,7 @@ function mapController($scope, $http, leafletData, MapInteractionService, FloorD
             this._div.innerHTML = latlong;
         };
 
-        map.on('mousemove',function(e){
+        map.on('mousemove', function (e) {
             info.update(e.latlng);
         });
 
@@ -73,7 +72,7 @@ function mapController($scope, $http, leafletData, MapInteractionService, FloorD
 }
 
 // initialize and display map on webpage
-var initMap = function(self) {
+var initMap = function (self) {
     // leaflet map settings
     angular.extend(self, {
         // default map properties
