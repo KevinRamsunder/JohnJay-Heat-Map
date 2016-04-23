@@ -79,7 +79,7 @@ app.get('/api/v1/weather-data', function(req, res) {
     var object = {};
     console.log('Sending weather data');
 
-    fs.readFile('node/data/weather-data/weather-data.csv', 'utf-8', function(err, data) {
+    fs.readFile('node/data/weather-data/weather.json', 'utf-8', function(err, data) {
         res.send(data);
     });
 });

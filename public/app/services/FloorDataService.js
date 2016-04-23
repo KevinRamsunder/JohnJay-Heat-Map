@@ -19,13 +19,7 @@ app.service('floorDataService', function (loadingService, $http) {
         });
 
         $http.get('/api/v1/weather-data').then(function (response) {
-            var tempStorage = response.data.split(',');
-
-            for (var i = 16; i < tempStorage.length; i += 8) {
-                self.weatherData[tempStorage[i].replace("EWR", "").replace(/(\r\n|\n|\r)/gm,"")] = tempStorage[i+1];
-            }
-
-            delete self.weatherData[''];
+            self.weatherData = response.data;
         });
 
         $http.get('/api/v1/rooms').then(function (response) {
