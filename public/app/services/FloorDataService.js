@@ -1,4 +1,4 @@
-app.service('floorDataService', function (loadingService, $http) {
+app.service('floorDataService', function (loadingService, $http, $q, HttpPromise) {
     var self = this;
 
     self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
@@ -7,31 +7,32 @@ app.service('floorDataService', function (loadingService, $http) {
     self.vavs = {};
     self.weatherData = {};
 
-    self.getData = function () {
-        loadingService.makingRequest = true;
+    loadingService.makingRequest = true;
 
-        $http.get('app/assets/json/floor_10/room_num.json').then(function (response) {
-            self.roomNumbers = response.data;
+    self.getRoomNumbers = function getRoomNumbers() {
+        return HttpPromise.getRoomNumbers().then(function(data) {
+            self.roomNumbers = data;
         });
+    };
 
-        $http.get('app/assets/json/floor_10/vav.json').then(function (response) {
-            self.vavs = response.data;
+    self.getVavNumbers = function getVavNumbers() {
+        return HttpPromise.getVavNumbers().then(function(data) {
+           self.vavs = data;
         });
+    };
 
-        $http.get('/api/v1/weather-data').then(function (response) {
-            var tempStorage = response.data.split(',');
-
+    self.getWeatherData = function getWeatherData() {
+        return HttpPromise.getWeatherData().then(function(tempStorage) {
             for (var i = 16; i < tempStorage.length; i += 8) {
                 self.weatherData[tempStorage[i].replace("EWR", "").replace(/(\r\n|\n|\r)/gm,"")] = tempStorage[i+1];
             }
 
             delete self.weatherData[''];
         });
+    };
 
-        $http.get('/api/v1/rooms').then(function (response) {
-            // {vav: "date, temp, date, temp", vav : "date, temp", ...}
-            var masterData = response.data;
-
+    self.getRoomData = function getRoomData() {
+        return HttpPromise.getRoomData().then(function(masterData) {
             var tempData = {};
             var do_once = true;
 
@@ -56,5 +57,12 @@ app.service('floorDataService', function (loadingService, $http) {
 
             loadingService.makingRequest = false;
         });
-    };
+    }
+
+    self.getAllFloorData = function getAllFloorData() {
+        var promises = [self.getRoomNumbers(), self.getVavNumbers(),
+                        self.getWeatherData(), self.getRoomData()];
+
+        return $q.all(promises);
+    }
 });
