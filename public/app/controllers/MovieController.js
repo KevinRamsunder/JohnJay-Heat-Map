@@ -14,9 +14,6 @@ function movieController($scope, $interval, leafletData, mapInteractionService,
     $scope.startDateIndex = 0;
     $scope.endDateIndex = 0;
 
-    // get all the files for the floor
-    floorDataService.getData();
-
     $scope.startAnimation = function () {
         if (datePickerService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
             $scope.setDateIndex();
@@ -49,7 +46,7 @@ function movieController($scope, $interval, leafletData, mapInteractionService,
             mapInteractionService.removeMarkersFromMap($scope, map);
 
             // add new markers to the map
-            mapInteractionService.addMarkersToMap($scope, map, $scope.currentDate);
+            mapInteractionService.addMarkersToMap(map, $scope.currentDate);
 
             // increment the startDateIndex
             $scope.startDateIndex += 1;
