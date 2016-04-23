@@ -38,6 +38,17 @@ app.service('MapInteractionService', function(TableToMapService, FloorDataServic
 
     };
 
+    // remove specific VAV Box from map
+    self.removeMarkersFromMap = function(map) {
+        for (var vav in FloorDataService.vavs) {
+            for (var i = 0; i < self.vectorLayers[vav].length; i++) {
+                map.removeLayer(self.vectorLayers[vav][i]);
+            }
+
+            delete self.vectorLayers[vav];
+        }
+    };
+
     self.getMarkerType = function(coordinates, color, currentTemp, zoom) {
         var degreeSign = String.fromCharCode(parseInt("00B0", 16));
 
@@ -63,17 +74,6 @@ app.service('MapInteractionService', function(TableToMapService, FloorDataServic
             return roomTemp;
         } else if (self.marker_options == 'Temp: Inside Vs Outside') {
             return Math.abs(FloorDataService.weatherData[date] - roomTemp) * 2;
-        }
-    };
-
-    // remove specific VAV Box from map
-    self.removeMarkersFromMap = function(map) {
-        for (var vav in FloorDataService.vavs) {
-            for (var i = 0; i < self.vectorLayers[vav].length; i++) {
-                map.removeLayer(self.vectorLayers[vav][i]);
-            }
-
-            delete self.vectorLayers[vav];
         }
     };
 });
