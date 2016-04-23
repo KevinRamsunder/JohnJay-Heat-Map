@@ -19,9 +19,10 @@
 <body>
 <div class="">
     <div class="sidebar col-md-4">
-        <div class="col-md-12">
-            <img id="logo" src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
+        <div id="logo" class="col-md-12">
+            <img src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
         </div>
+
         <div ng-controller="DatePickerController" class="row">
             <md-content class="col-xs-6 col-md-6" id="start-data">
                 <span class="date-text">select min date</span>
@@ -37,6 +38,7 @@
                 </md-datepicker>
             </md-content>
         </div>
+
         <div ng-controller="MovieController" class="moviecontrols">
             <h3>{{currentDate}}</h3>
             <div id="movie-controller-block" class="row">
@@ -57,10 +59,10 @@
             </div>
         </div>
 
-        <div class="marker-drop-down" ng-controller="DropDownController">
+        <div ng-controller="DropDownController" class="marker-drop-down">
             <select class="selectpicker" ng-model="marker_type" ng-change="updateMarkers()">
-                <option>Circles</option>
                 <option>Squares</option>
+                <option>Circles</option>
             </select>
 
             <select class="selectpicker marker-drop-down" ng-model="marker_options" ng-change="updateMarkers()">
@@ -163,6 +165,7 @@
             </table>
         </div>
     </div>
+
     <div ng-controller="MapController" class="col-md-8">
         <leaflet id="map" lf-center="center" defaults="defaults" layers="layers" height="800px">
         </leaflet>
@@ -186,7 +189,7 @@
 <script src="app/services/FloorDataService.js"></script>
 <script src="app/services/TableToMapService.js"></script>
 <script src="app/services/MapInteractionService.js"></script>
-<script src="app/services/DatePickerService.js"></script>
+<script src="app/services/DateService.js"></script>
 <script src="app/controllers/MapController.js"></script>
 <script src="app/controllers/TableController.js"></script>
 <script src="app/controllers/MovieController.js"></script>

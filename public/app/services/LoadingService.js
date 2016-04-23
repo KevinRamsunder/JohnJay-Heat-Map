@@ -1,4 +1,4 @@
-app.service('loadingService', function() {
+app.service('LoadingService', function() {
     var self = this;
 
     // if currently loading csv files set true

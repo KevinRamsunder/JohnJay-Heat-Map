@@ -2,10 +2,10 @@
 app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteractionService', 'floorDataService'];
+mapController.$inject = ['$scope', '$http', 'leafletData', 'MapInteractionService', 'FloorDataService', 'DateService'];
 
 // controller function
-function mapController($scope, $http, leafletData, mapInteractionService, floorDataService) {
+function mapController($scope, $http, leafletData, MapInteractionService, FloorDataService, DateService) {
     // save context
     var self = this;
     $scope.currentDate = "";
@@ -22,18 +22,18 @@ function mapController($scope, $http, leafletData, mapInteractionService, floorD
 
     // initialize current layer
     leafletData.getMap('map').then(function(map) {
-        floorDataService.getAllFloorData('floor_10').then(function() {
-            mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');
+        FloorDataService.getAllFloorData('floor_10').then(function() {
+            MapInteractionService.addMarkersToMap(map, DateService.getEndDateString());
         });
     });
 
     // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {
         map.on('baselayerchange', function(layer) {
-            mapInteractionService.removeMarkersFromMap(map);
+            MapInteractionService.removeMarkersFromMap(map);
             
-            floorDataService.getAllFloorData(layer.name).then(function() {
-                mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');
+            FloorDataService.getAllFloorData(layer.name).then(function() {
+                MapInteractionService.addMarkersToMap(map, DateService.getEndDateString());
             });
         });
 

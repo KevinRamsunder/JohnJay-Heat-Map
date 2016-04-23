@@ -1,5 +1,5 @@
 // service for table to map communication
-app.service('tableToMapService', function() {
+app.service('TableToMapService', function() {
     var self = this;
 
     // get colors from each row in the table

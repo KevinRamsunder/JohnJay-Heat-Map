@@ -1,12 +1,12 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$interval', 'leafletData', 'mapInteractionService',
-    'datePickerService', 'floorDataService', 'loadingService'];
+movieController.$inject = ['$scope', '$interval', 'leafletData', 'MapInteractionService',
+    'DateService', 'FloorDataService', 'LoadingService'];
 
-function movieController($scope, $interval, leafletData, mapInteractionService,
-                         datePickerService, floorDataService, loadingService) {
+function movieController($scope, $interval, leafletData, MapInteractionService,
+                         DateService, FloorDataService, LoadingService) {
 
-    $scope.currentDate = 'Current Date';
+    $scope.currentDate = DateService.getEndDateString();
     $scope.isStopped = true;
     $scope.interval  = 50; // refresh rate for animation
 
@@ -15,7 +15,7 @@ function movieController($scope, $interval, leafletData, mapInteractionService,
     $scope.endDateIndex = 0;
 
     $scope.startAnimation = function () {
-        if (datePickerService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
+        if (DateService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
             $scope.setDateIndex();
         }
 
@@ -40,13 +40,13 @@ function movieController($scope, $interval, leafletData, mapInteractionService,
         $scope.animation = $interval(function () {
 
             // get currentDate from startDateIndex
-            $scope.currentDate = floorDataService.currentFloorDates[$scope.startDateIndex];
+            $scope.currentDate = FloorDataService.currentFloorDates[$scope.startDateIndex];
 
             // remove all markers on map
-            mapInteractionService.removeMarkersFromMap(map);
+            MapInteractionService.removeMarkersFromMap(map);
 
             // add new markers to the map
-            mapInteractionService.addMarkersToMap(map, $scope.currentDate);
+            MapInteractionService.addMarkersToMap(map, $scope.currentDate);
 
             // increment the startDateIndex
             $scope.startDateIndex += 1;
@@ -59,12 +59,12 @@ function movieController($scope, $interval, leafletData, mapInteractionService,
     };
 
     $scope.loaderStatus = function () {
-        return loadingService.loading || loadingService.makingRequest;
+        return LoadingService.loading || LoadingService.makingRequest;
     };
 
     $scope.setDateIndex = function () {
-        $scope.startDateIndex = datePickerService.getStartDate();
-        $scope.endDateIndex = datePickerService.getEndDate();
-        datePickerService.dateChanged = false;
+        $scope.startDateIndex = DateService.getStartDate();
+        $scope.endDateIndex = DateService.getEndDate();
+        DateService.dateChanged = false;
     };
 }
