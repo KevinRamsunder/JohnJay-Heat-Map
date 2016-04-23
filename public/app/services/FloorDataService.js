@@ -7,8 +7,6 @@ app.service('floorDataService', function (loadingService, $http, $q, HttpPromise
     self.roomNumbers = {};
     self.weatherData = {};
 
-    loadingService.makingRequest = true;
-
     self.getRoomNumbers = function getRoomNumbers() {
         return HttpPromise.getRoomNumbers().then(function(data) {
             self.roomNumbers = data;
@@ -36,6 +34,8 @@ app.service('floorDataService', function (loadingService, $http, $q, HttpPromise
     };
 
     self.getAllFloorData = function getAllFloorData() {
+        loadingService.makingRequest = true;
+        
         var promises = [self.getRoomNumbers(), self.getVavNumbers(),
                         self.getWeatherData(), self.getRoomData()];
 

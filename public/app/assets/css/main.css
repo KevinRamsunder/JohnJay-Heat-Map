@@ -55,3 +55,7 @@ html, body {
 .marker-options {
     padding-left: 10px;
 }
+
+.leaflet-image-layer.leaflet-zoom-animated {
+    z-index: -5 !important;
+}

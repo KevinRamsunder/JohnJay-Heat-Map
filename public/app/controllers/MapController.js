@@ -8,17 +8,54 @@ mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteractionServic
 function mapController($scope, $http, leafletData, mapInteractionService, floorDataService) {
     // save context
     var self = this;
-
     $scope.currentDate = "";
 
     // add map properties to scope
     initMap($scope);
 
-    // post-processing
-    postProcess($scope, $http, leafletData, mapInteractionService, floorDataService);
+
+    /*********************************************************/
+
+    /* Here lies function postProcess(), may we never forget */
+
+    /*********************************************************/
+
+    // initialize current layer
+    leafletData.getMap('map').then(function(map) {        
+        floorDataService.getAllFloorData().then(function() {
+            mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');                     
+        });
+    });
 
     // circles on map will zoom appropriately when movie is not playing
     leafletData.getMap('map').then(function (map) {
+        map.on('baselayerchange', function(layer) {
+            mapInteractionService.removeMarkersFromMap(map);
+
+            if(layer.name === 'Tenth Floor') {
+                floorDataService.getAllFloorData().then(function() {
+                    mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');                     
+                });
+            }
+        });
+
+        var info = L.control();
+
+        info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'info');
+            return this._div;
+        };
+
+        info.update = function (latlong) {
+            this._div.innerHTML = latlong;
+        };
+
+        map.on('mousemove',function(e){
+            info.update(e.latlng);
+        });
+
+        info.addTo(map);
+
         map.on('zoomend', function () {
             var markers = [];
             this.eachLayer(function (marker) {
@@ -115,50 +152,5 @@ var initMap = function(self) {
                 }
             }
         }
-    });
-};
-
-// get json files from local storage
-var getJSON = function($scope, $http, mapInteraction) {
-    // function to make http call to get content of JSON
-    return getRoomDataFromJson = new Promise(function(resolve, reject) {
-        $http.get('app/assets/json/floor_10/room_num.json').then(function(response) {
-            var roomNumbers = response;
-            $http.get('app/assets/json/floor_10/vav.json').then(function(response) {
-                mapInteraction.data = {'roomNumbers': roomNumbers, 'vavBoxes': response};
-                resolve(mapInteraction.data);
-            });
-        });
-    });
-};
-
-// execute - will re-write this!
-var postProcess = function($scope, $http, leafletData, mapInteractionService, floorDataService) {
-    leafletData.getMap('map').then(function(map) {
-        var data = getJSON($scope, $http, mapInteractionService, floorDataService).then(function(response) {
-            var roomNumbers = response.roomNumbers.data;
-            var vavBoxes = response.vavBoxes.data;
-            
-            floorDataService.getAllFloorData().then(function() {
-                mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');                     
-            });
-            
-            var info = L.control();
-
-            info.onAdd = function(map) {
-                this._div = L.DomUtil.create('div', 'info');
-                return this._div;
-            };
-
-            info.update = function (latlong) {
-                this._div.innerHTML = latlong;
-            };
-
-            map.on('mousemove',function(e){
-                info.update(e.latlng);
-            });
-
-            info.addTo(map);
-        });
     });
 };
