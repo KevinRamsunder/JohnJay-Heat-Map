@@ -21,9 +21,9 @@ function mapController($scope, $http, leafletData, mapInteractionService, floorD
     /*********************************************************/
 
     // initialize current layer
-    leafletData.getMap('map').then(function(map) {        
-        floorDataService.getAllFloorData().then(function() {
-            mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');                     
+    leafletData.getMap('map').then(function(map) {
+        floorDataService.getAllFloorData('floor_10').then(function() {
+            mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');
         });
     });
 
@@ -31,12 +31,10 @@ function mapController($scope, $http, leafletData, mapInteractionService, floorD
     leafletData.getMap('map').then(function (map) {
         map.on('baselayerchange', function(layer) {
             mapInteractionService.removeMarkersFromMap(map);
-
-            if(layer.name === 'Tenth Floor') {
-                floorDataService.getAllFloorData().then(function() {
-                    mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');                     
-                });
-            }
+            
+            floorDataService.getAllFloorData(layer.name).then(function() {
+                mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');
+            });
         });
 
         var info = L.control();
@@ -101,7 +99,7 @@ var initMap = function(self) {
         layers: {
             baselayers: {
                 tenthFloor: {
-                    name: 'Tenth Floor',
+                    name: 'floor_10',
                     type: 'imageOverlay',
                     url: 'app/assets/images/nb_floor_10.jpg',
                     // will fix this later
@@ -111,7 +109,7 @@ var initMap = function(self) {
                     ]
                 },
                 ninthFloor: {
-                    name: 'Ninth Floor',
+                    name: 'floor_9',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_9.jpg',
                     // will fix this later
@@ -121,7 +119,7 @@ var initMap = function(self) {
                     ]
                 },
                 eightFloor: {
-                    name: 'Eight Floor',
+                    name: 'floor_8',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_8.jpg',
                     // will fix this later
@@ -131,7 +129,7 @@ var initMap = function(self) {
                     ]
                 },
                 seventhFloor: {
-                    name: 'Seventh Floor',
+                    name: 'floor_7',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_7.jpg',
                     // will fix this later
@@ -141,7 +139,7 @@ var initMap = function(self) {
                     ]
                 },
                 sixthFloor: {
-                    name: 'Sixth Floor',
+                    name: 'floor_6',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_6.jpg',
                     // will fix this later
