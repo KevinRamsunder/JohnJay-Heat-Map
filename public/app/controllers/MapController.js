@@ -21,10 +21,8 @@ function mapController($scope, $http, leafletData, MapInteractionService, FloorD
     /*********************************************************/
 
     // initialize current layer
-    leafletData.getMap('map').then(function(map) {
-        FloorDataService.getAllFloorData('floor_10').then(function() {
-            MapInteractionService.addMarkersToMap(map, DateService.getEndDateString());
-        });
+    FloorDataService.getAllFloorData('floor_10').then(function() {
+        MapInteractionService.addMarkersToMap(DateService.getEndDateString());
     });
 
     // circles on map will zoom appropriately when movie is not playing
