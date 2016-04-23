@@ -1,14 +1,14 @@
 app.controller('MovieController', movieController);
 
-movieController.$inject = ['$scope', '$interval', 'leafletData', 'MapInteractionService',
+movieController.$inject = ['$scope', '$interval', 'MapInteractionService',
     'DateService', 'FloorDataService', 'LoadingService'];
 
-function movieController($scope, $interval, leafletData, MapInteractionService,
+function movieController($scope, $interval, MapInteractionService,
                          DateService, FloorDataService, LoadingService) {
 
     $scope.currentDate = DateService.getEndDateString();
     $scope.isStopped = true;
-    $scope.interval  = 50; // refresh rate for animation
+    $scope.interval = 50; // refresh rate for animation
 
     // index for run movie
     $scope.startDateIndex = 0;
@@ -20,10 +20,7 @@ function movieController($scope, $interval, leafletData, MapInteractionService,
         }
 
         $scope.isStopped = false;
-
-        leafletData.getMap('map').then(function (map) {
-            $scope.animate(map);
-        });
+        $scope.animate();
     };
 
     $scope.stopAnimation = function () {
