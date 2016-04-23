@@ -7,15 +7,15 @@ app.service('floorDataService', function (loadingService, $http, $q) {
     self.roomNumbers = {};
     self.weatherData = {};
 
-    self.getCoordinates = function getCoordinates() {
-        return $http.post('/api/v1/coordinates').then(function(response) {
+    self.getCoordinates = function getCoordinates(floorLevel) {
+        return $http.post('/api/v1/coordinates', {'floorLevel': floorLevel}).then(function(response) {
             self.roomNumbers = response.data['room_num'];
             self.vavs = response.data['vav'];
         });
     };
 
-    self.getRoomData = function getRoomData() {
-        return $http.post('/api/v1/rooms').then(function(response) {
+    self.getRoomData = function getRoomData(floorLevel) {
+        return $http.post('/api/v1/rooms', {'floorLevel': floorLevel}).then(function(response) {
             self.currentFloorDates = response.data['Dates'];
             self.currentFloorData = response.data['Data'];
             loadingService.makingRequest = false;
@@ -28,10 +28,11 @@ app.service('floorDataService', function (loadingService, $http, $q) {
         });
     };
 
-    self.getAllFloorData = function getAllFloorData() {
+    self.getAllFloorData = function getAllFloorData(floorLevel) {
         loadingService.makingRequest = true;
         
-        var promises = [self.getCoordinates(), self.getWeatherData(), self.getRoomData()];
+        var promises = [self.getCoordinates(floorLevel), self.getRoomData(floorLevel),
+            self.getWeatherData()];
 
         return $q.all(promises);
     }
