@@ -5,4 +5,7 @@ app.service('LoadingService', function() {
     self.loading = false;
     self.makingRequest = false;
 
+    self.loaderStatus = function () {
+        return self.loading || self.makingRequest;
+    };
 });

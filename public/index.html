@@ -12,7 +12,8 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.min.css">
     <link rel="stylesheet" href="app/assets/leaflet/leaflet.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="app/assets/css/main.css">
     <link rel="stylesheet" href="app/assets/css/sidebar.css">
 </head>
@@ -43,29 +44,31 @@
             <h3>{{currentDate}}</h3>
             <div id="movie-controller-block" class="row">
                 <div ng-show="loaderStatus()"> loading...</div>
-                <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='startAnimation()'
-                        ng-disabled='!isStopped || loaderStatus()'>
+                <button class="btn btn-secondary col-md-3 movie-block-element"
+                        ng-click='startAnimation()' ng-disabled='!isStopped || loaderStatus()'>
                     <i class="fa fa-play"></i>
                     <!--<i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i>-->
                 </button>
-                <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='stopAnimation()'
-                        ng-disabled='isStopped'>
+                <button class="btn btn-secondary col-md-3 movie-block-element"
+                        ng-click='stopAnimation()' ng-disabled='isStopped'>
                     <i class="fa fa-pause"></i>
                 </button>
-                <button class="btn btn-secondary col-md-3 movie-block-element" ng-click='restartAnimation()'
-                        ng-disabled='!isStopped'>
+                <button class="btn btn-secondary col-md-3 movie-block-element"
+                        ng-click='restartAnimation()' ng-disabled='!isStopped'>
                     <i class="fa fa-refresh"></i>
                 </button>
             </div>
         </div>
 
         <div ng-controller="DropDownController" class="marker-drop-down">
-            <select class="selectpicker" ng-model="marker_type" ng-change="updateMarkers()">
+            <select class="selectpicker" ng-model="marker_type"
+                    ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
                 <option>Squares</option>
                 <option>Circles</option>
             </select>
 
-            <select class="selectpicker marker-drop-down" ng-model="marker_options" ng-change="updateMarkers()">
+            <select class="selectpicker marker-drop-down" ng-model="marker_options"
+                    ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
                 <option>Temp</option>
                 <option>Temp: Inside Vs Outside</option>
             </select>

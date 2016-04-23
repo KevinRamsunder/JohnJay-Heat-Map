@@ -56,7 +56,7 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
     };
 
     $scope.loaderStatus = function () {
-        return LoadingService.loading || LoadingService.makingRequest;
+        return LoadingService.loaderStatus();
     };
 
     $scope.setDateIndex = function () {
