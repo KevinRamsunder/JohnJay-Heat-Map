@@ -1,4 +1,4 @@
-app.service('MapInteractionService', function(tableToMapService, floorDataService) {
+app.service('MapInteractionService', function(TableToMapService, floorDataService) {
     var self = this;
 
     // container for layers
@@ -18,7 +18,7 @@ app.service('MapInteractionService', function(tableToMapService, floorDataServic
 
                 // get the markerValue of that vav
                 var markerValue = self.getMarkerValue(vav, date);
-                var color = tableToMapService.getColorFromRanges(markerValue).color;
+                var color = TableToMapService.getColorFromRanges(markerValue).color;
 
                 // go through rooms in vav box and add markers to map
                 for (var i = 0; i < floorDataService.vavs[vav].length; i++) {
@@ -48,7 +48,7 @@ app.service('MapInteractionService', function(tableToMapService, floorDataServic
 
         if (self.marker_type === 'Circles') {
             var latlng = L.latLng((coordinates[0][0]+coordinates[1][0])/2, (coordinates[0][1]+coordinates[1][1])/2);
-            var radius = ((tableToMapService.getIndexOfColor(color) + 1) * 5) * zoom;
+            var radius = ((TableToMapService.getIndexOfColor(color) + 1) * 5) * zoom;
 
             return new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
 

@@ -2,8 +2,8 @@
 app.controller('TableController', tableController);
 
 // inject dependencies into 'TableController' controller
-tableController.$inject = ['$scope', 'tableToMapService'];
+tableController.$inject = ['$scope', 'TableToMapService'];
 
-function tableController($scope, tableToMapService) {
+function tableController($scope, TableToMapService) {
     var self = this;
 }
