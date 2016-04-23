@@ -32,7 +32,7 @@ var vav = {};
 vav.floor10 = [
     '47102', '47103', '47104', '47105', '47106',
     '47107', '47108', '47109', '47110', '47111',
-    '47112', '47113',          '47115', '47116',
+    '47112', '47113', '47115', '47116',
     '47117', '47118', '47119', '47120', '47121',
     '47122', '47123', '47124', '47125', '47201',
 
@@ -46,31 +46,33 @@ vav.floor10 = [
 app.use('/node/data', express.static('node/data'));
 
 // get all room JSON objects
-app.get('/api/v1/rooms', function(req, res) {
+app.get('/api/v1/rooms', function (req, res) {
     // allRoomData {vav: "date, temp, date, temp", vav : "date, temp", ...}
     var allRoomData = {};
 
-    console.log('Sending Room Data');
+    console.log('room data requested');
 
     var count = 0;
 
     async.whilst(
-        function() { return count < vav.floor10.length; },
+        function () {
+            return count < vav.floor10.length;
+        },
 
-        function(callback) {
-            fs.readFile('node/data/Room' + vav.floor10[count] + '.csv', 'utf-8', function(err, data) {
-                if(err) {
+        function (callback) {
+            fs.readFile('node/data/Room' + vav.floor10[count] + '.csv', 'utf-8', function (err, data) {
+                if (err) {
                     console.log(err);
                 } else {
                     allRoomData[vav.floor10[count]] = data;
                 }
-                
+
                 count++;
                 callback();
             });
         },
-        
-        function() {
+
+        function () {
             var currentFloorDates = [];
             var currentFloorData = {};
             var tempData = {};
@@ -109,10 +111,10 @@ app.get('/api/v1/rooms', function(req, res) {
 });
 
 // get weather data csv
-app.get('/api/v1/weather-data', function(req, res) {
-    console.log('Sending weather data');
+app.get('/api/v1/weather-data', function (req, res) {
+    console.log('weather data request');
 
-    fs.readFile('node/data/weather-data/weather.json', 'utf-8', function(err, data) {
+    fs.readFile('node/data/weather-data/weather.json', 'utf-8', function (err, data) {
         res.send(data);
     });
 });
