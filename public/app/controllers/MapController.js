@@ -2,10 +2,10 @@
 app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteractionService', 'floorDataService'];
+mapController.$inject = ['$scope', '$http', 'leafletData', 'mapInteractionService', 'floorDataService', 'DateService'];
 
 // controller function
-function mapController($scope, $http, leafletData, mapInteractionService, floorDataService) {
+function mapController($scope, $http, leafletData, mapInteractionService, floorDataService, DateService) {
     // save context
     var self = this;
     $scope.currentDate = "";
@@ -23,7 +23,7 @@ function mapController($scope, $http, leafletData, mapInteractionService, floorD
     // initialize current layer
     leafletData.getMap('map').then(function(map) {
         floorDataService.getAllFloorData('floor_10').then(function() {
-            mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');
+            mapInteractionService.addMarkersToMap(map, DateService.getEndDateString());
         });
     });
 
@@ -33,7 +33,7 @@ function mapController($scope, $http, leafletData, mapInteractionService, floorD
             mapInteractionService.removeMarkersFromMap(map);
             
             floorDataService.getAllFloorData(layer.name).then(function() {
-                mapInteractionService.addMarkersToMap(map, '2016-01-31 23:00:00');
+                mapInteractionService.addMarkersToMap(map, DateService.getEndDateString());
             });
         });
 

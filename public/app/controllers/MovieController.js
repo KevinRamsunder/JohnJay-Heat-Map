@@ -1,12 +1,12 @@
 app.controller('MovieController', movieController);
 
 movieController.$inject = ['$scope', '$interval', 'leafletData', 'mapInteractionService',
-    'datePickerService', 'floorDataService', 'loadingService'];
+    'DateService', 'floorDataService', 'loadingService'];
 
 function movieController($scope, $interval, leafletData, mapInteractionService,
-                         datePickerService, floorDataService, loadingService) {
+                         DateService, floorDataService, loadingService) {
 
-    $scope.currentDate = 'Current Date';
+    $scope.currentDate = DateService.getEndDateString();
     $scope.isStopped = true;
     $scope.interval  = 50; // refresh rate for animation
 
@@ -15,7 +15,7 @@ function movieController($scope, $interval, leafletData, mapInteractionService,
     $scope.endDateIndex = 0;
 
     $scope.startAnimation = function () {
-        if (datePickerService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
+        if (DateService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
             $scope.setDateIndex();
         }
 
@@ -63,8 +63,8 @@ function movieController($scope, $interval, leafletData, mapInteractionService,
     };
 
     $scope.setDateIndex = function () {
-        $scope.startDateIndex = datePickerService.getStartDate();
-        $scope.endDateIndex = datePickerService.getEndDate();
-        datePickerService.dateChanged = false;
+        $scope.startDateIndex = DateService.getStartDate();
+        $scope.endDateIndex = DateService.getEndDate();
+        DateService.dateChanged = false;
     };
 }
