@@ -77,7 +77,7 @@ var initMap = function (self) {
     angular.extend(self, {
         defaults: {
             minZoom: -.8,
-            maxZoom: .2,
+            maxZoom: 1.2,
             crs: 'Simple'
         },
 
