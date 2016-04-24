@@ -2,10 +2,10 @@
 app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mapController.$inject = ['$scope', 'leafletData', 'FloorDataService', 'MapInteractionService', 'DateService'];
+mapController.$inject = ['$scope', 'leafletData', 'FloorDataService', 'MapInteractionService', '$rootScope'];
 
 // controller function
-function mapController($scope, leafletData, FloorDataService, MapInteractionService, DateService) {
+function mapController($scope, leafletData, FloorDataService, MapInteractionService, $rootScope) {
     // save context
     var self = this;
 
@@ -20,7 +20,7 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
 
     // initialize current layer
     FloorDataService.getAllFloorData('floor_10').then(function () {
-        MapInteractionService.addMarkersToMap(DateService.currentDate);
+        MapInteractionService.addMarkersToMap($rootScope.currentDate);
     });
 
     leafletData.getMap('map').then(function (map) {
@@ -28,7 +28,7 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
             MapInteractionService.removeMarkersFromMap();
 
             FloorDataService.getAllFloorData(layer.name).then(function () {
-                MapInteractionService.addMarkersToMap(DateService.currentDate);
+                MapInteractionService.addMarkersToMap($rootScope.currentDate);
             });
         });
 
@@ -53,7 +53,7 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
         map.on('zoomend', function () {
             if (MapInteractionService.marker_type === 'Circles') {
                 MapInteractionService.removeMarkersFromMap();
-                MapInteractionService.addMarkersToMap(DateService.currentDate);
+                MapInteractionService.addMarkersToMap($rootScope.currentDate);
             }
         });
     });

@@ -27,21 +27,21 @@
         <div ng-controller="DatePickerController" class="row">
             <md-content class="col-xs-6 col-md-6" id="start-data">
                 <span class="date-text">select min date</span>
-                <md-datepicker ng-model="startDate" md-placeholder="Enter date"
-                               md-min-date="minDate" md-max-date="endDate" ng-change="updateDate()">
+                <md-datepicker ng-model="$root.startDate" md-placeholder="Enter date"
+                               md-min-date="minDate" md-max-date="$root.endDate" ng-change="updateDate()">
                 </md-datepicker>
             </md-content>
 
             <md-content class="col-xs-6 col-md-6" id="end-date">
                 <span class="date-text">select max date</span>
                 <md-datepicker ng-model="endDate" md-placeholder="Enter date"
-                               md-min-date="startDate" md-max-date="maxDate" ng-change="updateDate()">
+                               md-min-date="$root.startDate" md-max-date="$root.maxDate" ng-change="updateDate()">
                 </md-datepicker>
             </md-content>
         </div>
 
         <div ng-controller="MovieController" class="moviecontrols">
-            <h3>{{currentDate}}</h3>
+            <h3>{{$root.currentDate}}</h3>
             <div id="movie-controller-block" class="row">
                 <div ng-show="loaderStatus()"> loading...</div>
                 <button class="btn btn-secondary col-md-3 movie-block-element"
@@ -192,7 +192,6 @@
 <script src="app/services/FloorDataService.js"></script>
 <script src="app/services/TableToMapService.js"></script>
 <script src="app/services/MapInteractionService.js"></script>
-<script src="app/services/DateService.js"></script>
 <script src="app/controllers/MapController.js"></script>
 <script src="app/controllers/TableController.js"></script>
 <script src="app/controllers/MovieController.js"></script>

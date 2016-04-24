@@ -1,13 +1,12 @@
 app.controller('MovieController', movieController);
 
 movieController.$inject = ['$scope', '$interval', 'FloorDataService', 'MapInteractionService',
-    'DateService', 'LoadingService'];
+    'LoadingService', '$rootScope'];
 
 function movieController($scope, $interval, FloorDataService, MapInteractionService,
-                         DateService, LoadingService) {
+                         LoadingService, $rootScope) {
 
-    $scope.currentDate = DateService.getEndDateString();
-    DateService.currentDate = $scope.currentDate;
+    $rootScope.currentDate = $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00';
 
     $scope.isStopped = true;
     $scope.interval = 50; // refresh rate for animation
@@ -17,7 +16,7 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
     $scope.endDateIndex = 0;
 
     $scope.startAnimation = function () {
-        if (DateService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
+        if ($rootScope.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
             $scope.setDateIndex();
         }
 
@@ -39,14 +38,13 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
         $scope.animation = $interval(function () {
 
             // get currentDate from startDateIndex
-            $scope.currentDate = FloorDataService.currentFloorDates[$scope.startDateIndex];
-            DateService.currentDate = $scope.currentDate;
+            $rootScope.currentDate = FloorDataService.currentFloorDates[$scope.startDateIndex];
 
             // remove all markers on map
             MapInteractionService.removeMarkersFromMap();
 
             // add new markers to the map
-            MapInteractionService.addMarkersToMap($scope.currentDate);
+            MapInteractionService.addMarkersToMap($rootScope.currentDate);
 
             // increment the startDateIndex
             $scope.startDateIndex += 1;
@@ -63,8 +61,11 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
     };
 
     $scope.setDateIndex = function () {
-        $scope.startDateIndex = DateService.getStartDate();
-        $scope.endDateIndex = DateService.getEndDate();
-        DateService.dateChanged = false;
+        var startDateString = $rootScope.startDate.toISOString().substring(0, 10) + ' 00:00:00';
+        var endDateString = $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00';
+
+        $scope.startDateIndex = FloorDataService.currentFloorDates.indexOf(startDateString);
+        $scope.endDateIndex = FloorDataService.currentFloorDates.indexOf(endDateString);
+        $rootScope.dateChanged = false;
     };
 }

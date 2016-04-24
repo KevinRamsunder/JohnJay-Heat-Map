@@ -1,8 +1,8 @@
 app.controller('DropDownController', dropDownController);
 
-dropDownController.$inject = ['$scope', 'MapInteractionService', 'DateService', 'LoadingService'];
+dropDownController.$inject = ['$scope', 'MapInteractionService', 'LoadingService', '$rootScope'];
 
-function dropDownController($scope, MapInteractionService, DateService, LoadingService) {
+function dropDownController($scope, MapInteractionService, LoadingService, $rootScope) {
     // variables for markers and data being shown
     $scope.marker_type = 'Squares';
     $scope.marker_options = 'Temp';
@@ -12,7 +12,9 @@ function dropDownController($scope, MapInteractionService, DateService, LoadingS
         MapInteractionService.marker_options = $scope.marker_options;
 
         MapInteractionService.removeMarkersFromMap();
-        MapInteractionService.addMarkersToMap(DateService.getEndDateString());
+
+        var endDateString = $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00';
+        MapInteractionService.addMarkersToMap(endDateString);
     };
 
     $scope.setInitialMarkers = function () {
