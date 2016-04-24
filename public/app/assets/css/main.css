@@ -4,6 +4,10 @@ html, body {
     height: 100%;
 }
 
+.container {
+    margin: 0;
+}
+
 #logo {
     padding: 25px 30px;
 }
@@ -20,50 +24,16 @@ html, body {
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
 }
+
 .info h4 {
     margin: 0 0 5px;
     color: #777;
-}
-
-.container {
-    margin: 0;
-    margin-right: 0;
 }
 
 .table th, .table td {
     padding: .25em;
 }
 
-.left_padding {
-
-}
-
-.md-datepicker-input-container {
-    padding: 0;
-    margin: 0;
-}
-.md-button.md-icon-button {
-    margin: 0;
-    padding: 0;
-}
-
-.date-text {
-    padding-left: 40px;
-}
-
-.marker-drop-down {
-    margin: 15px 10px 10px 10px;
-}
-
-.marker-options {
-    padding-left: 10px;
-}
-
 .leaflet-image-layer.leaflet-zoom-animated {
     z-index: -5 !important;
-}
-
-/*Grey out drop down when disabled*/
-select[disabled] {
-    background-color: #CCC;  //use your prefered color here
 }
