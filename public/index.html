@@ -38,10 +38,11 @@
                                md-min-date="$root.startDate" md-max-date="$root.maxDate" ng-change="updateDate()">
                 </md-datepicker>
             </md-content>
+
+            <h3>{{$root.displayDate}}</h3>
         </div>
 
         <div ng-controller="MovieController" class="moviecontrols">
-            <h3>{{$root.currentDate}}</h3>
             <div id="movie-controller-block" class="row">
                 <div ng-show="loaderStatus()"> loading...</div>
                 <button class="btn btn-secondary col-md-3 movie-block-element"

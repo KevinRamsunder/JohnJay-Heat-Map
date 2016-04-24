@@ -6,8 +6,6 @@ movieController.$inject = ['$scope', '$interval', 'FloorDataService', 'MapIntera
 function movieController($scope, $interval, FloorDataService, MapInteractionService,
                          LoadingService, $rootScope) {
 
-    $rootScope.currentDate = $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00';
-
     $scope.isStopped = true;
     $scope.interval = 50; // refresh rate for animation
 
@@ -36,15 +34,11 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
 
     $scope.animate = function () {
         $scope.animation = $interval(function () {
-
-            // get currentDate from startDateIndex
-            $rootScope.currentDate = FloorDataService.currentFloorDates[$scope.startDateIndex];
-
             // remove all markers on map
             MapInteractionService.removeMarkersFromMap();
 
             // add new markers to the map
-            MapInteractionService.addMarkersToMap($rootScope.currentDate);
+            MapInteractionService.addMarkersToMap(FloorDataService.currentFloorDates[$scope.startDateIndex]);
 
             // increment the startDateIndex
             $scope.startDateIndex += 1;
@@ -61,11 +55,14 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
     };
 
     $scope.setDateIndex = function () {
-        var startDateString = $rootScope.startDate.toISOString().substring(0, 10) + ' 00:00:00';
-        var endDateString = $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00';
+        // Set the startDateIndex to the beginning of the day
+        $scope.startDateIndex = FloorDataService.currentFloorDates.indexOf(
+            $rootScope.startDate.toISOString().substring(0, 10) + ' 00:00:00');
 
-        $scope.startDateIndex = FloorDataService.currentFloorDates.indexOf(startDateString);
-        $scope.endDateIndex = FloorDataService.currentFloorDates.indexOf(endDateString);
+        // Set the endDateIndex to the end of the day
+        $scope.endDateIndex = FloorDataService.currentFloorDates.indexOf(
+            $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00');
+
         $rootScope.dateChanged = false;
     };
 }

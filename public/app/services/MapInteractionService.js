@@ -1,4 +1,4 @@
-app.service('MapInteractionService', function (TableToMapService, FloorDataService, leafletData) {
+app.service('MapInteractionService', function (TableToMapService, FloorDataService, leafletData, $rootScope) {
     var self = this;
 
     // container for layers
@@ -9,6 +9,7 @@ app.service('MapInteractionService', function (TableToMapService, FloorDataServi
 
     // add specific VAV box to map
     self.addMarkersToMap = function (date) {
+        $rootScope.displayDate = date;
 
         leafletData.getMap('map').then(function (map) {
 
