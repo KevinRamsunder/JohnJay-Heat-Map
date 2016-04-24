@@ -76,15 +76,15 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
 var initMap = function (self) {
     angular.extend(self, {
         defaults: {
-            minZoom: -1,
-            maxZoom: 1,
+            minZoom: -.8,
+            maxZoom: .2,
             crs: 'Simple'
         },
 
         center: {
-            lat: 525,
+            lat: 575,
             lng: 600,
-            zoom: -1
+            zoom: -.8
         },
 
         layers: {
