@@ -1,13 +1,10 @@
 app.controller('MovieController', movieController);
 
 movieController.$inject = ['$scope', '$interval', 'FloorDataService', 'MapInteractionService',
-    'DateService', 'LoadingService'];
+    'LoadingService', '$rootScope'];
 
 function movieController($scope, $interval, FloorDataService, MapInteractionService,
-                         DateService, LoadingService) {
-
-    $scope.currentDate = DateService.getEndDateString();
-    DateService.currentDate = $scope.currentDate;
+                         LoadingService, $rootScope) {
 
     $scope.isStopped = true;
     $scope.interval = 50; // refresh rate for animation
@@ -17,7 +14,7 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
     $scope.endDateIndex = 0;
 
     $scope.startAnimation = function () {
-        if (DateService.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
+        if ($rootScope.dateChanged || $scope.startDateIndex >= $scope.endDateIndex) {
             $scope.setDateIndex();
         }
 
@@ -37,16 +34,12 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
 
     $scope.animate = function () {
         $scope.animation = $interval(function () {
-
-            // get currentDate from startDateIndex
-            $scope.currentDate = FloorDataService.currentFloorDates[$scope.startDateIndex];
-            DateService.currentDate = $scope.currentDate;
-
             // remove all markers on map
             MapInteractionService.removeMarkersFromMap();
 
             // add new markers to the map
-            MapInteractionService.addMarkersToMap($scope.currentDate);
+            MapInteractionService.addMarkersToMap(
+                FloorDataService.currentFloorDates[$scope.startDateIndex]);
 
             // increment the startDateIndex
             $scope.startDateIndex += 1;
@@ -63,8 +56,17 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
     };
 
     $scope.setDateIndex = function () {
-        $scope.startDateIndex = DateService.getStartDate();
-        $scope.endDateIndex = DateService.getEndDate();
-        DateService.dateChanged = false;
+        // Set the startDateIndex to the beginning of the day
+        $scope.startDateIndex = FloorDataService.currentFloorDates.indexOf(
+            $rootScope.startDate.toISOString().substring(0, 10) + ' 00:00:00');
+
+        // Set the endDateIndex to the end of the day
+        $scope.endDateIndex = FloorDataService.currentFloorDates.indexOf(
+            $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00');
+
+        $rootScope.dateChanged = false;
     };
+
+    // Initialize the start and end date Index
+    $scope.setDateIndex();
 }

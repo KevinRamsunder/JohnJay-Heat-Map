@@ -2,25 +2,23 @@
 app.controller('MapController', mapController);
 
 // inject dependencies into 'MainController' controller
-mapController.$inject = ['$scope', 'leafletData', 'FloorDataService', 'MapInteractionService', 'DateService'];
+mapController.$inject = ['$scope', 'leafletData', 'FloorDataService', 'MapInteractionService', '$rootScope'];
 
 // controller function
-function mapController($scope, leafletData, FloorDataService, MapInteractionService, DateService) {
+function mapController($scope, leafletData, FloorDataService, MapInteractionService, $rootScope) {
+
     // save context
     var self = this;
+
+    // set the default date to the most recent date available
+    self.defaultDate = $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00';
 
     // add map properties to scope
     initMap($scope);
 
-    /*********************************************************/
-
-    /* Here lies function postProcess(), may we never forget */
-
-    /*********************************************************/
-
     // initialize current layer
     FloorDataService.getAllFloorData('floor_10').then(function () {
-        MapInteractionService.addMarkersToMap(DateService.currentDate);
+        MapInteractionService.addMarkersToMap(self.defaultDate);
     });
 
     leafletData.getMap('map').then(function (map) {
@@ -28,13 +26,13 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
             MapInteractionService.removeMarkersFromMap();
 
             FloorDataService.getAllFloorData(layer.name).then(function () {
-                MapInteractionService.addMarkersToMap(DateService.currentDate);
+                MapInteractionService.addMarkersToMap(self.defaultDate);
             });
         });
 
         var info = L.control();
 
-        info.onAdd = function (map) {
+        info.onAdd = function () {
             this._div = L.DomUtil.create('div', 'info');
             return this._div;
         };
@@ -53,7 +51,7 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
         map.on('zoomend', function () {
             if (MapInteractionService.marker_type === 'Circles') {
                 MapInteractionService.removeMarkersFromMap();
-                MapInteractionService.addMarkersToMap(DateService.currentDate);
+                MapInteractionService.addMarkersToMap($rootScope.displayDate);
             }
         });
     });
