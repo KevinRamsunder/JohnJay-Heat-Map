@@ -8,7 +8,6 @@ mapController.$inject = ['$scope', 'leafletData', 'FloorDataService', 'MapIntera
 function mapController($scope, leafletData, FloorDataService, MapInteractionService, DateService) {
     // save context
     var self = this;
-    $scope.currentDate = "";
 
     // add map properties to scope
     initMap($scope);
@@ -21,7 +20,7 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
 
     // initialize current layer
     FloorDataService.getAllFloorData('floor_10').then(function () {
-        MapInteractionService.addMarkersToMap(DateService.getEndDateString());
+        MapInteractionService.addMarkersToMap(DateService.currentDate);
     });
 
     leafletData.getMap('map').then(function (map) {
@@ -29,7 +28,7 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
             MapInteractionService.removeMarkersFromMap();
 
             FloorDataService.getAllFloorData(layer.name).then(function () {
-                MapInteractionService.addMarkersToMap(DateService.getEndDateString());
+                MapInteractionService.addMarkersToMap(DateService.currentDate);
             });
         });
 
@@ -52,20 +51,9 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
 
         // circles on map will zoom appropriately when movie is not playing
         map.on('zoomend', function () {
-            var markers = [];
-            this.eachLayer(function (marker) {
-                markers.push(marker);
-            });
-
-            var i;
-            if (map.getZoom() == 2) {
-                for (i = 1; i < markers.length; i++) {
-                    // markers[i].setRadius(markers[i].getRadius() * 1.2);
-                }
-            } else if (map.getZoom() == 3) {
-                for (i = 1; i < markers.length; i++) {
-                    // markers[i].setRadius(markers[i].getRadius() * 4);
-                }
+            if (MapInteractionService.marker_type === 'Circles') {
+                MapInteractionService.removeMarkersFromMap();
+                MapInteractionService.addMarkersToMap(DateService.currentDate);
             }
         });
     });

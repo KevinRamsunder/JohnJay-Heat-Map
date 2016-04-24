@@ -7,6 +7,8 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
                          DateService, LoadingService) {
 
     $scope.currentDate = DateService.getEndDateString();
+    DateService.currentDate = $scope.currentDate;
+
     $scope.isStopped = true;
     $scope.interval = 50; // refresh rate for animation
 
@@ -38,6 +40,7 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
 
             // get currentDate from startDateIndex
             $scope.currentDate = FloorDataService.currentFloorDates[$scope.startDateIndex];
+            DateService.currentDate = $scope.currentDate;
 
             // remove all markers on map
             MapInteractionService.removeMarkersFromMap();
