@@ -38,7 +38,8 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
             MapInteractionService.removeMarkersFromMap();
 
             // add new markers to the map
-            MapInteractionService.addMarkersToMap(FloorDataService.currentFloorDates[$scope.startDateIndex]);
+            MapInteractionService.addMarkersToMap(
+                FloorDataService.currentFloorDates[$scope.startDateIndex]);
 
             // increment the startDateIndex
             $scope.startDateIndex += 1;
