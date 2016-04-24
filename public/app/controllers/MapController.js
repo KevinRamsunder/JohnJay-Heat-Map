@@ -25,14 +25,13 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
     });
 
     leafletData.getMap('map').then(function (map) {
-        // LINE IS COMMENTED OUT UNTIL NEW DATA IS IN NODE FOLDER
-        // map.on('baselayerchange', function (layer) {
-        //     MapInteractionService.removeMarkersFromMap();
-        //
-        //     FloorDataService.getAllFloorData(layer.name).then(function () {
-        //         MapInteractionService.addMarkersToMap(DateService.getEndDateString());
-        //     });
-        // });
+        map.on('baselayerchange', function (layer) {
+            MapInteractionService.removeMarkersFromMap();
+
+            FloorDataService.getAllFloorData(layer.name).then(function () {
+                MapInteractionService.addMarkersToMap(DateService.getEndDateString());
+            });
+        });
 
         var info = L.control();
 
@@ -76,15 +75,15 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
 var initMap = function (self) {
     angular.extend(self, {
         defaults: {
-            minZoom: -.8,  // zoom changes by 1
-            maxZoom: 1.2,
+            minZoom: 0,  // zoom changes by 1
+            maxZoom: 2,
             crs: L.CRS.Simple
         },
 
         center: {
-            lat: 575,
-            lng: 600,
-            zoom: -.8  // must be greater than or equal to minZoom
+            lat: 280,
+            lng: 300,
+            zoom: 0  // must be greater than or equal to minZoom
         },
 
         layers: {
@@ -93,34 +92,36 @@ var initMap = function (self) {
                     name: 'floor_10',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_10.jpg',
-                    // image is 2400 x 2700
+
                     // keep ratio of image intact when setting bounds
-                    bounds: [[0, 1200], [1350, 0]]
+                    // image is 2400 x 2700
+                    // if bounds are too large, circles and square won't map very well
+                    bounds: [[0, 600], [675, 0]]
                 },
                 ninthFloor: {
                     name: 'floor_9',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_9.jpg',
-                    bounds: [[0, 1200], [1350, 0]]
+                    bounds: [[0, 600], [675, 0]]
                 },
                 eightFloor: {
                     name: 'floor_8',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_8.jpg',
-                    bounds: [[0, 1200], [1350, 0]
+                    bounds: [[0, 600], [675, 0]
                     ]
                 },
                 seventhFloor: {
                     name: 'floor_7',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_7.jpg',
-                    bounds: [[0, 1200], [1350, 0]]
+                    bounds: [[0, 600], [675, 0]]
                 },
                 sixthFloor: {
                     name: 'floor_6',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_6.jpg',
-                    bounds: [[0, 1200], [1350, 0]]
+                    bounds: [[0, 600], [675, 0]]
                 }
             }
         }
