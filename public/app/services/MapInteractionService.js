@@ -74,7 +74,6 @@ app.service('MapInteractionService', function (TableToMapService, FloorDataServi
                 radius = ((TableToMapService.getIndexOfColor(color) + 1) * 5) * 2.4;
             }
 
-
             return new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
 
         } else if (self.marker_type === 'Squares') {
