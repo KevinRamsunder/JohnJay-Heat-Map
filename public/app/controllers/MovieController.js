@@ -65,4 +65,7 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
 
         $rootScope.dateChanged = false;
     };
+
+    // Initialize the start and end date Index
+    $scope.setDateIndex();
 }
