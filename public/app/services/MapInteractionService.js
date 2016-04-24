@@ -64,7 +64,7 @@ app.service('MapInteractionService', function (TableToMapService, FloorDataServi
 
         if (self.marker_type === 'Circles') {
             var latlng = L.latLng((coordinates[0][0] + coordinates[1][0]) / 2, (coordinates[0][1] + coordinates[1][1]) / 2);
-            var radius = ((TableToMapService.getIndexOfColor(color) + 1) * 5) * zoom;
+            var radius = ((TableToMapService.getIndexOfColor(color) + 1) * 5) * (zoom + 1);
 
             return new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
 
