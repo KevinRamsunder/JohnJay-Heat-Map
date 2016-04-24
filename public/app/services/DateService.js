@@ -1,6 +1,7 @@
 app.service('DateService', function (FloorDataService) {
     var self = this;
 
+    self.currentDate = undefined;
     self.startDate = undefined;
     self.endDate = undefined;
 
