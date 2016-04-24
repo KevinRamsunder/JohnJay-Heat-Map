@@ -25,13 +25,14 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
     });
 
     leafletData.getMap('map').then(function (map) {
-        map.on('baselayerchange', function (layer) {
-            MapInteractionService.removeMarkersFromMap();
-
-            FloorDataService.getAllFloorData(layer.name).then(function () {
-                MapInteractionService.addMarkersToMap(DateService.getEndDateString());
-            });
-        });
+        // LINE IS COMMENTED OUT UNTIL NEW DATA IS IN NODE FOLDER
+        // map.on('baselayerchange', function (layer) {
+        //     MapInteractionService.removeMarkersFromMap();
+        //
+        //     FloorDataService.getAllFloorData(layer.name).then(function () {
+        //         MapInteractionService.addMarkersToMap(DateService.getEndDateString());
+        //     });
+        // });
 
         var info = L.control();
 
@@ -75,15 +76,15 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
 var initMap = function (self) {
     angular.extend(self, {
         defaults: {
-            minZoom: 1,
-            maxZoom: 3,
+            minZoom: -.8,
+            maxZoom: 1.2,
             crs: 'Simple'
         },
 
         center: {
-            lat: -190,
-            lng: 150,
-            zoom: 1
+            lat: 575,
+            lng: 600,
+            zoom: -.8
         },
 
         layers: {
@@ -91,11 +92,11 @@ var initMap = function (self) {
                 tenthFloor: {
                     name: 'floor_10',
                     type: 'imageOverlay',
-                    url: 'app/assets/images/nb_floor_10.jpg',
+                    url: 'app/assets/images/floor_10.jpg',
                     // will fix this later
                     bounds: [
-                        [0, 347.8552729775042],
-                        [-374.5753081706553, 0]
+                        [0, 1200],
+                        [1350, 0]
                     ]
                 },
                 ninthFloor: {
@@ -104,8 +105,8 @@ var initMap = function (self) {
                     url: 'app/assets/images/floor_9.jpg',
                     // will fix this later
                     bounds: [
-                        [0, 347.8552729775042],
-                        [-374.5753081706553, 0]
+                        [0, 1200],
+                        [1350, 0]
                     ]
                 },
                 eightFloor: {
@@ -114,8 +115,8 @@ var initMap = function (self) {
                     url: 'app/assets/images/floor_8.jpg',
                     // will fix this later
                     bounds: [
-                        [0, 347.8552729775042],
-                        [-374.5753081706553, 0]
+                        [0, 1200],
+                        [1350, 0]
                     ]
                 },
                 seventhFloor: {
@@ -124,8 +125,8 @@ var initMap = function (self) {
                     url: 'app/assets/images/floor_7.jpg',
                     // will fix this later
                     bounds: [
-                        [0, 347.8552729775042],
-                        [-374.5753081706553, 0]
+                        [0, 1200],
+                        [1350, 0]
                     ]
                 },
                 sixthFloor: {
@@ -134,8 +135,8 @@ var initMap = function (self) {
                     url: 'app/assets/images/floor_6.jpg',
                     // will fix this later
                     bounds: [
-                        [0, 347.8552729775042],
-                        [-374.5753081706553, 0]
+                        [0, 1200],
+                        [1350, 0]
                     ]
                 }
             }
