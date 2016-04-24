@@ -26,5 +26,5 @@ function dropDownController($scope, MapInteractionService, LoadingService, $root
         return LoadingService.loaderStatus();
     };
 
-    $scope.updateMarkers();
+    $scope.setInitialMarkers();
 }
