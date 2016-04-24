@@ -6,6 +6,10 @@ div.moviecontrols {
 
 }
 
+#display-date {
+    text-align: center;
+}
+
 #movie-controller-block {
     padding: 0 15px;
 }
