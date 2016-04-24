@@ -76,15 +76,15 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
 var initMap = function (self) {
     angular.extend(self, {
         defaults: {
-            minZoom: -.8,
+            minZoom: -.8,  // zoom changes by 1
             maxZoom: 1.2,
-            crs: 'Simple'
+            crs: L.CRS.Simple
         },
 
         center: {
             lat: 575,
             lng: 600,
-            zoom: -.8
+            zoom: -.8  // must be greater than or equal to minZoom
         },
 
         layers: {
@@ -93,51 +93,34 @@ var initMap = function (self) {
                     name: 'floor_10',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_10.jpg',
-                    // will fix this later
-                    bounds: [
-                        [0, 1200],
-                        [1350, 0]
-                    ]
+                    // image is 2400 x 2700
+                    // keep ratio of image intact when setting bounds
+                    bounds: [[0, 1200], [1350, 0]]
                 },
                 ninthFloor: {
                     name: 'floor_9',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_9.jpg',
-                    // will fix this later
-                    bounds: [
-                        [0, 1200],
-                        [1350, 0]
-                    ]
+                    bounds: [[0, 1200], [1350, 0]]
                 },
                 eightFloor: {
                     name: 'floor_8',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_8.jpg',
-                    // will fix this later
-                    bounds: [
-                        [0, 1200],
-                        [1350, 0]
+                    bounds: [[0, 1200], [1350, 0]
                     ]
                 },
                 seventhFloor: {
                     name: 'floor_7',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_7.jpg',
-                    // will fix this later
-                    bounds: [
-                        [0, 1200],
-                        [1350, 0]
-                    ]
+                    bounds: [[0, 1200], [1350, 0]]
                 },
                 sixthFloor: {
                     name: 'floor_6',
                     type: 'imageOverlay',
                     url: 'app/assets/images/floor_6.jpg',
-                    // will fix this later
-                    bounds: [
-                        [0, 1200],
-                        [1350, 0]
-                    ]
+                    bounds: [[0, 1200], [1350, 0]]
                 }
             }
         }
