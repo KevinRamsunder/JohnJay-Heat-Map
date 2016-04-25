@@ -2,20 +2,17 @@ div.sidebar {
 
 }
 
-div.moviecontrols {
-
-}
-
 #display-date {
     text-align: center;
 }
 
 #movie-controller-block {
     margin: 0 auto;
+    text-align: center;
 }
 
 .movie-block-element {
-    margin: 0 5px;
+    /*margin: 0 5px;*/
 }
 
 #start-data {
