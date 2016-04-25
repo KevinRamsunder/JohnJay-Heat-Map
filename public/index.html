@@ -65,13 +65,13 @@
         </div>
 
         <div ng-controller="DropDownController" class="marker-drop-down">
-            <select class="selectpicker" ng-model="marker_type"
+            <select class="selectpicker" ng-model="$root.marker_type"
                     ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
                 <option>Squares</option>
                 <option>Circles</option>
             </select>
 
-            <select class="selectpicker marker-drop-down" ng-model="marker_options"
+            <select class="selectpicker marker-drop-down" ng-model="$root.marker_options"
                     ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
                 <option>Temp</option>
                 <option>Temp: Inside Vs Outside</option>
