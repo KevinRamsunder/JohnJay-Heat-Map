@@ -1,12 +1,12 @@
 app.service('FloorDataService', function (LoadingService, $http, $q) {
     var self = this;
 
-    self.availableDates = [];   // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
-    self.weatherData = {};      // {"2013-01-01 01:00:00": "37.04", ...}
+    self.availableDates = []; // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
+    self.weatherData = {};    // {"2013-01-01 01:00:00": "37.04", ...}
 
-    self.roomData = {}; // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
-    self.roomNumbers = {};      // {"10.65.06": [[601,  59], [636, 82]], ...}
-    self.vavs = {};             // {"47102": ["10.S.J"], ...}
+    self.roomData = {};    // {vav: {date: temp, ...}, vav: {date: temp, ...}}
+    self.roomNumbers = {}; // {"10.65.06": [[601,  59], [636, 82]], ...}
+    self.vavs = {};        // {"47102": ["10.S.J"], ...}
 
 
     self.getCoordinates = function getCoordinates(floorLevel) {
