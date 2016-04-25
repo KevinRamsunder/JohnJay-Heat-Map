@@ -42,6 +42,6 @@ html, body {
 
 footer {
     border-top: solid 2px black;
-    height: 150px;
+    height: 100%;
     background-color: #5890AD;
 }
