@@ -9,6 +9,7 @@ function datePickerController($scope, $rootScope) {
     };
 
     $scope.opts = {
+        showDropdowns: true,
         minDate: moment("2013-06-06T10:00:00"),
         maxDate: moment("2016-06-31T10:00:00"),
         ranges: {
