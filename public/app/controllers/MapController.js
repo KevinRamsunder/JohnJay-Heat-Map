@@ -72,6 +72,17 @@ var initMap = function (self) {
             zoom: 0  // must be greater than or equal to minZoom
         },
 
+        maxbounds: {
+            southWest: {
+                lat: -350,
+                lng: -300
+            },
+            northEast: {
+                lat: 800,
+                lng: 800
+            }},
+
+
         layers: {
             baselayers: {
                 tenthFloor: {
