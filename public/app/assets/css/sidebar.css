@@ -1,5 +1,15 @@
 div.sidebar {
+    padding: 0;
+}
 
+#top-sidebar {
+    background-color: #A8DBA8;
+    padding: 15px;
+}
+
+#color-table {
+    margin: 0;
+    padding: 15px;
 }
 
 #display-date {
@@ -32,8 +42,8 @@ div.sidebar {
     padding: 0;
 }
 
-.date-text {
-    padding-left: 40px;
+.date-heading {
+    text-align: center;
 }
 
 .marker-drop-down {
