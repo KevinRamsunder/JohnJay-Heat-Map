@@ -1,12 +1,12 @@
 app.service('FloorDataService', function (LoadingService, $http, $q) {
     var self = this;
-
-    self.currentFloorDates = []; // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
-    self.weatherData = {};       // {"2013-01-01 01:00:00": "37.04", ...}
     
-    self.currentFloorData = {};  // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
-    self.roomNumbers = {};       // {"10.65.06": [[601,  59], [636, 82]], ...}
-    self.vavs = {};              // {"47102": ["10.S.J"], ...}
+    self.availableDates = [];   // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
+    self.weatherData = {};      // {"2013-01-01 01:00:00": "37.04", ...}
+
+    self.currentFloorData = {}; // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
+    self.roomNumbers = {};      // {"10.65.06": [[601,  59], [636, 82]], ...}
+    self.vavs = {};             // {"47102": ["10.S.J"], ...}
 
 
     self.getCoordinates = function getCoordinates(floorLevel) {
@@ -26,7 +26,7 @@ app.service('FloorDataService', function (LoadingService, $http, $q) {
     self.getWeatherData = function getWeatherData() {
         return $http.get('/api/v1/weather-data').then(function(response) {
             self.weatherData = response.data;
-            self.currentFloorDates = Object.keys(self.weatherData);
+            self.availableDates = Object.keys(self.weatherData);
         });
     };
 
