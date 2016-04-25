@@ -55,7 +55,7 @@
                     <i class="fa fa-pause"></i>
                 </button>
                 <button class="btn btn-secondary col-md-4 movie-block-element"
-                        ng-click='restartAnimation()' ng-disabled='!isStopped'>
+                        ng-click='restartAnimation()' ng-disabled='!isStopped || loaderStatus()'>
                     <i class="fa fa-refresh"></i>
                 </button>
 
