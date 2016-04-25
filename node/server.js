@@ -27,7 +27,7 @@ app.use('/node/data', express.static('node/data'));
 
 // get all room JSON objects
 app.post('/api/v1/rooms', function (req, res) {
-    var allRoomData = {}; // {vav: "date, temp, date, temp", vav : "date, temp", ...}
+    var roomData = {};
     var count = 0;
     var url = 'node/data/' + req.body.floorLevel;
 
@@ -44,7 +44,7 @@ app.post('/api/v1/rooms', function (req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        allRoomData[vav[count]] = data;
+                        roomData[vav[count]] = data;
                     }
 
                     count++;
@@ -53,11 +53,10 @@ app.post('/api/v1/rooms', function (req, res) {
             },
 
             function () {
-                var roomData = {};
                 var tempData = {};
 
-                for (var key in allRoomData) {
-                    tempData[key] = allRoomData[key].split(',');
+                for (var key in roomData) {
+                    tempData[key] = roomData[key].split(',');
                     tempData[key] = tempData[key].map(function (i) {
                         return i.trim()
                     });
@@ -67,9 +66,11 @@ app.post('/api/v1/rooms', function (req, res) {
                         floorData[tempData[key][i]] = tempData[key][i + 1];
                     }
 
+                    // floorData = {'2013-06-06 00:00:00': '73.13', ...}
                     roomData[key] = floorData;
                 }
 
+                // {vav: "date, temp, date, temp", vav : "date, temp", ...}
                 res.send(roomData);
             }
         );

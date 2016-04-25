@@ -1,10 +1,10 @@
 app.service('FloorDataService', function (LoadingService, $http, $q) {
     var self = this;
-    
+
     self.availableDates = [];   // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
     self.weatherData = {};      // {"2013-01-01 01:00:00": "37.04", ...}
 
-    self.currentFloorData = {}; // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
+    self.roomData = {}; // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
     self.roomNumbers = {};      // {"10.65.06": [[601,  59], [636, 82]], ...}
     self.vavs = {};             // {"47102": ["10.S.J"], ...}
 
@@ -18,7 +18,7 @@ app.service('FloorDataService', function (LoadingService, $http, $q) {
 
     self.getRoomData = function getRoomData(floorLevel) {
         return $http.post('/api/v1/rooms', {'floorLevel': floorLevel}).then(function(response) {
-            self.currentFloorData = response.data;
+            self.roomData = response.data;
             LoadingService.makingRequest = false;
         });
     };
