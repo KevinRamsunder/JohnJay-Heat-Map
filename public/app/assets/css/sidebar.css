@@ -1,15 +1,17 @@
-div.sidebar {
+.sidebar {
     padding: 0;
 }
 
 #top-sidebar {
     background-color: #A8DBA8;
     padding: 15px;
+    border-bottom: solid 1px black;
 }
 
 #color-table {
     margin: 0;
-    padding: 4px 15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 #display-date {
