@@ -4,9 +4,6 @@ app.service('MapInteractionService', function (TableToMapService, FloorDataServi
     // container for layers
     self.vectorLayers = {};
 
-    self.marker_type = undefined;
-    self.marker_options = undefined;
-
     // add specific VAV box to map
     self.addMarkersToMap = function (date) {
         $rootScope.displayDate = date;
@@ -63,7 +60,7 @@ app.service('MapInteractionService', function (TableToMapService, FloorDataServi
             fillOpacity: .5
         };
 
-        if (self.marker_type === 'Circles') {
+        if ($rootScope.marker_type === 'Circles') {
             var latlng = L.latLng((coordinates[0][0] + coordinates[1][0]) / 2, (coordinates[0][1] + coordinates[1][1]) / 2);
 
             // if zoom == 0
@@ -77,16 +74,16 @@ app.service('MapInteractionService', function (TableToMapService, FloorDataServi
 
             return new L.circleMarker(latlng, object).setRadius(radius).bindPopup(currentTemp + degreeSign);
 
-        } else if (self.marker_type === 'Squares') {
+        } else if ($rootScope.marker_type === 'Squares') {
             return new L.rectangle(coordinates, object).bindPopup(currentTemp + degreeSign);
         }
     };
 
     self.getMarkerValue = function (vav, date) {
         var roomTemp = FloorDataService.roomData[vav][date];
-        if (self.marker_options == 'Temp') {
+        if ($rootScope.marker_options == 'Temp') {
             return roomTemp;
-        } else if (self.marker_options == 'Temp: Inside Vs Outside') {
+        } else if ($rootScope.marker_options == 'Temp: Inside Vs Outside') {
             return Math.abs(FloorDataService.weatherData[date] - roomTemp) * 2;
         }
     };

@@ -49,7 +49,7 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
 
         // circles on map will zoom appropriately when movie is not playing
         map.on('zoomend', function () {
-            if (MapInteractionService.marker_type === 'Circles') {
+            if ($rootScope.marker_type === 'Circles') {
                 MapInteractionService.removeMarkersFromMap();
                 MapInteractionService.addMarkersToMap($rootScope.displayDate);
             }
