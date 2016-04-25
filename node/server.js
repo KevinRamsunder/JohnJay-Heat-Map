@@ -27,17 +27,12 @@ app.use('/node/data', express.static('node/data'));
 
 // get all room JSON objects
 app.post('/api/v1/rooms', function (req, res) {
-    // allRoomData {vav: "date, temp, date, temp", vav : "date, temp", ...}
-    var allRoomData = {};
+    var roomData = {};
     var count = 0;
     var url = 'node/data/' + req.body.floorLevel;
-    var vav = [];
 
     fs.readFile(url + '/vav.json', 'utf-8', function (err, data) {
-        var vav_keys = JSON.parse(data);
-        for (var key in vav_keys) {
-            vav.push(key);
-        }
+        var vav = Object.keys(JSON.parse(data)); // ['47101, 47102, ...']
 
         async.whilst(
             function () {
@@ -49,7 +44,19 @@ app.post('/api/v1/rooms', function (req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        allRoomData[vav[count]] = data;
+
+                        // [date1, temp1, date2, temp2, ...]
+                        var listData = data.split(',').map(function (i) {
+                            return i.trim()
+                        });
+
+                        // {date1: temp1, date2: temp2, ...]
+                        var floorData = {};
+                        for (var i = 0; i < listData.length - 1; i += 2) {
+                            floorData[listData[i]] = listData[i + 1];
+                        }
+
+                        roomData[vav[count]] = floorData;
                     }
 
                     count++;
@@ -58,39 +65,7 @@ app.post('/api/v1/rooms', function (req, res) {
             },
 
             function () {
-                var currentFloorDates = [];
-                var currentFloorData = {};
-                var tempData = {};
-                var do_once = true;
-
-                for (var key in allRoomData) {
-                    tempData[key] = allRoomData[key].split(',');
-                    tempData[key] = tempData[key].map(function (i) {
-                        return i.trim()
-                    });
-
-                    var floorData = {};
-                    for (var i = 0; i < tempData[key].length - 1; i += 2) {
-                        floorData[tempData[key][i]] = tempData[key][i + 1];
-
-                        if (do_once) {
-                            currentFloorDates.push(tempData[key][i])
-                        }
-                    }
-
-                    do_once = false;
-                    currentFloorData[key] = floorData;
-                }
-
-                var sendData = {};
-
-                // [2013-06-06 00:00:00", "2013-06-06 01:00:00", ...]
-                sendData['Dates'] = currentFloorDates;
-
-                // {vav: {date: temp, date2: temp2, ...}, vav: {date: temp, ...}}
-                sendData['Data'] = currentFloorData;
-
-                res.send(sendData);
+                res.send(roomData);
             }
         );
     });

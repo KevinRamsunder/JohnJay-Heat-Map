@@ -39,7 +39,7 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
 
             // add new markers to the map
             MapInteractionService.addMarkersToMap(
-                FloorDataService.currentFloorDates[$scope.startDateIndex]);
+                FloorDataService.availableDates[$scope.startDateIndex]);
 
             // increment the startDateIndex
             $scope.startDateIndex += 1;
@@ -57,11 +57,11 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
 
     $scope.setDateIndex = function () {
         // Set the startDateIndex to the beginning of the day
-        $scope.startDateIndex = FloorDataService.currentFloorDates.indexOf(
+        $scope.startDateIndex = FloorDataService.availableDates.indexOf(
             $rootScope.startDate.toISOString().substring(0, 10) + ' 00:00:00');
 
         // Set the endDateIndex to the end of the day
-        $scope.endDateIndex = FloorDataService.currentFloorDates.indexOf(
+        $scope.endDateIndex = FloorDataService.availableDates.indexOf(
             $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00');
 
         $rootScope.dateChanged = false;

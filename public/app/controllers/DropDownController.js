@@ -12,9 +12,7 @@ function dropDownController($scope, MapInteractionService, LoadingService, $root
         MapInteractionService.marker_options = $scope.marker_options;
 
         MapInteractionService.removeMarkersFromMap();
-
-        var endDateString = $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00';
-        MapInteractionService.addMarkersToMap(endDateString);
+        MapInteractionService.addMarkersToMap($rootScope.displayDate);
     };
 
     $scope.setInitialMarkers = function () {
