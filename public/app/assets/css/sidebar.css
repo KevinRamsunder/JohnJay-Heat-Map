@@ -32,8 +32,8 @@ div.sidebar {
     padding: 0;
 }
 
-.date-text {
-    padding-left: 40px;
+.date-heading {
+    text-align: center;
 }
 
 .marker-drop-down {
