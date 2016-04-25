@@ -21,58 +21,62 @@
     <link rel="stylesheet" href="app/assets/css/sidebar.css">
 </head>
 <body>
-<div class="">
+<div>
     <div class="sidebar col-md-4">
-        <div id="logo" class="col-md-12">
-            <img src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
-        </div>
 
-        <div ng-controller="DatePickerController" class="row">
-
-            <div class="form-group col-md-12">
-                <label for="daterange" class="control-label date-heading">Select Dates</label>
-                <input date-range-picker id="daterange" name="daterange" class="form-control date-picker" type="text"
-                       ng-model="date" options="opts" required/>
+        <div id="top-sidebar">
+            <div id="logo" class="col-md-12">
+                <img src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
             </div>
 
-            <h3 id="display-date">{{$root.displayDate}}</h3>
+            <div ng-controller="DatePickerController" class="row">
 
+                <div class="form-group col-md-12">
+                    <label for="daterange" class="control-label date-heading">Select Dates</label>
+                    <input date-range-picker id="daterange" name="daterange" class="form-control date-picker"
+                           type="text"
+                           ng-model="date" options="opts" required/>
+                </div>
+
+                <h3 id="display-date">{{$root.displayDate}}</h3>
+
+            </div>
+
+            <div ng-controller="MovieController" id="movie-controller-block" class="row">
+
+                <div ng-show="loaderStatus()">Loading...</div>
+                <button class="btn btn-secondary col-md-4 movie-block-element"
+                        ng-click='startAnimation()' ng-disabled='!isStopped || loaderStatus()'>
+                    <i class="fa fa-play"></i>
+                    <!--<i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i>-->
+                </button>
+                <button class="btn btn-secondary col-md-4 movie-block-element"
+                        ng-click='stopAnimation()' ng-disabled='isStopped'>
+                    <i class="fa fa-pause"></i>
+                </button>
+                <button class="btn btn-secondary col-md-4 movie-block-element"
+                        ng-click='restartAnimation()' ng-disabled='!isStopped'>
+                    <i class="fa fa-refresh"></i>
+                </button>
+
+            </div>
+
+            <div ng-controller="DropDownController" class="marker-drop-down">
+                <select class="selectpicker" ng-model="$root.marker_type"
+                        ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
+                    <option>Squares</option>
+                    <option>Circles</option>
+                </select>
+
+                <select class="selectpicker marker-drop-down" ng-model="$root.marker_options"
+                        ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
+                    <option>Temp</option>
+                    <option>Temp: Inside Vs Outside</option>
+                </select>
+            </div>
         </div>
 
-        <div ng-controller="MovieController" id="movie-controller-block" class="row">
-
-            <div ng-show="loaderStatus()">Loading...</div>
-            <button class="btn btn-secondary col-md-4 movie-block-element"
-                    ng-click='startAnimation()' ng-disabled='!isStopped || loaderStatus()'>
-                <i class="fa fa-play"></i>
-                <!--<i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i>-->
-            </button>
-            <button class="btn btn-secondary col-md-4 movie-block-element"
-                    ng-click='stopAnimation()' ng-disabled='isStopped'>
-                <i class="fa fa-pause"></i>
-            </button>
-            <button class="btn btn-secondary col-md-4 movie-block-element"
-                    ng-click='restartAnimation()' ng-disabled='!isStopped'>
-                <i class="fa fa-refresh"></i>
-            </button>
-
-        </div>
-
-        <div ng-controller="DropDownController" class="marker-drop-down">
-            <select class="selectpicker" ng-model="$root.marker_type"
-                    ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
-                <option>Squares</option>
-                <option>Circles</option>
-            </select>
-
-            <select class="selectpicker marker-drop-down" ng-model="$root.marker_options"
-                    ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
-                <option>Temp</option>
-                <option>Temp: Inside Vs Outside</option>
-            </select>
-        </div>
-
-        <div ng-controller="TableController" class="container">
+        <div ng-controller="TableController" id="color-table">
             <table class="table table-striped table-condensed">
                 <thead>
                 <tr>
@@ -167,7 +171,7 @@
         </div>
     </div>
 
-    <div ng-controller="MapController" class="col-md-8">
+    <div ng-controller="MapController" class="col-md-8 map-container">
         <leaflet id="map" lf-center="center" defaults="defaults" layers="layers" height="800px" maxbounds="maxbounds">
         </leaflet>
     </div>
