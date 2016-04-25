@@ -44,7 +44,19 @@ app.post('/api/v1/rooms', function (req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        roomData[vav[count]] = data;
+
+                        // [date1, temp1, date2, temp2, ...]
+                        var listData = data.split(',').map(function (i) {
+                            return i.trim()
+                        });
+
+                        // {date1: temp1, date2: temp2, ...]
+                        var floorData = {};
+                        for (var i = 0; i < listData.length - 1; i += 2) {
+                            floorData[listData[i]] = listData[i + 1];
+                        }
+
+                        roomData[vav[count]] = floorData;
                     }
 
                     count++;
@@ -53,24 +65,6 @@ app.post('/api/v1/rooms', function (req, res) {
             },
 
             function () {
-                var tempData = {};
-
-                for (var key in roomData) {
-                    tempData[key] = roomData[key].split(',');
-                    tempData[key] = tempData[key].map(function (i) {
-                        return i.trim()
-                    });
-
-                    var floorData = {};
-                    for (var i = 0; i < tempData[key].length - 1; i += 2) {
-                        floorData[tempData[key][i]] = tempData[key][i + 1];
-                    }
-
-                    // floorData = {'2013-06-06 00:00:00': '73.13', ...}
-                    roomData[key] = floorData;
-                }
-
-                // {vav: "date, temp, date, temp", vav : "date, temp", ...}
                 res.send(roomData);
             }
         );
