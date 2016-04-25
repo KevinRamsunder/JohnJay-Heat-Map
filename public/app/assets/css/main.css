@@ -4,6 +4,11 @@ html, body {
     height: 100%;
 }
 
+.my_container {
+    margin: 0;
+    padding: 0;
+}
+
 #logo {
     padding: 10px 10px;
     text-align: center;
@@ -33,4 +38,10 @@ html, body {
 
 .leaflet-image-layer.leaflet-zoom-animated {
     z-index: -5 !important;
+}
+
+footer {
+    border-top: solid 2px black;
+    height: 200px;
+    background-color: #5890AD;
 }
