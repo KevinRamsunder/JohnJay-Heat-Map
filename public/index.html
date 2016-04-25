@@ -26,7 +26,7 @@
 
         <div id="top-sidebar">
             <div id="logo" class="col-md-12">
-                <img src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
+                <img height="90px" src="http://www.jjay.cuny.edu/sites/all/themes/johnjaytpl/images/logo.png">
             </div>
 
             <div ng-controller="DatePickerController" class="row">
@@ -44,7 +44,6 @@
 
             <div ng-controller="MovieController" id="movie-controller-block" class="row">
 
-                <div ng-show="loaderStatus()">Loading...</div>
                 <button class="btn btn-secondary col-md-4 movie-block-element"
                         ng-click='startAnimation()' ng-disabled='!isStopped || loaderStatus()'>
                     <i class="fa fa-play"></i>
@@ -67,6 +66,8 @@
                     <option>Squares</option>
                     <option>Circles</option>
                 </select>
+
+                <span ng-show="loaderStatus()">Loading...</span>
 
                 <br>
 
@@ -144,7 +145,7 @@
     </div>
 
     <div ng-controller="MapController" class="col-md-8" id="map">
-        <leaflet lf-center="center" defaults="defaults" layers="layers" height="760px" maxbounds="maxbounds">
+        <leaflet lf-center="center" defaults="defaults" layers="layers" height="700px" maxbounds="maxbounds">
         </leaflet>
     </div>
 </div>
