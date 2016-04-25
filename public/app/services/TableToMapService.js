@@ -48,7 +48,7 @@ app.service('TableToMapService', function() {
     self.getIndexOfColor = function(colorCode) {
         var colors = self.getColors();
         return colors.indexOf(colorCode);
-    }
+    };
 
     // attach event listeners to color-picker elements
     $('.color-picker').colorpicker().on('changeColor.colorpicker', function(event) {
