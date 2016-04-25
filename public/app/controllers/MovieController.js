@@ -64,9 +64,10 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
         $scope.endDateIndex = FloorDataService.availableDates.indexOf(
             $rootScope.endDate.toISOString().substring(0, 10) + ' 23:00:00');
 
+        // console.log("inside setDate");
+        // console.log(FloorDataService.availableDates[$scope.endDateIndex]);
+        // console.log($rootScope.endDate);
+
         $rootScope.dateChanged = false;
     };
-
-    // Initialize the start and end date Index
-    $scope.setDateIndex();
 }

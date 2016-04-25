@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>John Jay Heat Map</title>
     <!-- CSS -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <!--<link rel="stylesheet"-->
+          <!--href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.19/daterangepicker.min.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/css/bootstrap-colorpicker.css">
     <link rel="stylesheet"
@@ -25,22 +28,28 @@
         </div>
 
         <div ng-controller="DatePickerController" class="row">
+            <div class="form-group">
+                <label for="daterange" class="control-label">Picker with custom locale</label>
+                <input date-range-picker id="daterange" name="daterange" class="form-control date-picker" type="text"
+                       ng-model="date" options="opts" required/>
+                <!-- min="'2013-06-06'" max="'2016-01-31'" -->
+            </div>
 
-            <md-content class="col-xs-6 col-md-6" id="start-data">
-                <span class="date-text">select min date</span>
-                <md-datepicker ng-model="$root.startDate" md-placeholder="Enter date"
-                               md-min-date="minDate" md-max-date="$root.endDate"
-                               ng-change="$root.dateChanged = true">
-                </md-datepicker>
-            </md-content>
+            <!--<md-content class="col-xs-6 col-md-6" id="start-data">-->
+                <!--<span class="date-text">select min date</span>-->
+                <!--<md-datepicker ng-model="$root.startDate" md-placeholder="Enter date"-->
+                               <!--md-min-date="minDate" md-max-date="$root.endDate"-->
+                               <!--ng-change="$root.dateChanged = true">-->
+                <!--</md-datepicker>-->
+            <!--</md-content>-->
 
-            <md-content class="col-xs-6 col-md-6" id="end-date">
-                <span class="date-text">select max date</span>
-                <md-datepicker ng-model="endDate" md-placeholder="Enter date"
-                               md-min-date="$root.startDate" md-max-date="$root.maxDate"
-                               ng-change="$root.dateChanged = true">
-                </md-datepicker>
-            </md-content>
+            <!--<md-content class="col-xs-6 col-md-6" id="end-date">-->
+                <!--<span class="date-text">select max date</span>-->
+                <!--<md-datepicker ng-model="endDate" md-placeholder="Enter date"-->
+                               <!--md-min-date="$root.startDate" md-max-date="$root.maxDate"-->
+                               <!--ng-change="$root.dateChanged = true">-->
+                <!--</md-datepicker>-->
+            <!--</md-content>-->
 
             <h3 id="display-date">{{$root.displayDate}}</h3>
         </div>
@@ -181,14 +190,18 @@
 
 <!-- JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-animate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-aria.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-messages.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.19/moment.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.19/daterangepicker.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.min.js"></script>
 <script src="app/assets/leaflet/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-leaflet-directive/0.10.0/angular-leaflet-directive.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/js/bootstrap-colorpicker.js"></script>
+<script src="app/assets/angular-daterangepicker.js"></script>
 
 <!-- Angular Controllers -->
 <script src="app/app.js"></script>

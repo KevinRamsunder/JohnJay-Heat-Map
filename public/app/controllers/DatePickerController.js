@@ -3,6 +3,32 @@ app.controller('DatePickerController', datePickerController);
 datePickerController.$inject = ['$scope', '$rootScope'];
 
 function datePickerController($scope, $rootScope) {
+    $scope.date = {
+        startDate: moment("2016-01-01"),
+        endDate: moment("2016-01-31")
+    };
+
+    $scope.opts = {
+        minDate: moment("2013-06-06T10:00:00"),
+        maxDate: moment("2016-06-31T10:00:00"),
+        ranges: {
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()]
+        }
+    };
+
+    //Watch for date changes
+    $scope.$watch('date', function(newDate) {
+        $rootScope.dateChanged = true;
+        $rootScope.startDate = newDate.startDate.toDate();
+
+        // no fucking clue why I have to subtract by 1 day but it works
+        $rootScope.endDate   = newDate.endDate.subtract(1, "days").toDate();
+
+        // console.log("inside watch");
+        // console.log(newDate.endDate.toDate());
+
+    }, false);
 
     // The start date and end date in the date picker
     $rootScope.startDate = new Date(2016, 0, 1);
