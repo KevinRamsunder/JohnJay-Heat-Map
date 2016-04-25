@@ -67,7 +67,7 @@ var initMap = function (self) {
         },
 
         center: {
-            lat: 335,
+            lat: 337.5,
             lng: 300,
             zoom: 0  // must be greater than or equal to minZoom
         },
