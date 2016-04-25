@@ -9,7 +9,7 @@ div.sidebar {
 
 #color-table {
     margin: 0;
-    padding: 15px;
+    padding: 4px 15px;
 }
 
 #display-date {
@@ -47,7 +47,7 @@ div.sidebar {
 }
 
 .marker-drop-down {
-    margin: 15px 10px 10px 10px;
+    margin-top: 15px;
 }
 
 .selectpicker {
