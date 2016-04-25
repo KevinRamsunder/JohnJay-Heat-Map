@@ -74,13 +74,14 @@ var initMap = function (self) {
 
         maxbounds: {
             southWest: {
-                lat: -350,
+                lat: -250,
                 lng: -300
             },
             northEast: {
                 lat: 800,
                 lng: 800
-            }},
+            }
+        },
 
 
         layers: {
