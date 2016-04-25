@@ -1,0 +1,13 @@
+<div>
+    <select class="selectpicker" ng-model="$root.marker_type"
+            ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
+        <option>Squares</option>
+        <option>Circles</option>
+    </select>
+
+    <select class="selectpicker marker-drop-down" ng-model="$root.marker_options"
+            ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
+        <option>Temp</option>
+        <option>Temp: Inside Vs Outside</option>
+    </select>
+</div>

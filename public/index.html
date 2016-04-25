@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>John Jay Heat Map</title>
     <!-- CSS -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <!--<link rel="stylesheet"-->
+          <!--href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/css/bootstrap-colorpicker.css">
     <link rel="stylesheet"
@@ -65,17 +66,13 @@
         </div>
 
         <div ng-controller="DropDownController" class="marker-drop-down">
-            <select class="selectpicker" ng-model="$root.marker_type"
-                    ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
-                <option>Squares</option>
-                <option>Circles</option>
-            </select>
+            <tabset>
+                <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+                    <div ng-include="tab.content"></div>
+                </tab>
+            </tabset>
 
-            <select class="selectpicker marker-drop-down" ng-model="$root.marker_options"
-                    ng-change="updateMarkers()" ng-disabled='loaderStatus()'>
-                <option>Temp</option>
-                <option>Temp: Inside Vs Outside</option>
-            </select>
+
         </div>
 
         <div ng-controller="TableController" class="container">
@@ -189,6 +186,7 @@
 <script src="app/assets/leaflet/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-leaflet-directive/0.10.0/angular-leaflet-directive.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.0/js/bootstrap-colorpicker.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
 
 <!-- Angular Controllers -->
 <script src="app/app.js"></script>
