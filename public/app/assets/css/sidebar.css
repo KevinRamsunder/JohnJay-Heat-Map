@@ -57,5 +57,5 @@ div.sidebar {
 
 /*Grey out drop down when disabled*/
 select[disabled] {
-    background-color: #CCC;  //use your prefered color here
+    background-color: #CCC;
 }
