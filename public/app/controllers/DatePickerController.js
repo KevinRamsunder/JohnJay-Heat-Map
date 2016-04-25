@@ -23,7 +23,7 @@ function datePickerController($scope, $rootScope) {
         $rootScope.startDate = newDate.startDate.toDate();
 
         // no fucking clue why I have to subtract by 1 day but it works
-        $rootScope.endDate   = newDate.endDate.subtract(1, "days").toDate();
+        $rootScope.endDate   = newDate.endDate.clone().subtract(1, "days").toDate();
 
         // console.log("inside watch");
         // console.log(newDate.endDate.toDate());
