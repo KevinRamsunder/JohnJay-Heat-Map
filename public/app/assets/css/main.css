@@ -4,17 +4,13 @@ html, body {
     height: 100%;
 }
 
-.map-container {
-    background-color: #DDDDDD;
-}
-
 #logo {
     padding: 25px 30px;
     text-align: center;
 }
 
 #map {
-
+    padding: 0;
 }
 
 .info {
