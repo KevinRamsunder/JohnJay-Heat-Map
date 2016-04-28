@@ -70,4 +70,31 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
 
         $rootScope.dateChanged = false;
     };
+
+    // delay rapid execution of functions for given interval
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+
+    // if animation is stopped, this will update the colors on the map
+    var updateColorsOnMap = debounce(function(event) {
+        if($scope.isStopped) {
+            MapInteractionService.removeMarkersFromMap();
+            MapInteractionService.addMarkersToMap($rootScope.displayDate);
+        }
+    }, 100);
+
+    // attach event listeners to color-picker elements
+    $('.color-picker').colorpicker().on('changeColor.colorpicker', updateColorsOnMap);
 }
