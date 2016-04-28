@@ -97,4 +97,5 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
 
     // attach event listeners to color-picker elements
     $('.color-picker').colorpicker().on('changeColor.colorpicker', updateColorsOnMap);
+    $('.range-number').change(updateColorsOnMap);
 }
