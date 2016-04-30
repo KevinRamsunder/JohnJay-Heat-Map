@@ -23,7 +23,7 @@ app.service('MapInteractionService', function (TableToMapService, FloorDataServi
                     // go through rooms in vav box and add markers to map
                     for (var i = 0; i < FloorDataService.vavs[vav].length; i++) {
 
-                        var coordinates = FloorDataService.roomNumbers[FloorDataService.vavs[vav][i]];
+                        var coordinates = FloorDataService.roomCoordinates[FloorDataService.vavs[vav][i]];
                         var layer = self.getMarkerType(coordinates, color, markerValue, map.getZoom());
 
                         if (!self.vectorLayers.hasOwnProperty(vav)) {

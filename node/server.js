@@ -25,22 +25,22 @@ console.log("listening on port " + port);
 
 app.use('/node/data', express.static('node/data'));
 
-// get all room JSON objects
-app.post('/api/v1/rooms', function (req, res) {
+// get rooms data
+app.post('/api/v1/rooms-data', function (req, res) {
     var roomData = {};
     var count = 0;
     var url = 'node/data/' + req.body.floorLevel;
 
-    fs.readFile(url + '/vav.json', 'utf-8', function (err, data) {
-        var vav = Object.keys(JSON.parse(data)); // ['47101, 47102, ...']
+    fs.readFile(url + '/vavs.json', 'utf-8', function (err, data) {
+        var vavs = Object.keys(JSON.parse(data)); // ['47101, 47102, ...']
 
         async.whilst(
             function () {
-                return count < vav.length;
+                return count < vavs.length;
             },
 
             function (callback) {
-                fs.readFile(url + '/room_data/Room' + vav[count] + '.csv', 'utf-8', function (err, data) {
+                fs.readFile(url + '/inside_temp/Room' + vavs[count] + '.csv', 'utf-8', function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -56,7 +56,7 @@ app.post('/api/v1/rooms', function (req, res) {
                             floorData[listData[i]] = listData[i + 1];
                         }
 
-                        roomData[vav[count]] = floorData;
+                        roomData[vavs[count]] = floorData;
                     }
 
                     count++;
@@ -71,20 +71,20 @@ app.post('/api/v1/rooms', function (req, res) {
     });
 });
 
-// route to get room numbers and vav coordinates
+// route to get room coordinates and vavs
 app.post('/api/v1/coordinates', function (req, res) {
     var url = 'node/data/' + req.body.floorLevel;
-    fs.readFile(url + '/room_num.json', 'utf-8', function (err, data) {
-        var room_num = JSON.parse(data);
+    fs.readFile(url + '/room_coordinates.json', 'utf-8', function (err, data) {
+        var roomCoordinates = JSON.parse(data);
 
-        fs.readFile(url + '/vav.json', 'utf-8', function (err, data) {
-            var vav = JSON.parse(data);
-            res.send({'room_num': room_num, 'vav': vav});
+        fs.readFile(url + '/vavs.json', 'utf-8', function (err, data) {
+            var vavs = JSON.parse(data);
+            res.send({'roomCoordinates': roomCoordinates, 'vavs': vavs});
         });
     });
 });
 
-// get weather data csv
+// get weather data
 app.get('/api/v1/weather-data', function (req, res) {
     fs.readFile('node/data/weather-data/weather.json', 'utf-8', function (err, data) {
         res.send(data);
