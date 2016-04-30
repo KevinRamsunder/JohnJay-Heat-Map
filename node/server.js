@@ -40,7 +40,7 @@ app.post('/api/v1/rooms', function (req, res) {
             },
 
             function (callback) {
-                fs.readFile(url + '/room_data/Room' + vav[count] + '.csv', 'utf-8', function (err, data) {
+                fs.readFile(url + '/inside_temp/Room' + vav[count] + '.csv', 'utf-8', function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -74,7 +74,7 @@ app.post('/api/v1/rooms', function (req, res) {
 // route to get room numbers and vav coordinates
 app.post('/api/v1/coordinates', function (req, res) {
     var url = 'node/data/' + req.body.floorLevel;
-    fs.readFile(url + '/room_num.json', 'utf-8', function (err, data) {
+    fs.readFile(url + '/room_coordinates.json', 'utf-8', function (err, data) {
         var room_num = JSON.parse(data);
 
         fs.readFile(url + '/vav.json', 'utf-8', function (err, data) {
