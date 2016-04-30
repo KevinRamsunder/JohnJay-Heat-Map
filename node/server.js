@@ -75,11 +75,11 @@ app.post('/api/v1/rooms', function (req, res) {
 app.post('/api/v1/coordinates', function (req, res) {
     var url = 'node/data/' + req.body.floorLevel;
     fs.readFile(url + '/room_coordinates.json', 'utf-8', function (err, data) {
-        var room_num = JSON.parse(data);
+        var roomCoordinates = JSON.parse(data);
 
         fs.readFile(url + '/vav.json', 'utf-8', function (err, data) {
             var vav = JSON.parse(data);
-            res.send({'room_num': room_num, 'vav': vav});
+            res.send({'roomCoordinates': roomCoordinates, 'vav': vav});
         });
     });
 });

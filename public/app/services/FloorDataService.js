@@ -5,13 +5,13 @@ app.service('FloorDataService', function (LoadingService, $http, $q) {
     self.weatherData = {};    // {"2013-01-01 01:00:00": "37.04", ...}
 
     self.roomData = {};    // {vav: {date: temp, ...}, vav: {date: temp, ...}}
-    self.roomNumbers = {}; // {"10.65.06": [[601,  59], [636, 82]], ...}
+    self.roomCoordinates = {}; // {"10.65.06": [[601,  59], [636, 82]], ...}
     self.vavs = {};        // {"47102": ["10.S.J"], ...}
 
 
     self.getCoordinates = function getCoordinates(floorLevel) {
         return $http.post('/api/v1/coordinates', {'floorLevel': floorLevel}).then(function(response) {
-            self.roomNumbers = response.data['room_num'];
+            self.roomCoordinates = response.data['roomCoordinates'];
             self.vavs = response.data['vav'];
         });
     };
