@@ -47,10 +47,9 @@
                 <button class="btn btn-secondary col-md-4 movie-block-element"
                         ng-click='startAnimation()' ng-disabled='!isStopped || loaderStatus()'>
                     <i class="fa fa-play"></i>
-                    <!--<i ng-show="loaderStatus()" class="fa fa-spinner fa-spin"></i>-->
                 </button>
                 <button class="btn btn-secondary col-md-4 movie-block-element"
-                        ng-click='stopAnimation()' ng-disabled='isStopped'>
+                        ng-click='$root.stopAnimation()' ng-disabled='isStopped'>
                     <i class="fa fa-pause"></i>
                 </button>
                 <button class="btn btn-secondary col-md-4 movie-block-element"

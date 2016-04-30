@@ -22,7 +22,7 @@ function movieController($scope, $interval, FloorDataService, MapInteractionServ
         $scope.animate();
     };
 
-    $scope.stopAnimation = function () {
+    $rootScope.stopAnimation = function () {
         $scope.isStopped = true;
         $interval.cancel($scope.animation);
     };

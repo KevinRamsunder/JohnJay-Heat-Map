@@ -28,6 +28,8 @@ function mapController($scope, leafletData, FloorDataService, MapInteractionServ
             FloorDataService.getAllFloorData(layer.name).then(function () {
                 MapInteractionService.addMarkersToMap(self.defaultDate);
             });
+
+            $rootScope.stopAnimation();
         });
 
         var info = L.control();
