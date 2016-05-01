@@ -4,6 +4,11 @@ html, body {
     height: 100%;
 }
 
+/*background color of play/pause/reset buttons*/
+.btn-secondary {
+    background-color: #fff;
+}
+
 .my_container {
     margin: 0;
     padding: 0;
