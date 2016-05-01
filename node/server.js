@@ -25,6 +25,25 @@ console.log("listening on port " + port);
 
 app.use('/node/data', express.static('node/data'));
 
+// scripts and css
+var dir = __dirname + '/../node_modules';
+app.use('/scripts', express.static(dir + '/jquery/dist/'));
+app.use('/scripts', express.static(dir + '/angular'));
+app.use('/scripts', express.static(dir + '/angular-animate'));
+app.use('/scripts', express.static(dir + '/angular-aria'));
+app.use('/scripts', express.static(dir + '/angular-messages'));
+app.use('/scripts', express.static(dir + '/bootstrap/dist/js'));
+app.use('/scripts', express.static(dir + '/bootstrap-colorpicker/dist/'));
+app.use('/scripts', express.static(dir + '/bootstrap-daterangepicker'));
+app.use('/scripts', express.static(dir + '/angular-daterangepicker/js'));
+app.use('/scripts', express.static(dir + '/leaflet/dist'));
+app.use('/scripts', express.static(dir + '/angular-leaflet-directive/dist'));
+
+app.use('/styles', express.static(dir + '/bootstrap/dist/css'));
+app.use('/styles', express.static(dir + '/font-awesome'));
+app.use('/styles', express.static(dir + '/bootstrap-colorpicker/dist/'));
+
+
 // get rooms data
 app.post('/api/v1/rooms-data', function (req, res) {
     var roomData = {};
