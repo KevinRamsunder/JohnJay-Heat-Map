@@ -10,21 +10,21 @@ app.service('FloorDataService', function (LoadingService, $http, $q) {
 
 
     self.getCoordinates = function getCoordinates(floorLevel) {
-        return $http.post('/api/v1/coordinates', {'floorLevel': floorLevel}).then(function(response) {
+        return $http.post('api/v1/coordinates', {'floorLevel': floorLevel}).then(function(response) {
             self.roomCoordinates = response.data['roomCoordinates'];
             self.vavs = response.data['vavs'];
         });
     };
 
     self.getRoomData = function getRoomData(floorLevel) {
-        return $http.post('/api/v1/rooms-data', {'floorLevel': floorLevel}).then(function(response) {
+        return $http.post('api/v1/rooms-data', {'floorLevel': floorLevel}).then(function(response) {
             self.roomData = response.data;
             LoadingService.makingRequest = false;
         });
     };
 
     self.getWeatherData = function getWeatherData() {
-        return $http.get('/api/v1/weather-data').then(function(response) {
+        return $http.get('api/v1/weather-data').then(function(response) {
             self.weatherData = response.data;
             self.availableDates = Object.keys(self.weatherData);
         });
