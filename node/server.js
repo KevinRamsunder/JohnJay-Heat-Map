@@ -16,7 +16,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 // use this directory to serve static files
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/../public'));
 
 // make the server run on port 5000, localhost:8000
 var port = process.env.PORT || 5000;
@@ -24,26 +24,6 @@ app.listen(port);
 console.log("listening on port " + port);
 
 app.use('/node/data', express.static('node/data'));
-
-// scripts
-var dir = __dirname + '/../node_modules';
-app.use('/scripts', express.static(dir + '/jquery/dist/'));
-app.use('/scripts', express.static(dir + '/angular'));
-app.use('/scripts', express.static(dir + '/angular-animate'));
-app.use('/scripts', express.static(dir + '/angular-aria'));
-app.use('/scripts', express.static(dir + '/angular-messages'));
-app.use('/scripts', express.static(dir + '/angular-leaflet-directive/dist'));
-app.use('/scripts', express.static(dir + '/angular-daterangepicker/js'));
-app.use('/scripts', express.static(dir + '/bootstrap/dist/js'));
-
-// styles
-app.use('/styles', express.static(dir + '/bootstrap/dist/css'));
-app.use('/styles', express.static(dir + '/font-awesome'));
-
-// scripts and styles
-app.use('/assets', express.static(dir + '/bootstrap-daterangepicker'));
-app.use('/assets', express.static(dir + '/bootstrap-colorpicker/dist/'));
-app.use('/assets', express.static(dir + '/leaflet/dist'));
 
 // get rooms data
 app.post('/api/v1/rooms-data', function (req, res) {
