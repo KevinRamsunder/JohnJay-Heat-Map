@@ -18,8 +18,8 @@ app.use(bodyParser.json());
 // use this directory to serve static files
 app.use(express.static('public'));
 
-// make the server run on port 8000, localhost:8000
-var port = process.env.PORT || 8000;
+// make the server run on port 5000, localhost:8000
+var port = process.env.PORT || 5000;
 app.listen(port);
 console.log("listening on port " + port);
 
