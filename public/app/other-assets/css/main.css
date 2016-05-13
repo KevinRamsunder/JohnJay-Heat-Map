@@ -1,0 +1,52 @@
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*background color of play/pause/reset buttons*/
+.btn-secondary {
+    background-color: #fff;
+}
+
+.my_container {
+    margin: 0;
+    padding: 0;
+}
+
+#logo {
+    padding: 10px 10px;
+    text-align: center;
+}
+
+#map {
+    padding: 0;
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.table th, .table td {
+    padding: .25em;
+}
+
+.leaflet-image-layer.leaflet-zoom-animated {
+    z-index: -5 !important;
+}
+
+footer {
+    border-top: solid 2px black;
+    height: 200px;
+    background-color: #5890AD;
+}
